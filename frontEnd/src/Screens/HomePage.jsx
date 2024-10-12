@@ -1,10 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
-import dp from "../assets/dp.png";
+import dp from "../assets/CC Me Export. with BGpng2.png";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "./Loader";
 import logo from "../assets/flt.png";
 import cover from "../assets/cover.png";
+import banner from "../assets/Cover-2.png";
 function HomePage() {
   const [recentCourses, getRecentCourses] = useState([]);
   const [loader, setLoader] = useState(true);
@@ -26,45 +27,67 @@ function HomePage() {
   }, []);
   return (
     <div className="flex flex-col min-h-[100vh] bg-gray-950 text-gray-50">
+      <header className="bg-black">
+        <div className="flex items-center justify-between px-2 py-2 sm:px-6 lg:px-8">
+          <Link to="/" className="flex items-center text-gray-50">
+          <h1
+        class="relative top-0 w-fit h-auto py-1 justify-center flex bg-gradient-to-r items-center from-blue-500 via-teal-500 to-pink-500 bg-clip-text text-4xl font-extrabold text-transparent text-center select-auto" 
+        style={{ fontFamily: 'Prognostic', fontWeight: '400' }}
+        >
+        Spaces
+    </h1>
+        <p style={{position: 'relative', left: '0', top: '10  ', fontFamily: 'Prognostic', fontWeight: '300', marginTop:20}}>for developers</p>
+          </Link>
+        </div>
+      </header>
       <main className="flex-1">
-        <section className="w-full py-12 sm:py-24 lg:py-32 mx-auto">
-          <div className="container px-4 md:px-6 mx-auto">
-            <div className="grid gap-6 lg:grid-cols-[1fr_550px] lg:gap-12 xl:grid-cols-[1fr_600px]">
+        <section className="w-full py-5 mx-auto">
+          <div className="container px-2 md:px-6 mx-auto">
+            <div className="grid gap-6 lg:grid-cols-[1fr_550px] lg:gap-12 xl:grid-cols-[1fr_600px] py-10">
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
-                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl">
-                    Easy to Understand
+                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-teal-500 to-pink-200 animate-gradient-x">
+                    Ignite Your Tech Potential
                   </h1>
                   <h1 className="text-2xl font-bold tracking-tighter sm:text-4xl xl:text-5xl">
                     Production Ready Tutorials
                   </h1>
                   <p className="max-w-[600px] text-gray-400 md:text-xl">
-                    Unlock your potential with our comprehensive computer science courses. Dive into the world of
-                    coding, algorithms, and problem-solving.
+                  Where code meets creativity, and innovation knows no bounds.Master cutting-edge skills with production-ready courses. Collaborate in a thriving community of tech trailblazers. Transform ideas into reality, from concept to deployment.
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Link
-                    className="inline-flex h-10 items-center justify-center rounded-md bg-gray-50 px-8 text-sm font-medium text-gray-950 shadow transition-colors hover:bg-gray-50/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-800 dark:text-gray-50 dark:hover:bg-gray-800/90 dark:focus-visible:ring-gray-700"
+                    className="inline-flex h-10 items-center justify-center rounded-md bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-1 px-8 text-sm font-medium text-white shadow transition-colors hover:from-purple-500 hover:via-pink-500 hover:to-orange-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50"
                     to="/courses"
                   >
                     Explore Courses
+                  </Link>
+                  <Link
+                    className="inline-flex h-10 items-center justify-center rounded-md bg-gradient-to-r from-teal-500 via-green-500 to-blue-500 border-1 px-8 text-sm font-medium text-white shadow transition-colors hover:from-green-500 hover:via-blue-500 hover:to-teal-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50"
+                    to="/community"
+                  >
+                    Join Community
                   </Link>
                 </div>
               </div>
               <img
                 src={dp}
                 alt="Hero"
-                className="w-full max-w-lg rounded-full shadow-2xl"
+                className="w-3/4 max-w-lg rounded-full shadow-2xl"
               />
             </div>
           </div>
         </section>
-        <section className="w-full py-4 sm:py-24 lg:py-4 bg-gray-950">
-          <h1 className="text-4xl font-medium text-center mb-1 mt-10" style={{}}>Home for The Tech Lovers</h1>
-          <p className="text-center text-gray-300 text-2xl mb-4 mt-4 ml-20 mr-20">Idiate | Initiate | Innovate</p>
-          <p className="text-center text-gray-400 text-xl mb-10 ml-20 mr-20">Welcome to the ultimate destination for tech enthusiasts of all levels. Our community is a vibrant hub of highly motivated, and passionate individuals who are constantly seeking the cutting edge of technology. Whether you're taking your first steps into the world of tech or you're a seasoned professional looking to expand your horizons, our platform has something for everyone.<br/> We offer engaging discussions on the latest innovations, hands-on workshops to develop practical skills, expert talks from industry leaders, and a supportive network of like-minded individuals. </p>
-          <nav className=" px-4 md:px-6 flex flex-wrap justify-center">
+        <section className="w-full py-4 sm:py-24 lg:py-4 bg-black">
+          <img src={banner} alt="" style={{ width: '70%', marginLeft:'auto', marginRight:'auto', marginTop:50, borderRadius:20 }} />
+          <h1 className="text-6xl font-bold text-center mb-4 mt-16 bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 text-transparent" style={{ WebkitTextStroke: '0px black' }}>Home for The Tech Lovers</h1>
+          <p className="text-center text-3xl font-medium bg-clip-text mb-6 mt-2 ml-10 mr-10 md:ml-20 md:mr-20">Idiate | Initiate | Innovate</p>
+          <p className="text-center text-xl font-light text-gray-400 mb-12 ml-10 mr-10 md:ml-20 md:mr-20">
+            Welcome to the ultimate destination for tech enthusiasts of all levels. Our community is a vibrant hub of highly motivated, and passionate individuals who are constantly seeking the cutting edge of technology. Whether you're taking your first steps into the world of tech or you're a seasoned professional looking to expand your horizons, our platform has something for everyone.<br /><br />
+            We offer engaging discussions on the latest innovations, hands-on workshops to develop practical skills, expert talks from industry leaders, and a supportive network of like-minded individuals.
+          </p>
+          <nav className="px-4 md:px-6 flex flex-wrap justify-center">
             <button className="px-4 bg-white m-4 w-40 h-10 text-black rounded-lg hover:bg-orange-400 hover:text-white transition-colors duration-300"
               onClick={() => navigate('/courses')}
             >
@@ -80,7 +103,7 @@ function HomePage() {
                 <h1>GitHub</h1>
               </button>
             </a>
-            <a href="https://www.youtube.com/@codewith_sidd">
+            <a href="https://www.youtube.com/@siddharthadotcom">
               <button className="px-4 bg-white m-4 w-40 h-10 text-black rounded-lg hover:bg-orange-400 hover:text-white transition-colors duration-300">
                 <h1>YouTube</h1>
               </button>
@@ -144,6 +167,13 @@ function HomePage() {
           </div>
         </section>
       </main>
+      <footer className="bg-black h-12 flex items-center justify-center">
+        <div>
+          <p className="text-center text-gray-400">
+            © 2024 Spaces for Developers. All rights reserved.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -41,10 +41,19 @@ const Upload = () => {
       formDataToSubmit.append(key, formData[key]);
     });
     try {
-      const response = await axios.post('https://siddharthapro.in/app3/api/v1/video/upload', formDataToSubmit);
+      const response = await axios.post('http://localhost:4000/api/v1/video/upload', formDataToSubmit);
       console.log('Upload response:', response.data);
+      alert('Video uploaded successfully!');
+      setFormData({
+        youtubeUrl: '',
+        courseName: '',
+        author: '',
+        title: '',
+        videoImage: null
+      })
       setLoading(false);
     } catch (error) {
+      alert(error.message);
       console.error('Upload error:', error);
       setLoading(false);
     }

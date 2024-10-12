@@ -27,6 +27,7 @@ function SignUp() {
             const response =  await axios.post('https://siddharthapro.in/app3/api/v1/user/signup', formData);
             console.log(response.data);
             alert('User created successfully!');
+            navigate('/login');
         } catch (error) {
             alert(error.message);
         }

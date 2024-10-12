@@ -40,14 +40,15 @@ const UpdateCourse =  () => {
       console.log('UpdateCourse response:', response.data);
       alert('Course updated successfully!');
     } catch (error) {
+      alert(error.message);
       console.error('UpdateCourse error:', error);
     }
-    // setFormData({
-    //   price: '',
-    //   courseName: '',
-    //   author: '',
-    //   description ''
-    // });
+    setFormData({
+      price: '',
+      courseName: '',
+      author: '',
+      description: ''
+    });
   };
 
   return (
