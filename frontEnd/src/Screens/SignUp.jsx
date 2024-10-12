@@ -24,7 +24,7 @@ function SignUp() {
         e.preventDefault();  // Prevent page refresh
         console.log(formData);  // Log form data to console
         try {
-            const response =  await axios.post('http://localhost:4000/api/v1/user/signup', formData);
+            const response =  await axios.post('https://siddharthapro.in/app3/api/v1/user/signup', formData);
             console.log(response.data);
             alert('User created successfully!');
         } catch (error) {

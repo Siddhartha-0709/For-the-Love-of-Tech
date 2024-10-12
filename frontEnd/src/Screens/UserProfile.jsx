@@ -22,7 +22,7 @@ function UserProfile() {
     }
     const getUserData = async () => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/v1/user/info?username=${username}`);
+            const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/info?username=${username}`);
             console.log('User Data:',response.data.user);
             setUserData(response.data);
         } catch (err) {
@@ -33,7 +33,7 @@ function UserProfile() {
     };
     const getCurrentUserDetails =async () => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/v1/user/info?username=${currentUser}`);
+            const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/info?username=${currentUser}`);
             setCurrentUserData(response.data.user);
             console.log('Current User:',response.data.user);
             
@@ -51,7 +51,7 @@ function UserProfile() {
             // console.log(data);
             
             console.log(currentUser, 'will follow', username);
-            const response = await axios.get(`http://localhost:4000/api/v1/user/togglefollowers?username=${username}&presentUser=${currentUser}`);
+            const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/togglefollowers?username=${username}&presentUser=${currentUser}`);
             console.log(response.data);
             // refresh the page
             window.location.reload();
@@ -62,9 +62,9 @@ function UserProfile() {
 
     const handleDeletePost = async (postId) => {
         try {  
-            console.log('Deleting post:', `http://localhost:4000/api/v1/post/delete?postId=${postId}`);
+            console.log('Deleting post:', `https://siddharthapro.in/app3/api/v1/post/delete?postId=${postId}`);
             console.log(postId);
-            await axios.get(`http://localhost:4000/api/v1/post/delete?postId=${postId}`);
+            await axios.get(`https://siddharthapro.in/app3/api/v1/post/delete?postId=${postId}`);
             setUserData((prevData) => ({
                 ...prevData,
                 posts: prevData.posts.filter((post) => post._id !== postId),
@@ -100,7 +100,7 @@ function UserProfile() {
             // Send the form data to the backend using axios
 
             console.log('Sending form data:', formData);
-            const response = await axios.post('http://localhost:4000/api/v1/user/update', formData);
+            const response = await axios.post('https://siddharthapro.in/app3/api/v1/user/update', formData);
             alert('Profile updated successfully!');
             console.log(response.data); // Log response from the backend
         } catch (err) {

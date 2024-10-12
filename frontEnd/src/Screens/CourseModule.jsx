@@ -17,8 +17,8 @@ const CourseModules = () => {
             }
             console.log(courseName);
             setCourseName(courseName);
-            const response = await axios.get(`http://localhost:4000/api/v1/video/getbycourse/${encodeURIComponent(courseName)}`);
-            console.log(`http://localhost:4000/api/v1/video/getbycourse/${encodeURIComponent(courseName)}`);
+            const response = await axios.get(`https://siddharthapro.in/app3/api/v1/video/getbycourse/${encodeURIComponent(courseName)}`);
+            console.log(`https://siddharthapro.in/app3/api/v1/video/getbycourse/${encodeURIComponent(courseName)}`);
             console.log(response.data);
             setModules(response.data.videos);
             setCourse(response.data.course);

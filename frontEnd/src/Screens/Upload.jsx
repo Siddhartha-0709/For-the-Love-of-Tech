@@ -41,7 +41,7 @@ const Upload = () => {
       formDataToSubmit.append(key, formData[key]);
     });
     try {
-      const response = await axios.post('http://localhost:4000/api/v1/video/upload', formDataToSubmit);
+      const response = await axios.post('https://siddharthapro.in/app3/api/v1/video/upload', formDataToSubmit);
       console.log('Upload response:', response.data);
       setLoading(false);
     } catch (error) {

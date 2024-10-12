@@ -36,7 +36,7 @@ const UpdateCourse =  () => {
       formDataToSubmit.append(key, formData[key]);
     });
     try {
-      const response = await axios.post('http://localhost:4000/api/v1/course/update', formDataToSubmit);
+      const response = await axios.post('https://siddharthapro.in/app3/api/v1/course/update', formDataToSubmit);
       console.log('UpdateCourse response:', response.data);
       alert('Course updated successfully!');
     } catch (error) {

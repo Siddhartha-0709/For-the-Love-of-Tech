@@ -24,7 +24,7 @@ function Community() {
     // Function to fetch random users
     const getUserData = async () => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/v1/user/info?username=${data.userName}`);
+            const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/info?username=${data.userName}`);
             console.log(response.data.user);
             setUser(response.data.user);
         } catch (error) {
@@ -33,7 +33,7 @@ function Community() {
     }
     const getRandomUser = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/api/v1/user/getrandomusers');
+            const response = await axios.get('https://siddharthapro.in/app3/api/v1/user/getrandomusers');
             // console.log(response.data);  
             setYouMayKnow(response.data);
         } catch (error) {
@@ -44,7 +44,7 @@ function Community() {
     // Function to fetch posts
     const getPosts = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/api/v1/post/getposts');
+            const response = await axios.get('https://siddharthapro.in/app3/api/v1/post/getposts');
             // console.log(response.data);
             setPosts(response.data);
         } catch (error) {
@@ -58,7 +58,7 @@ function Community() {
             // console.log(data);
             
             console.log(data.userName, 'will follow', username);
-            const response = await axios.get(`http://localhost:4000/api/v1/user/togglefollowers?username=${username}&presentUser=${data.userName}`);
+            const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/togglefollowers?username=${username}&presentUser=${data.userName}`);
             console.log(response.data);
             // refresh the page
             window.location.reload();
@@ -101,7 +101,7 @@ function Community() {
             }
 
             // Send the form data to the server
-            const response = await axios.post('http://localhost:4000/api/v1/post/create', formDataToSubmit);
+            const response = await axios.post('https://siddharthapro.in/app3/api/v1/post/create', formDataToSubmit);
             console.log(response.data);
             alert('Post created successfully!');
             toggleModal(); // Close the modal after successful submission
@@ -113,7 +113,7 @@ function Community() {
 
     const sharePost = async (postId) => {
         try {
-            navigator.clipboard.writeText(`http://localhost:4000/api/v1/post/getpostbyid?id=${postId}`)
+            navigator.clipboard.writeText(`https://siddharthapro.in/app3/api/v1/post/getpostbyid?id=${postId}`)
             .then(() => {
                 // If successful, show a success message
                 setCopySuccess('Text copied to clipboard!');

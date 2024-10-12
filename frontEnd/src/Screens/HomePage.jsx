@@ -12,7 +12,7 @@ function HomePage() {
   const getRecent = async () => {
     try {
       setLoader(true);
-      const response = await axios.get('http://localhost:4000/api/v1/course/get-recent');
+      const response = await axios.get('https://siddharthapro.in/app3/api/v1/course/get-recent');
       console.log(response.data);
       getRecentCourses(response.data);
       setLoader(false);
