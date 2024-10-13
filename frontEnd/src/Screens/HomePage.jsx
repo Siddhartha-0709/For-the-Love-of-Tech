@@ -6,6 +6,9 @@ import Loader from "./Loader";
 import logo from "../assets/flt.png";
 import cover from "../assets/cover.png";
 import banner from "../assets/Cover-2.png";
+import phone from "../assets/phone.png";
+import signature from "../assets/Signature.png";
+import sign from "../assets/sign.png";
 function HomePage() {
   const [recentCourses, getRecentCourses] = useState([]);
   const [loader, setLoader] = useState(true);
@@ -26,17 +29,24 @@ function HomePage() {
     getRecent();
   }, []);
   return (
-    <div className="flex flex-col min-h-[100vh] bg-gray-950 text-gray-50">
-      <header className="bg-black">
+    <div className="flex flex-col min-h-[100vh] bg-black text-gray-50">
+      <header className="bg-black border-b border-gray-800">
         <div className="flex items-center justify-between px-2 py-2 sm:px-6 lg:px-8">
           <Link to="/" className="flex items-center text-gray-50">
-          <h1
-        class="relative top-0 w-fit h-auto py-1 justify-center flex bg-gradient-to-r items-center from-blue-500 via-teal-500 to-pink-500 bg-clip-text text-4xl font-extrabold text-transparent text-center select-auto" 
-        style={{ fontFamily: 'Prognostic', fontWeight: '400' }}
-        >
-        Spaces
-    </h1>
-        <p style={{position: 'relative', left: '0', top: '10  ', fontFamily: 'Prognostic', fontWeight: '300', marginTop:20}}>for developers</p>
+            <h1
+              class="relative top-0 w-fit h-auto py-1 justify-center flex bg-gradient-to-r items-center from-blue-500 via-teal-500 to-pink-500 bg-clip-text text-4xl font-extrabold text-transparent text-center select-auto"
+              style={{ fontFamily: 'Prognostic', fontWeight: '400' }}
+            >
+              Spaces
+            </h1>
+            <p style={{ position: 'relative', left: '0', top: '10  ', fontFamily: 'Prognostic', fontWeight: '300', marginTop: 20 }}>for developers</p>
+          </Link>
+          <Link
+            className="inline-flex h-10 items-center justify-center rounded-md bg-gradient-to-r from-teal-500 via-green-500 to-blue-500 border-1 px-8 text-sm font-medium text-white shadow transition-colors hover:from-green-500 hover:via-blue-500 hover:to-teal-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50"
+            to="/community"
+            style={{ position: 'absolute', right: 10, top: 10 }}
+          >
+            Join Community
           </Link>
         </div>
       </header>
@@ -53,7 +63,7 @@ function HomePage() {
                     Production Ready Tutorials
                   </h1>
                   <p className="max-w-[600px] text-gray-400 md:text-xl">
-                  Where code meets creativity, and innovation knows no bounds.Master cutting-edge skills with production-ready courses. Collaborate in a thriving community of tech trailblazers. Transform ideas into reality, from concept to deployment.
+                    Where code meets creativity, and innovation knows no bounds.Master cutting-edge skills with production-ready courses. Collaborate in a thriving community of tech trailblazers. Transform ideas into reality, from concept to deployment.
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -63,24 +73,19 @@ function HomePage() {
                   >
                     Explore Courses
                   </Link>
-                  <Link
-                    className="inline-flex h-10 items-center justify-center rounded-md bg-gradient-to-r from-teal-500 via-green-500 to-blue-500 border-1 px-8 text-sm font-medium text-white shadow transition-colors hover:from-green-500 hover:via-blue-500 hover:to-teal-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50"
-                    to="/community"
-                  >
-                    Join Community
-                  </Link>
+
                 </div>
               </div>
               <img
-                src={dp}
+                src={phone}
                 alt="Hero"
-                className="w-3/4 max-w-lg rounded-full shadow-2xl"
+                className="w-1/2 shadow-2xl"
               />
             </div>
           </div>
         </section>
         <section className="w-full py-4 sm:py-24 lg:py-4 bg-black">
-          <img src={banner} alt="" style={{ width: '70%', marginLeft:'auto', marginRight:'auto', marginTop:50, borderRadius:20 }} />
+          <img src={banner} alt="" style={{ width: '70%', marginLeft: 'auto', marginRight: 'auto', marginTop: 50, borderRadius: 20 }} />
           <h1 className="text-6xl font-bold text-center mb-4 mt-16 bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 text-transparent" style={{ WebkitTextStroke: '0px black' }}>Home for The Tech Lovers</h1>
           <p className="text-center text-3xl font-medium bg-clip-text mb-6 mt-2 ml-10 mr-10 md:ml-20 md:mr-20">Idiate | Initiate | Innovate</p>
           <p className="text-center text-xl font-light text-gray-400 mb-12 ml-10 mr-10 md:ml-20 md:mr-20">
@@ -137,9 +142,9 @@ function HomePage() {
               </div>)}
           </div>
         </section>
-        <section className="w-full py-12 sm:py-24 lg:py-32 mx-auto">
+        <section className="w-full py-12 sm:py-24 lg:py-32 mx-auto bg-black">
           <div className="container px-4 md:px-6 mx-auto">
-            <div className="grid gap-6 lg:grid-cols-[1fr_550px] lg:gap-12 xl:grid-cols-[1fr_600px]">
+            <div className="grid gap-2 lg:grid-cols-[1fr_450px] lg:gap-10 xl:grid-cols-[1fr_800px]">
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
                   <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">About Us</h2>
@@ -157,22 +162,21 @@ function HomePage() {
                 </div>
               </div>
               <img
-                src={cover}
-                width="550"
-                height="310"
+                src={signature}
                 alt="About Us"
-                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
+                className="mx-auto overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
               />
             </div>
           </div>
         </section>
       </main>
-      <footer className="bg-black h-12 flex items-center justify-center">
-        <div>
+      <footer className="bg-black h-24 items-center justify-center border-t pb-10">
+        <div className="flex flex-row items-center justify-center mx-auto pt-4">
           <p className="text-center text-gray-400">
             © 2024 Spaces for Developers. All rights reserved.
           </p>
         </div>
+        <img src={sign} className="h-10 ml-auto mr-4" alt="" srcset="" />
       </footer>
     </div>
   );
