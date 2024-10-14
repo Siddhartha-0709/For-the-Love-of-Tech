@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 import Header from './Header';
+import Loader from './Loader';
 function Community() {
     // Extracting data from location state
     const location = useLocation();
@@ -21,7 +22,7 @@ function Community() {
         title: '',
         media: null,
     });
-
+    const [loader, setLoader] = useState(false);
     // Function to fetch random users
     const getUserData = async () => {
         try {
@@ -52,12 +53,12 @@ function Community() {
             console.log(error);
         }
     };
-    
+
     // Function to toggle followers
     const toggleFollowers = async (username) => {
         try {
             // console.log(data);
-            
+
             console.log(data.userName, 'will follow', username);
             const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/togglefollowers?username=${username}&presentUser=${data.userName}`);
             console.log(response.data);
@@ -95,16 +96,19 @@ function Community() {
         formDataToSubmit.append('author', data._id);
 
         try {
+
             // Ensure a media file is selected
             if (!formData.media) {
                 alert('Please select a file');
                 return;
             }
-
+            // Add a loader
+            setLoader(true);
             // Send the form data to the server
             const response = await axios.post('https://siddharthapro.in/app3/api/v1/post/create', formDataToSubmit);
             console.log(response.data);
             alert('Post created successfully!');
+            setLoader(false);
             toggleModal(); // Close the modal after successful submission
         } catch (error) {
             console.error(error);
@@ -112,17 +116,18 @@ function Community() {
         }
     };
 
+
     const sharePost = async (postId) => {
         try {
             navigator.clipboard.writeText(`https://siddharthapro.in/app3/api/v1/post/getpostbyid?id=${postId}`)
-            .then(() => {
-                // If successful, show a success message
-                setCopySuccess('Text copied to clipboard!');
-            })
-            .catch(() => {
-                // If an error occurs
-                setCopySuccess('Failed to copy text');
-            });
+                .then(() => {
+                    // If successful, show a success message
+                    setCopySuccess('Text copied to clipboard!');
+                })
+                .catch(() => {
+                    // If an error occurs
+                    setCopySuccess('Failed to copy text');
+                });
             alert('Share Link Copied to Clipboard!');
         }
         catch (err) {
@@ -139,7 +144,7 @@ function Community() {
 
     return (
         <>
-            <Header/>
+            <Header />
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
                     <div className="flex flex-col items-center justify-center bg-gray-100 rounded-lg">
@@ -183,9 +188,9 @@ function Community() {
                     </div>
                 </div>
             )}
-
-            <div className='bg-gray-950 grid grid-cols-[1.2fr_3fr] mt-10' style={{ height: '94.5vh' }}>
-                <div className='bg-gray-950 p-8'>
+            {loader ? <Loader /> : null}
+            <div className='bg-gray-950 grid md:grid-cols-[1.2fr_3fr] mt-10' style={{ height: '94.5vh' }}>
+                <div className='bg-gray-950 p-8 hidden md:block'>
                     <div className='bg-gray-800 rounded-3xl'>
                         <img src="https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" srcSet="" className='rounded-t-3xl h-1/3 w-full object-cover' style={{ height: '100px' }} />
                         <img src={user.profilePic} alt="" srcSet="" className='' style={{ borderRadius: '50px', height: '90px', width: '90px', border: '2px solid white', position: 'relative', top: '-45px', left: '135px' }} />
@@ -219,9 +224,9 @@ function Community() {
                             {
                                 youMayKnow.map((item, index) => (
                                     <div key={index} className='flex mt-3'>
-                                            <a href={`/userProfile?username=${item.userName}&presentUser=${data.userName}`}>
-                                                <img src={item.profilePic} alt="" srcSet="" className='rounded-3xl h-12 w-12' />
-                                            </a>
+                                        <a href={`/userProfile?username=${item.userName}&presentUser=${data.userName}`}>
+                                            <img src={item.profilePic} alt="" srcSet="" className='rounded-3xl h-12 w-12' />
+                                        </a>
                                         <div>
                                             <a href={`/userProfile?username=${item.userName}&presentUser=${data.userName}`}>
                                                 <h1 className='text-white text-lg font-semibold ml-3'>{item.name}</h1>
@@ -229,7 +234,7 @@ function Community() {
                                             </a>
                                         </div>
                                         <button className='w-20 ml-auto text-blue-500 hover:text-blue-200 h-5 rounded-lg text-center mt-2 font-semibold text-sm'
-                                        onClick={() => toggleFollowers(item.userName)}>
+                                            onClick={() => toggleFollowers(item.userName)}>
                                             <h1>Follow</h1>
                                         </button>
                                     </div>
@@ -238,7 +243,7 @@ function Community() {
                         </div>
                     </div>
                 </div>
-                <div className='bg-gray-950 overflow-y-auto p-8 custom-scrollbar'>
+                <div className='bg-gray-950 overflow-y-auto p-8 custom-scrollbar '>
                     <div className="bg-gray-800 rounded-3xl flex items-center pt-3 pb-3 pr-3 pl-3">
                         <img
                             src={data.profilePic}
@@ -275,8 +280,8 @@ function Community() {
                                     </div>
                                     <div className='ml-auto'>
                                         <button className='justify-center items-center flex mr-5'
-                                        onClick={() => sharePost(item._id)}>
-                                        
+                                            onClick={() => sharePost(item._id)}>
+
                                             <Share color="#ffffff" />
                                             <p className='text-gray-400 text-sm ml-1'>Share</p>
                                         </button>

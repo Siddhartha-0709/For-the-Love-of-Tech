@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Header from './Header';
 import Footer from './Footer';
+import { Navigate, useNavigate } from 'react-router-dom';
 function SignUp() {
+    const navigate = useNavigate();
     // State to hold form data
     const [formData, setFormData] = useState({
         name: '',
@@ -38,89 +40,100 @@ function SignUp() {
     return (
         <>
             <Header />
-            <div className="pt-16">
-                <div className="flex justify-center items-center bg-gray-900 grid grid-cols-2">
-                    <div className="h-full bg-black items-center flex">
-                        <div className="ml-10 mb-40">
-                            <h1 className="text-3xl font-bold text-white" style={{ fontFamily: 'Prognostic' }}>Welcome to</h1>
-                            <h1 className="text-6xl font-bold text-white" style={{ fontFamily: 'Prognostic' }}>Spaces</h1>
-                            <h1 className="text-xl font-bold text-white" style={{ fontFamily: 'Prognostic' }}>The Community made for Developers and Tech Enthusiasts</h1>
+            <div className="pt-10 bg-gray-100 min-h-screen">
+                <div className="flex flex-col items-center sm:grid sm:grid-cols-2 bg-white shadow-lg rounded-lg overflow-hidden">
+                    {/* Left Section: Welcome Text */}
+                    <div className="w-full h-full bg-gradient-to-br from-indigo-600 to-purple-700 flex items-center justify-center">
+                        <div className="p-4 text-center sm:text-left">
+                            <h1 className="text-4xl font-extrabold text-white" style={{ fontFamily: 'Prognostic' }}>Welcome to</h1>
+                            <h1 className="text-7xl font-extrabold text-white mb-4" style={{ fontFamily: 'Prognostic' }}>Spaces</h1>
+                            <p className="text-lg font-medium text-white opacity-90">The Community for Developers and Tech Enthusiasts</p>
                         </div>
                     </div>
-                    <div>
-                        <div className="w-3/4 ml-auto mr-auto mt-2">
-                            <h1 className="text-5xl text-white" style={{ fontFamily: 'Prognostic' }}>Sign Up</h1>
-                            <h1 className="text-md mt-4 text-gray-300">Begin your journey to the diverse community of tech enthusiasts and developers. Foster a great learning experience by connecting with like-minded individuals, sharing knowledge, and exploring the latest in technology.</h1>
+                    {/* Right Section: Sign Up Form */}
+                    <div className="p-4 sm:p-16 sm:order-1 bg-gray-900">
+                        <div className="text-center mb-8">
+                            <h1 className="text-4xl font-bold text-white" style={{ fontFamily: 'Prognostic' }}>Hello There</h1>
+                            <p className="text-md mt-4 text-white" style={{ fontFamily: '' }}>Join our community of tech enthusiasts and developers.</p>
                         </div>
-                        <div className="w-3/4 ml-auto mr-auto">
-                            <form className="w-3/4 ml-auto mr-auto mt-8" onSubmit={handleSubmit}>
-                                <label>
-                                    <p className="text-white ml-2">Enter your name</p>
+                        <div className="w-full">
+                            <form className="space-y-6" onSubmit={handleSubmit}>
+                                {/* Name Field */}
+                                <div>
+                                    <label className="block text-left text-white font-medium">Name</label>
                                     <input
                                         type="text"
                                         name="name"
                                         value={formData.name}
                                         onChange={handleInputChange}
-                                        className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 ml-2 mb-4"
-                                        placeholder="Enter your name"
+                                        className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                        placeholder="Enter your full name"
                                     />
-                                </label>
-                                <label>
-                                    <p className="text-white ml-2">Enter your username</p>
+                                </div>
+                                {/* Username Field */}
+                                <div>
+                                    <label className="block text-left text-white font-medium">Username</label>
                                     <input
                                         type="text"
                                         name="userName"
                                         value={formData.userName}
                                         onChange={handleInputChange}
-                                        className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 ml-2 mb-4"
-                                        placeholder="Enter your username"
+                                        className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                        placeholder="Choose a username"
                                     />
-                                </label>
-                                <label>
-                                    <p className="text-white ml-2">Enter your email</p>
+                                </div>
+                                {/* Email Field */}
+                                <div>
+                                    <label className="block text-left text-white font-medium">Email</label>
                                     <input
                                         type="email"
                                         name="email"
                                         value={formData.email}
                                         onChange={handleInputChange}
-                                        className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 ml-2 mb-4"
+                                        className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                         placeholder="Enter your email"
                                     />
-                                </label>
-                                <label>
-                                    <p className="text-white ml-2">Enter your password</p>
+                                </div>
+                                {/* Password Field */}
+                                <div>
+                                    <label className="block text-left text-white font-medium">Password</label>
                                     <input
                                         type="password"
                                         name="password"
                                         value={formData.password}
                                         onChange={handleInputChange}
-                                        className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 ml-2 mb-4"
-                                        placeholder="Enter your password"
+                                        className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                        placeholder="Create a password"
                                     />
-                                </label>
-                                <label>
-                                    <p className="text-white ml-2">Confirm your password</p>
+                                </div>
+                                {/* Confirm Password Field */}
+                                <div>
+                                    <label className="block text-left text-white font-medium">Confirm Password</label>
                                     <input
                                         type="password"
                                         name="confirmPassword"
                                         value={formData.confirmPassword}
                                         onChange={handleInputChange}
-                                        className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 ml-2 mb-4"
+                                        className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                         placeholder="Confirm your password"
                                     />
-                                </label>
-                                <button className="w-full h-12 mt-4 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 hover:bg-gray-400 m-2">
+                                </div>
+                                {/* Submit Button */}
+                                <button className="w-full h-12 mt-4 bg-indigo-500 text-white font-semibold rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200">
                                     Sign Up
                                 </button>
-                                <p className="text-white mt-4 mb-10">
-                                    Already have an account? <a href="/login" className="text-blue-500">Login</a>
+                                {/* Already Have an Account */}
+                                <p className="text-gray-300 mt-6">
+                                    Already have an account? <a href="/login" className="text-indigo-500 hover:underline">Login</a>
                                 </p>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
+
+
         </>
     );
 }

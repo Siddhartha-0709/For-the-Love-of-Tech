@@ -74,7 +74,7 @@ const CourseModules = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </div>
     );
 };
@@ -83,15 +83,13 @@ const CourseModule = ({ title, description, duration, imgSrc, videoUrl }) => {
     const navigate = useNavigate();
     return (
         <div className="bg-gray-900 rounded-lg overflow-hidden shadow-lg m-2">
-            <div className="flex">
-                <div className="aspect-video p-4">
+            <div className="flex flex-col sm:flex-row">
+                <div className="md:w-1/3 p-4">
                     <img
                         alt="Module Thumbnail"
-                        height="225"
-                        className="rounded-lg object-cover"
+                        className="rounded-lg object-cover w-full"
                         src={imgSrc}
-                        width="400"
-                        style={{ aspectRatio: '400 / 225', objectFit: 'cover' }}
+                        style={{ aspectRatio: '16 / 9', objectFit: 'cover' }}
                     />
                 </div>
                 <div className="p-4 flex-1">
@@ -101,7 +99,17 @@ const CourseModule = ({ title, description, duration, imgSrc, videoUrl }) => {
                         <span className="text-sm text-gray-400">{duration}</span>
                         <button
                             className="bg-gray-50 inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground h-9 rounded-md px-3 hover:bg-orange-400 hover:text-white"
-                            onClick={() => navigate(`/video?src=${encodeURIComponent(videoUrl)}&title=${encodeURIComponent(title)}&desc=${encodeURIComponent(description)}&img=${encodeURIComponent(imgSrc)}`)}
+                            onClick={() =>
+                                navigate(
+                                    `/video?src=${encodeURIComponent(
+                                        videoUrl
+                                    )}&title=${encodeURIComponent(
+                                        title
+                                    )}&desc=${encodeURIComponent(description)}&img=${encodeURIComponent(
+                                        imgSrc
+                                    )}`
+                                )
+                            }
                         >
                             Watch
                         </button>
@@ -109,6 +117,7 @@ const CourseModule = ({ title, description, duration, imgSrc, videoUrl }) => {
                 </div>
             </div>
         </div>
+
     );
 };
 
