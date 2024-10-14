@@ -35,9 +35,9 @@ function HomePage() {
     <div className="flex flex-col min-h-[100vh] bg-black text-gray-50">
       <Header />
       <main className="flex-1">
-        <section className="w-full py-32 mx-auto">
+        <section className="w-full pt-32 mx-auto">
           <div className="container px-2 md:px-6 mx-auto">
-            <div className="grid gap-6 lg:grid-cols-[1fr_550px] lg:gap-12 xl:grid-cols-[1fr_600px] py-10">
+            <div className="grid gap-6 lg:grid-cols-[1fr_550px] lg:gap-12 xl:grid-cols-[1fr_600px] md:py-10">
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
                   <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-teal-500 to-pink-200 animate-gradient-x">
@@ -60,22 +60,17 @@ function HomePage() {
 
                 </div>
               </div>
-              <iframe src="https://lottie.host/embed/87ac4f3c-3b0a-45ec-a76c-499bbaa7eda5/VtHGL9Pyjm.json" className="w-full h-full"></iframe>
-              {/* <img
-                src={phone}
-                alt="Hero"
-                className="w-1/2 shadow-2xl"
-              /> */}
+              <iframe src="https://lottie.host/embed/87ac4f3c-3b0a-45ec-a76c-499bbaa7eda5/VtHGL9Pyjm.json" className="hidden lg:block md:block w-full h-full"></iframe>
             </div>
           </div>
         </section>
         <section className="w-full py-4 sm:py-24 lg:py-4 bg-black">
           <img src={banner} alt="" style={{ width: '70%', marginLeft: 'auto', marginRight: 'auto', marginTop: 50, borderRadius: 20 }} />
-          <h1 className="text-6xl font-bold text-center mb-4 mt-16 bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 text-transparent" style={{ WebkitTextStroke: '0px black' }}>Home for The Tech Lovers</h1>
+          <h1 className="md:text-6xl lg:text-6xl text-4xl font-bold text-center mb-4 mt-16 bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 text-transparent" style={{ WebkitTextStroke: '0px black' }}>Home for The Tech Lovers</h1>
           <div className="flex justify-center">
           <iframe src="https://lottie.host/embed/7dfe2204-ae29-441d-a8d7-eeadfbd1bfcc/ocs1w0rI4R.json"
-            className=""
-            style={{ zIndex: 2, top: 1300, position: 'absolute', }}
+            className="hidden lg:block md:block"
+            style={{ zIndex: 2, top: 1170, position: 'absolute', }}
             ></iframe>
           </div>
           <p className="text-center text-3xl font-medium bg-clip-text mb-6 mt-2 ml-10 mr-10 md:ml-20 md:mr-20">Idiate | Initiate | Innovate</p>
@@ -152,11 +147,20 @@ function HomePage() {
                   </a>
                 </div>
               </div>
-              <img
-                src={signature}
-                alt="About Us"
-                className="mx-auto overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
-              />
+              <div className="hidden lg:block">
+                <img
+                  src={signature}
+                  alt="About Us"
+                  className="mx-auto overflow-hidden rounded-xl object-cover"
+                />
+              </div>
+            </div>
+            <div className="block lg:hidden md:hidden">
+            <img
+                  src={signature}
+                  alt="About Us"
+                  className="mx-auto mt-10 overflow-hidden rounded-xl object-cover"
+                />
             </div>
           </div>
         </section>
