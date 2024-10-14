@@ -4,6 +4,7 @@ import '../Screens/Community.css'
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
+import Header from './Header';
 function Community() {
     // Extracting data from location state
     const location = useLocation();
@@ -138,12 +139,7 @@ function Community() {
 
     return (
         <>
-            <header className="px-4 lg:px-0 h-12 flex items-center bg-black grid grid-cols-2  ">
-                <div>
-                    <h1 className='text-3xl font-bold text-white ml-10' style={{ fontFamily: 'Prognostic' }}>Spaces</h1>
-                </div>
-            </header>
-
+            <Header/>
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
                     <div className="flex flex-col items-center justify-center bg-gray-100 rounded-lg">
@@ -188,7 +184,7 @@ function Community() {
                 </div>
             )}
 
-            <div className='bg-gray-950 grid grid-cols-[1.2fr_3fr]' style={{ height: '93.5vh' }}>
+            <div className='bg-gray-950 grid grid-cols-[1.2fr_3fr] mt-10' style={{ height: '94.5vh' }}>
                 <div className='bg-gray-950 p-8'>
                     <div className='bg-gray-800 rounded-3xl'>
                         <img src="https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" srcSet="" className='rounded-t-3xl h-1/3 w-full object-cover' style={{ height: '100px' }} />

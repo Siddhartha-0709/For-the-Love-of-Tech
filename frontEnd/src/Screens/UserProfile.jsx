@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { HeartIcon, MessageSquareMore, Share, TrashIcon, X } from 'lucide-react';
+import Header from './Header';
 
 function UserProfile() {
     const location = useLocation();
@@ -168,13 +169,8 @@ function UserProfile() {
                 </div>
             </div>
             </>):null}
-            <header className="px-4 lg:px-0 h-12 flex items-center bg-black grid grid-cols-2">
-                <div>
-                    <h1 className='text-3xl font-bold text-white ml-10' style={{ fontFamily: 'Prognostic' }}>Spaces</h1>
-                </div>
-            </header>
-
-            <div className="flex flex-col p-8 bg-gray-900">
+            <Header/>
+            <div className="flex flex-col p-8 bg-gray-900 mt-10">
                 <div className='bg-gray-800 rounded-3xl w-3/4 mx-auto'>
                     <img
                         src="https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"

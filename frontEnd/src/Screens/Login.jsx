@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Header from './Header';
+import Footer from './Footer';
 function Login() {
 
     const navigate = useNavigate();
@@ -36,11 +38,7 @@ function Login() {
 
     return (
         <>
-            <header className="px-4 lg:px-0 h-12 flex items-center bg-black grid grid-cols-2  ">
-                <div>
-                    <h1 className='text-3xl font-bold text-white ml-10' style={{ fontFamily: 'Prognostic' }}>Spaces</h1>
-                </div>
-            </header>
+            <Header />
             <div className="flex justify-center items-center h-screen bg-gray-900 grid grid-cols-2">
                 <div className='h-full bg-black items-center flex'>
                     <div className="ml-10 mb-40">
@@ -90,6 +88,7 @@ function Login() {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </>
     )
 }

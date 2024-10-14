@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { Link } from 'react-router-dom';
+import Header from './Header';
+import Footer from './Footer';
 const CourseModules = () => {
     const [modules, setModules] = useState([]);
     const [course, setCourse] = useState(null);
@@ -10,9 +12,9 @@ const CourseModules = () => {
         try {
             const urlParams = new URLSearchParams(window.location.search);
             let courseName = urlParams.get('courseId'); // Fallback to a default course name
-            if(courseName == 'Object Oriented Programming with C  '){
+            if (courseName == 'Object Oriented Programming with C  ') {
                 console.log('Hit here');
-                
+
                 courseName = 'Object Oriented Programming with C++';
             }
             console.log(courseName);
@@ -32,8 +34,9 @@ const CourseModules = () => {
     }, []);
 
     return (
-        <div className="w-full bg-gray-950 py-12 md:py-20 lg:py-24 mx-auto">
-            <div className="container px-4 md:px-6 mx-auto">
+        <div className="w-full bg-gray-950 mx-auto">
+            <Header />
+            <div className="container px-4 md:px-6 mx-auto mt-16 pt-10">
                 <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
                     <div>
                         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white">
@@ -71,6 +74,7 @@ const CourseModules = () => {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </div>
     );
 };
@@ -97,7 +101,7 @@ const CourseModule = ({ title, description, duration, imgSrc, videoUrl }) => {
                         <span className="text-sm text-gray-400">{duration}</span>
                         <button
                             className="bg-gray-50 inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground h-9 rounded-md px-3 hover:bg-orange-400 hover:text-white"
-                            onClick={() => navigate(`/video?src=${encodeURIComponent(videoUrl)}`)}
+                            onClick={() => navigate(`/video?src=${encodeURIComponent(videoUrl)}&title=${encodeURIComponent(title)}&desc=${encodeURIComponent(description)}&img=${encodeURIComponent(imgSrc)}`)}
                         >
                             Watch
                         </button>
