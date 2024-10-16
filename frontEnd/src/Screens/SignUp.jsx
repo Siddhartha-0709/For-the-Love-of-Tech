@@ -56,7 +56,7 @@ function SignUp() {
                         </div>
                     </div>
                     {/* Right Section: Sign Up Form */}
-                    <div className="pl-20 pt-20 pb-10 pr-20 ml-5 mr-5 mt-5 sm:order-1 bg-black">
+                    <div className="md:pl-20 md:pt-20 pb-10 md:pr-20 ml-5 mr-5 mt-5 sm:order-1 bg-black">
                         <div className="w-full">
                             <h1 className="text-4xl text-white font-bold mb-4  " style={{ fontFamily: 'Ubuntu' }}>Get Started</h1>
                             <p className="mb-4 w-full text-md md:text-md mt-4 text-white font-light" style={{ fontFamily: 'Ubuntu' }}>Let's get started with building your skills and network with other developers.</p>

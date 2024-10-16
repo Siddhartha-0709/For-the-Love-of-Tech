@@ -14,7 +14,7 @@ function Header() {
                     <p className="text-gray-50 text-sm" style={{ position: 'relative', fontFamily: 'Prognostic', fontWeight: '300', marginTop: 20, marginRight:10 }}>for developers</p>
                 </Link>
                 <Link
-                    className=" inline-flex h-10 items-center justify-center rounded-md bg-gradient-to-r from-teal-500 via-green-500 to-blue-500 border-1 px-8 text-sm font-medium text-white shadow transition-colors hover:from-green-500 hover:via-blue-500 hover:to-teal-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50"
+                    className=" inline-flex h-10 items-center justify-center rounded-md bg-gradient-to-r from-teal-500 via-green-500 to-blue-500 border-1 px-4 md:px-8 text-sm font-medium text-white shadow transition-colors hover:from-green-500 hover:via-blue-500 hover:to-teal-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50"
                     to="/signup"
                     style={{ position: 'absolute', right: 10, top: 10 }}
                 >

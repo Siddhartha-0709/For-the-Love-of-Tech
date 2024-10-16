@@ -39,26 +39,24 @@ function Login() {
     return (
         <>
             <Header />
-            <div className="flex flex-col md:flex-row justify-center items-center h-screen bg-black">
-                {/* Left Section: Welcome Message */}
-                <div className="w-full h-full bg-gradient-to-br from-black to-violet-950 flex items-center justify-center">
-                    <div className="md:p-4 p-10 text-left">
-                        <h1 className="text-4xl font-extrabold text-white" style={{ fontFamily: 'Prognostic' }}>Welcome to</h1>
-                        <h1 className="text-7xl font-extrabold text-white mb-4" style={{ fontFamily: 'Prognostic' }}>Spaces</h1>
-                        <p className="text-sm md:text-lg font-medium text-white opacity-90">The Community for Developers and Tech Enthusiasts</p>
+            <div className='pt-10 bg-black'>
+                <div className="flex flex-col sm:grid sm:grid-cols-2 shadow-lg rounded-lg overflow-hidden">
+                    {/* Left Section: Welcome Message */}
+                    <div className="w-full h-full bg-gradient-to-br from-black to-violet-950 flex items-center justify-center">
+                        <div className="md:p-4 p-10 text-left">
+                            <h1 className="text-4xl font-extrabold text-white" style={{ fontFamily: 'Prognostic' }}>Welcome to</h1>
+                            <h1 className="text-7xl font-extrabold text-white mb-4" style={{ fontFamily: 'Prognostic' }}>Spaces</h1>
+                            <p className="text-sm md:text-lg font-medium text-white opacity-90">The Community for Developers and Tech Enthusiasts</p>
+                        </div>
                     </div>
-                </div>
 
-                {/* Right Section: Login Form */}
-                <div className=" w-full h-full flex items-center justify-center">
-                    <div className="w-full md:w-3/4 px-6 md:px-0">
-                        {/* Heading */}
-                        <h1 className="text-4xl md:text-5xl text-white font-bold text-center md:text-left mb-6" style={{ fontFamily: 'Ubuntu' }}>Welcome Back</h1>
-                        <p className="text-sm md:text-md text-gray-300 text-center md:text-left mb-8">
-                            Continue your journey with our diverse community. Log in to connect, share knowledge, and explore the latest in tech.
-                        </p>
-                        {/* Form */}
-                        <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Right Section: Login Form */}
+                    <div className="md:h-screen md:pl-20 md:pt-20 pb-10 md:pr-20 ml-5 mr-5 mt-5 sm:order-1 bg-black">
+                        <div className="w-full">
+                            <h1 className="text-4xl text-white font-bold mb-4  " style={{ fontFamily: 'Ubuntu' }}>Welcome Back</h1>
+                            <p className="mb-4 w-full text-md md:text-md mt-4 text-white font-light" style={{ fontFamily: 'Ubuntu' }}>Continue your journey building your skills and network with other developers.</p>
+                        </div>
+                        <form onSubmit={handleSubmit} className="space-y-4 w-full">
                             {/* Email Field */}
                             <div>
                                 <label className="block text-left text-gray-200 mb-2 font-medium">Email</label>
@@ -88,7 +86,7 @@ function Login() {
                                 Sign In
                             </button>
                             {/* Sign Up Link */}
-                            <p className="text-gray-300 text-center mt-6">
+                            <p className="text-gray-300 text-left mt-6">
                                 Don't have an account? <a href="/signup" className="text-indigo-400 hover:underline">Sign Up</a>
                             </p>
                         </form>
@@ -101,3 +99,5 @@ function Login() {
 }
 
 export default Login;
+
+

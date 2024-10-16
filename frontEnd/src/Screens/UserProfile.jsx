@@ -180,8 +180,8 @@ function UserProfile() {
                 </div>
             </>) : null}
             <Header />
-            <div className="flex flex-col p-8 bg-gray-900 mt-10">
-                <div className='bg-gray-800 rounded-3xl md:w-3/4 w-11/12 mx-auto'>
+            <div className="flex flex-col pt-8 md:p-8 bg-gray-900 mt-10">
+                <div className='bg-gray-800 rounded-2xl md:w-3/4 w-11/12 mx-auto'>
                     <img
                         src="https://images.pexels.com/photos/1229042/pexels-photo-1229042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                         alt="Cover"
@@ -237,11 +237,11 @@ function UserProfile() {
                     </div>
                 </div>
 
-                <div className='bg-gray-800 mt-5 p-5 rounded-3xl md:w-3/4 w-11/12 mx-auto overflow-y-auto custom-scrollbar' style={{ height: '55vh' }}>
+                <div className='bg-gray-800 mt-5 p-4 rounded-2xl md:w-3/4 w-11/12 mx-auto overflow-y-auto custom-scrollbar' style={{ height: '55vh' }}>
                     <h1 className='text-white text-2xl font-semibold'>Posts</h1>
                     {posts && posts.length > 0 ? (
                         posts.map(post => (
-                            <div key={post._id} className='bg-gray-900 text-white mt-2 flex flex-col rounded-xl p-5'>
+                            <div key={post._id} className='bg-gray-900 text-white mt-2 flex flex-col rounded-xl p-4'>
                                 <div className="flex items-center">
                                     <img
                                         src={userData.user.profilePic}

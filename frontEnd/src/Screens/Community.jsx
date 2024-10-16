@@ -193,7 +193,7 @@ function Community() {
                 </div>
             )}
             {loader ? <Loader /> : null}
-            <div className='bg-gray-950 grid md:grid-cols-[1.2fr_3fr] mt-10' style={{ height: '94.5vh' }}>
+            <div className='bg-gray-950 grid md:grid-cols-[1.2fr_3fr] mt-10' style={{ height: '90vh' }}>
                 <div className='bg-gray-950 p-8 hidden md:block'>
                     <div className='bg-gray-800 rounded-3xl'>
                         {/* Cover image */}
@@ -235,7 +235,6 @@ function Community() {
                                 <p className='text-gray-400'>{user.following?.length || 0}</p>
                             </div>
                         </div>
-
                         {/* Profile button */}
                         <div className='flex justify-center'>
                             <a
@@ -266,8 +265,6 @@ function Community() {
                                             <h2 className='text-gray-400 text-sm'>@{item.userName}</h2>
                                         </a>
                                     </div>
-
-
                                     {data.userName === item.userName ? null : (
                                         data.following?.includes(String(item._id)) ? (
                                             <button
@@ -292,13 +289,15 @@ function Community() {
                     </div>
                 </div>
 
-                <div className='bg-gray-950 overflow-y-auto p-8 custom-scrollbar '>
+                <div className='bg-gray-950 overflow-y-auto pt-8 custom-scrollbar '>
                     <div className="bg-gray-800 rounded-3xl flex items-center pt-3 pb-3 pr-3 pl-3">
-                        <img
-                            src={data.profilePic}
-                            alt=""
-                            className="object-cover rounded-full w-12 h-12 ml-2 mr-2 border-2 border-white"
-                        />
+                        <a href={`/userProfile?username=${user.userName}&presentUser=${data.userName}`}>
+                            <img
+                                src={data.profilePic}
+                                alt=""
+                                className="object-cover rounded-full w-12 h-12 ml-2 mr-2 border-2 border-white"
+                            />
+                        </a>
                         <button
                             placeholder="What's up there?"
                             className="w-full p-3 rounded-2xl bg-gray-700 text-gray-300 outline-none resize-none h-12 readonly text-left cursor pointer"
