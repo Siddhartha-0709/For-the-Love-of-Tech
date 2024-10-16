@@ -5,6 +5,10 @@ import uploadOnCloudinary from "../middlewares/cloudinary.middleware.js";
 const signUp = async (req, res) => {
     // console.log(req.body);
     const user = new userModel(req.body);
+    const checkIfUserExists = await userModel.findOne({ email: req.body.email });
+    if (checkIfUserExists) {
+        res.status(409).send("User already exists");
+    }
     try {
         await user.save();
         res.status(200).send(user);
