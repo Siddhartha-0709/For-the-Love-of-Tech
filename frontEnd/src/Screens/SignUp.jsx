@@ -27,107 +27,120 @@ function SignUp() {
     const handleSubmit = async (e) => {
         e.preventDefault();  // Prevent page refresh
         console.log(formData);  // Log form data to console
+        if(formData.password !== formData.confirmPassword){
+            alert('Passwords do not match');
+            return;
+        }
         try {
             const response = await axios.post('https://siddharthapro.in/app3/api/v1/user/signup', formData);
             console.log(response.data);
             alert('User created successfully!');
             navigate('/login');
         } catch (error) {
-            alert(error.message);
+            console.error(error);
+            alert(error.response.data.message);
         }
     };
 
     return (
         <>
             <Header />
-            <div className="pt-10 bg-gray-100 min-h-screen">
-                <div className="flex flex-col items-center sm:grid sm:grid-cols-2 bg-white shadow-lg rounded-lg overflow-hidden">
+            <div className="pt-10 bg-gray-900 min-h-screen">
+                <div className="flex flex-col sm:grid sm:grid-cols-2 shadow-lg rounded-lg overflow-hidden">
                     {/* Left Section: Welcome Text */}
-                    <div className="w-full h-full bg-gradient-to-br from-indigo-600 to-purple-700 flex items-center justify-center">
-                        <div className="p-4 text-center sm:text-left">
+                    <div className="w-full h-full bg-gradient-to-br from-black to-violet-950 flex items-center justify-center">
+                        <div className="md:p-4 p-10 text-left">
                             <h1 className="text-4xl font-extrabold text-white" style={{ fontFamily: 'Prognostic' }}>Welcome to</h1>
                             <h1 className="text-7xl font-extrabold text-white mb-4" style={{ fontFamily: 'Prognostic' }}>Spaces</h1>
-                            <p className="text-lg font-medium text-white opacity-90">The Community for Developers and Tech Enthusiasts</p>
+                            <p className="text-sm md:text-lg font-medium text-white opacity-90">The Community for Developers and Tech Enthusiasts</p>
                         </div>
                     </div>
                     {/* Right Section: Sign Up Form */}
-                    <div className="p-4 sm:p-16 sm:order-1 bg-gray-900">
-                        <div className="text-center mb-8">
-                            <h1 className="text-4xl font-bold text-white" style={{ fontFamily: 'Prognostic' }}>Hello There</h1>
-                            <p className="text-md mt-4 text-white" style={{ fontFamily: '' }}>Join our community of tech enthusiasts and developers.</p>
-                        </div>
+                    <div className="pl-10 pt-10 pb-10 pr-10 sm:order-1 bg-black">
                         <div className="w-full">
-                            <form className="space-y-6" onSubmit={handleSubmit}>
-                                {/* Name Field */}
-                                <div>
-                                    <label className="block text-left text-white font-medium">Name</label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        value={formData.name}
-                                        onChange={handleInputChange}
-                                        className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                        placeholder="Enter your full name"
-                                    />
-                                </div>
-                                {/* Username Field */}
-                                <div>
-                                    <label className="block text-left text-white font-medium">Username</label>
-                                    <input
-                                        type="text"
-                                        name="userName"
-                                        value={formData.userName}
-                                        onChange={handleInputChange}
-                                        className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                        placeholder="Choose a username"
-                                    />
-                                </div>
-                                {/* Email Field */}
-                                <div>
-                                    <label className="block text-left text-white font-medium">Email</label>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleInputChange}
-                                        className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                        placeholder="Enter your email"
-                                    />
-                                </div>
-                                {/* Password Field */}
-                                <div>
-                                    <label className="block text-left text-white font-medium">Password</label>
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        value={formData.password}
-                                        onChange={handleInputChange}
-                                        className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                        placeholder="Create a password"
-                                    />
-                                </div>
-                                {/* Confirm Password Field */}
-                                <div>
-                                    <label className="block text-left text-white font-medium">Confirm Password</label>
-                                    <input
-                                        type="password"
-                                        name="confirmPassword"
-                                        value={formData.confirmPassword}
-                                        onChange={handleInputChange}
-                                        className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                        placeholder="Confirm your password"
-                                    />
-                                </div>
-                                {/* Submit Button */}
-                                <button className="w-full h-12 mt-4 bg-indigo-500 text-white font-semibold rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200">
-                                    Sign Up
-                                </button>
-                                {/* Already Have an Account */}
-                                <p className="text-gray-300 mt-6">
-                                    Already have an account? <a href="/login" className="text-indigo-500 hover:underline">Login</a>
-                                </p>
-                            </form>
+                            <h1 className="text-4xl text-white font-bold " style={{ fontFamily: 'Ubuntu' }}>Sign Up</h1>
+                            <p className="mb-4 w-full text-md md:text-md mt-4 text-white font-light" style={{ fontFamily: 'Ubuntu' }}>Let's get started with building your skills and network with other developers.</p>
                         </div>
+                        <form className="space-y-4 w-full" onSubmit={handleSubmit}>
+                            {/* Name Field */}
+                            <div>
+                                <label className="block text-left text-white font-medium" style={{ fontFamily: 'Ubuntu' }}>Name</label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleInputChange}
+                                    className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    placeholder="Enter your full name"
+                                    style={{ fontFamily: 'Ubuntu' }}
+                                />
+                            </div>
+                            {/* Username Field */}
+                            <div>
+                                <label className="block text-left text-white font-medium"
+                                style={{ fontFamily: 'Ubuntu' }} >Username</label>
+                                <input
+                                    type="text"
+                                    name="userName"
+                                    value={formData.userName}
+                                    onChange={handleInputChange}
+                                    className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    placeholder="Choose a username"
+                                    style={{ fontFamily: 'Ubuntu' }} 
+                                />
+                            </div>
+                            {/* Email Field */}
+                            <div>
+                                <label className="block text-left text-white font-medium"
+                                style={{ fontFamily: 'Ubuntu' }} >Email</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleInputChange}
+                                    className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    placeholder="Enter your email"
+                                    style={{ fontFamily: 'Ubuntu' }} 
+                                />
+                            </div>
+                            {/* Password Field */}
+                            <div>
+                                <label className="block text-left text-white font-medium"
+                                style={{ fontFamily: 'Ubuntu' }} >Password</label>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleInputChange}
+                                    className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    placeholder="Create a password"
+                                    style={{ fontFamily: 'Ubuntu' }} 
+                                />
+                            </div>
+                            {/* Confirm Password Field */}
+                            <div>
+                                <label className="block text-left text-white font-medium"
+                                style={{ fontFamily: 'Ubuntu' }} >Confirm Password</label>
+                                <input
+                                    type="password"
+                                    name="confirmPassword"
+                                    value={formData.confirmPassword}
+                                    onChange={handleInputChange}
+                                    className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    placeholder="Confirm your password"
+                                    style={{ fontFamily: 'Ubuntu' }} 
+                                />
+                            </div>
+                            {/* Submit Button */}
+                            <br />
+                            <button className="w-full h-12 mt-10 bg-indigo-500 text-white font-semibold rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200">
+                                Sign Up
+                            </button>
+                            {/* Already Have an Account */}
+                            <p className="text-gray-300 mt-6">
+                                Already have an account? <a href="/login" className="text-indigo-500 hover:underline">Login</a>
+                            </p>
+                        </form>
                     </div>
                 </div>
             </div>
