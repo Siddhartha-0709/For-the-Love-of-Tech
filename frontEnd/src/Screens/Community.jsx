@@ -290,7 +290,7 @@ function Community() {
                 </div>
 
                 <div className='bg-gray-950 overflow-y-auto pt-8 custom-scrollbar '>
-                    <div className="bg-gray-800 rounded-3xl flex items-center pt-3 pb-3 pr-3 pl-3">
+                    <div className="bg-gray-800 rounded-3xl flex items-center pt-3 pb-3 pr-3 md:pl-3">
                         <a href={`/userProfile?username=${user.userName}&presentUser=${data.userName}`}>
                             <img
                                 src={data.profilePic}
@@ -300,7 +300,7 @@ function Community() {
                         </a>
                         <button
                             placeholder="What's up there?"
-                            className="w-full p-3 rounded-2xl bg-gray-700 text-gray-300 outline-none resize-none h-12 readonly text-left cursor pointer"
+                            className="w-full ml-3 md:ml-0 p-3 rounded-2xl bg-gray-700 text-gray-300 outline-none resize-none h-12 readonly text-left cursor pointer"
                             onClick={() => {
                                 toggleModal()
                                 console.log('clicked');
