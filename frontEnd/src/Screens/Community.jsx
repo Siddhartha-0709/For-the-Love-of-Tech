@@ -313,29 +313,31 @@ function Community() {
                     {
                         posts.map((item, index) => (
                             <div className="bg-gray-800 rounded-3xl p-3 mb-4 mt-4" key={index}>
-                                <div className="flex items-center">
-                                    <img
-                                        src={item.author.profilePic}
-                                        alt=""
-                                        className="object-cover rounded-full w-12 h-12 ml-2 mr-2 border-2 border-white"
-                                    />
-                                    <div className="flex flex-col">
-                                        <p className="text-white font-semibold text-md mt-2">
-                                            {item.author.name}
-                                        </p>
-                                        <p className="text-gray-400 text-sm" style={{ position: 'relative', top: '-4px' }}>
-                                            @{item.author.userName}
-                                        </p>
-                                    </div>
-                                    <div className='ml-auto'>
-                                        <button className='justify-center items-center flex mr-5'
-                                            onClick={() => sharePost(item._id)}>
+                                <a href={`/userProfile?username=${item.author.userName}&presentUser=${data.userName}`}>
+                                    <div className="flex items-center">
+                                        <img
+                                            src={item.author.profilePic}
+                                            alt=""
+                                            className="object-cover rounded-full w-12 h-12 ml-2 mr-2 border-2 border-white"
+                                        />
+                                        <div className="flex flex-col">
+                                            <p className="text-white font-semibold text-md mt-2">
+                                                {item.author.name}
+                                            </p>
+                                            <p className="text-gray-400 text-sm" style={{ position: 'relative', top: '-4px' }}>
+                                                @{item.author.userName}
+                                            </p>
+                                        </div>
+                                        <div className='ml-auto'>
+                                            <button className='justify-center items-center flex mr-5'
+                                                onClick={() => sharePost(item._id)}>
 
-                                            <Share color="#ffffff" />
-                                            <p className='text-gray-400 text-sm ml-1'>Share</p>
-                                        </button>
+                                                <Share color="#ffffff" />
+                                                <p className='text-gray-400 text-sm ml-1'>Share</p>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                                 {
                                     !item.media ? (
                                         <div className="">

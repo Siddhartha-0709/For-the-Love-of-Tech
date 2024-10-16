@@ -65,6 +65,11 @@ function UserProfile() {
 
     const handleDeletePost = async (postId) => {
         try {
+            const action = prompt('Type "Yes" to delete post');
+            console.log(action);
+            if (action !== 'Yes') {
+                return;
+            }
             console.log('Deleting post:', `https://siddharthapro.in/app3/api/v1/post/delete?postId=${postId}`);
             console.log(postId);
             await axios.get(`https://siddharthapro.in/app3/api/v1/post/delete?postId=${postId}`);
@@ -72,8 +77,12 @@ function UserProfile() {
                 ...prevData,
                 posts: prevData.posts.filter((post) => post._id !== postId),
             }));
+            alert('Post deleted successfully!');
         } catch (err) {
             console.log(err);
+        }
+        finally {
+            window.location.reload();
         }
     };
 
