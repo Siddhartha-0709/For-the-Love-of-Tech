@@ -192,57 +192,90 @@ function Community() {
             <div className='bg-gray-950 grid md:grid-cols-[1.2fr_3fr] mt-10' style={{ height: '94.5vh' }}>
                 <div className='bg-gray-950 p-8 hidden md:block'>
                     <div className='bg-gray-800 rounded-3xl'>
-                        <img src="https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" srcSet="" className='rounded-t-3xl h-1/3 w-full object-cover' style={{ height: '100px' }} />
-                        <img src={user.profilePic} alt="" srcSet="" className='' style={{ borderRadius: '50px', height: '90px', width: '90px', border: '2px solid white', position: 'relative', top: '-45px', left: '135px' }} />
-                        <h1 className='text-white text-xl text-center' style={{ position: 'relative', top: '-40px' }}>{user.name}</h1>
-                        <h1 className='text-gray-400 text-md text-center' style={{ position: 'relative', top: '-40px' }}>@{user.userName}</h1>
-                        <h1 className='text-gray-400 text-md text-center' style={{ position: 'relative', top: '-40px' }}>{user.bio}</h1>
-                        <div className='grid grid-cols-2 ' style={{ position: 'relative', top: '-30px' }}>
-                            <div className='flex justify-center '>
-                                <div>
-                                    {/* <h1 className='text-white text-lg text-center'>{user.followers.length}</h1> */}
-                                    {/* <h1 className='text-gray-400 text-lg text-center'>Followers</h1> */}
-                                </div>
+                        {/* Cover image */}
+                        <img
+                            src="https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                            alt=""
+                            className='rounded-t-3xl w-full object-cover'
+                            style={{ height: '150px' }}
+                        />
+
+                        {/* Profile picture */}
+                        <div className='flex justify-center relative' style={{ top: '-50px' }}>
+                            <img
+                                src={user.profilePic}
+                                alt=""
+                                className='rounded-full'
+                                style={{
+                                    borderRadius: '50%',
+                                    height: '90px',
+                                    width: '90px',
+                                    border: '3px solid white'
+                                }}
+                            />
+                        </div>
+
+                        {/* User info */}
+                        <h1 className='text-white text-2xl text-center'>{user.name}</h1>
+                        <h2 className='text-gray-400 text-md text-center'>@{user.userName}</h2>
+                        <p className='text-gray-400 text-sm text-center mb-4'>{user.bio}</p>
+
+                        {/* Follow section */}
+                        <div className='flex justify-around mb-5'>
+                            <div className='text-center'>
+                                <h1 className='text-white text-lg'>Followers</h1>
+                                <p className='text-gray-400'>{user.followers?.length || 0}</p>
                             </div>
-                            <div className='flex justify-center'>
-                                <div>
-                                    {/* <h1 className='text-white text-lg text-center'>{user.following.length}</h1> */}
-                                    {/* <h1 className='text-gray-400 text-lg text-center'>Following</h1> */}
-                                </div>
+                            <div className='text-center'>
+                                <h1 className='text-white text-lg'>Following</h1>
+                                <p className='text-gray-400'>{user.following?.length || 0}</p>
                             </div>
                         </div>
-                        <button className='text-blue-500 hover:text-blue-200 h-5 w-40 rounded-lg text-center font-semibold'
-                            style={{ position: 'relative', top: '-20px', left: '100px', marginBottom: '5px' }}>
-                            {/* Embedding the username and presentUser as query parameters */}
-                            <a href={`/userProfile?username=${data.userName}&presentUser=${data.userName}`}>My Profile</a>
-                        </button>
 
+                        {/* Profile button */}
+                        <div className='flex justify-center'>
+                            <a
+                                href={`/userProfile?username=${user.userName}&presentUser=${data.userName}`}
+                                className='text-blue-500 hover:text-blue-300 py-2 px-6 rounded-lg mb-6 transition-colors duration-200'
+                            >
+                                My Profile
+                            </a>
+                        </div>
                     </div>
-                    <div className='bg-gray-800 rounded-3xl mt-5'>
-                        <h1 className='text-white text-lg font-semibold text-left pt-3 pl-3'>People You May Know</h1>
-                        <div className='pl-3 pr-3 pb-3'>
-                            {
-                                youMayKnow.map((item, index) => (
-                                    <div key={index} className='flex mt-3'>
+
+                    {/* People You May Know section */}
+                    <div className='bg-gray-800 rounded-3xl mt-5 p-4'>
+                        <h1 className='text-white text-lg font-semibold mb-3'>People You May Know</h1>
+                        <div className='space-y-4'>
+                            {youMayKnow.map((item, index) => (
+                                <div key={index} className='flex items-center'>
+                                    <a href={`/userProfile?username=${item.userName}&presentUser=${data.userName}`}>
+                                        <img
+                                            src={item.profilePic}
+                                            alt=""
+                                            className='rounded-full h-12 w-12 object-cover'
+                                        />
+                                    </a>
+                                    <div className='ml-4'>
                                         <a href={`/userProfile?username=${item.userName}&presentUser=${data.userName}`}>
-                                            <img src={item.profilePic} alt="" srcSet="" className='rounded-3xl h-12 w-12' />
+                                            <h1 className='text-white text-md font-semibold'>{item.name}</h1>
+                                            <h2 className='text-gray-400 text-sm'>@{item.userName}</h2>
                                         </a>
-                                        <div>
-                                            <a href={`/userProfile?username=${item.userName}&presentUser=${data.userName}`}>
-                                                <h1 className='text-white text-lg font-semibold ml-3'>{item.name}</h1>
-                                                <h1 className='text-gray-400  text-o900sm ml-3' style={{ position: 'relative', top: '-5px' }}>@{item.userName}</h1>
-                                            </a>
-                                        </div>
-                                        <button className='w-20 ml-auto text-blue-500 hover:text-blue-200 h-5 rounded-lg text-center mt-2 font-semibold text-sm'
-                                            onClick={() => toggleFollowers(item.userName)}>
-                                            <h1>Follow</h1>
-                                        </button>
                                     </div>
-                                ))
-                            }
+                                    {data.userName != item.userName ? (
+                                        <button
+                                            className='ml-auto text-blue-500 hover:text-blue-300 py-1 px-4 rounded-lg bg-gray-700 transition-colors duration-200'
+                                            onClick={() => toggleFollowers(item.userName)}
+                                        >
+                                            Follow
+                                        </button>
+                                    ) : null}
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
+
                 <div className='bg-gray-950 overflow-y-auto p-8 custom-scrollbar '>
                     <div className="bg-gray-800 rounded-3xl flex items-center pt-3 pb-3 pr-3 pl-3">
                         <img

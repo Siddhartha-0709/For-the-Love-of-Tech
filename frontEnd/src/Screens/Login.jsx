@@ -39,23 +39,21 @@ function Login() {
     return (
         <>
             <Header />
-            <div className="flex flex-col md:flex-row justify-center items-center h-screen bg-gray-900">
+            <div className="flex flex-col md:flex-row justify-center items-center h-screen bg-black">
                 {/* Left Section: Welcome Message */}
-                <div className="md:w-1/2 w-full h-full bg-gradient-to-br from-indigo-600 to-purple-700 flex items-center justify-center">
-                    <div className="ml-6 md:ml-10 mb-10 md:mb-40 text-center md:text-left">
-                        <h1 className="text-3xl md:text-4xl font-extrabold text-white" style={{ fontFamily: 'Prognostic' }}>Welcome to</h1>
-                        <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-4" style={{ fontFamily: 'Prognostic' }}>Spaces</h1>
-                        <h1 className="text-lg md:text-xl font-medium text-white opacity-90" style={{ fontFamily: '' }}>
-                            The Community for Developers and Tech Enthusiasts
-                        </h1>
+                <div className="w-full h-full bg-gradient-to-br from-black to-violet-950 flex items-center justify-center">
+                    <div className="md:p-4 p-10 text-left">
+                        <h1 className="text-4xl font-extrabold text-white" style={{ fontFamily: 'Prognostic' }}>Welcome to</h1>
+                        <h1 className="text-7xl font-extrabold text-white mb-4" style={{ fontFamily: 'Prognostic' }}>Spaces</h1>
+                        <p className="text-sm md:text-lg font-medium text-white opacity-90">The Community for Developers and Tech Enthusiasts</p>
                     </div>
                 </div>
 
                 {/* Right Section: Login Form */}
-                <div className="md:w-1/2 w-full h-full flex items-center justify-center">
+                <div className=" w-full h-full flex items-center justify-center">
                     <div className="w-full md:w-3/4 px-6 md:px-0">
                         {/* Heading */}
-                        <h1 className="text-4xl md:text-5xl text-white font-bold text-center md:text-left mb-6" style={{ fontFamily: 'Prognostic' }}>Welcome Back</h1>
+                        <h1 className="text-4xl md:text-5xl text-white font-bold text-center md:text-left mb-6" style={{ fontFamily: 'Ubuntu' }}>Welcome Back</h1>
                         <p className="text-sm md:text-md text-gray-300 text-center md:text-left mb-8">
                             Continue your journey with our diverse community. Log in to connect, share knowledge, and explore the latest in tech.
                         </p>

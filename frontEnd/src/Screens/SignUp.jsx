@@ -45,7 +45,7 @@ function SignUp() {
     return (
         <>
             <Header />
-            <div className="pt-10 bg-gray-900 min-h-screen">
+            <div className="pt-10 bg-black min-h-screen">
                 <div className="flex flex-col sm:grid sm:grid-cols-2 shadow-lg rounded-lg overflow-hidden">
                     {/* Left Section: Welcome Text */}
                     <div className="w-full h-full bg-gradient-to-br from-black to-violet-950 flex items-center justify-center">
@@ -56,9 +56,9 @@ function SignUp() {
                         </div>
                     </div>
                     {/* Right Section: Sign Up Form */}
-                    <div className="pl-10 pt-10 pb-10 pr-10 sm:order-1 bg-black">
+                    <div className="pl-20 pt-20 pb-10 pr-20 ml-5 mr-5 mt-5 sm:order-1 bg-black">
                         <div className="w-full">
-                            <h1 className="text-4xl text-white font-bold " style={{ fontFamily: 'Ubuntu' }}>Sign Up</h1>
+                            <h1 className="text-4xl text-white font-bold mb-4  " style={{ fontFamily: 'Ubuntu' }}>Get Started</h1>
                             <p className="mb-4 w-full text-md md:text-md mt-4 text-white font-light" style={{ fontFamily: 'Ubuntu' }}>Let's get started with building your skills and network with other developers.</p>
                         </div>
                         <form className="space-y-4 w-full" onSubmit={handleSubmit}>
