@@ -7,7 +7,7 @@ const signUp = async (req, res) => {
     const user = new userModel(req.body);
     const checkIfUserExists = await userModel.findOne({ email: req.body.email });
     if (checkIfUserExists) {
-        res.status(409).send("User already exists");
+        res.status(409).json({ message: "User already exists" });
     }
     try {
         await user.save();
@@ -22,12 +22,12 @@ const signIn = async (req, res) => {
     try {
         const user = await userModel.findOne({ email: req.body.email });
         if (!user) {
-            res.status(404).send("User not found");
+            res.status(404).json({ message: "User not found" });
         } else {
             if (req.body.password === user.password) {
                 res.status(200).send(user);
             } else {
-                res.status(401).send("Wrong Password");
+                res.status(401).json({ message: "Invalid credentials" });
             }
         }
     } catch (error) {
@@ -39,7 +39,7 @@ const updateProfile = async (req, res) => {
     try {
         const user = await userModel.findOne({ userName: req.body.username });
         if (!user) {
-            res.status(404).send("User not found");
+            res.status(404).json({ message: "User not found" });
         } else {
             if(req.files){
                 const profilePicUrl = await uploadOnCloudinary(req.files.profilePic[0].path);//TODO:
