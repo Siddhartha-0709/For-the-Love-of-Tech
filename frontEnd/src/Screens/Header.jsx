@@ -6,7 +6,7 @@ function Header() {
             <div className="flex items-center justify-between px-2 py-2 sm:px-6 lg:px-8">
                 <Link to="/" className="flex items-center text-gray-50">
                     <h1
-                        class="text-3xl relative top-0 w-fit h-auto py-1 justify-center flex bg-gradient-to-r items-center from-blue-500 via-teal-500 to-pink-500 bg-clip-text md:text-4xl font-extrabold text-transparent text-center select-auto"
+                        className="text-3xl relative top-0 w-fit h-auto py-1 justify-center flex bg-gradient-to-r items-center from-blue-500 via-teal-500 to-pink-500 bg-clip-text md:text-4xl font-extrabold text-transparent text-center select-auto"
                         style={{ fontFamily: 'Prognostic', fontWeight: '400' }}
                     >
                         Spaces

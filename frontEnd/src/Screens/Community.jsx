@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { CircleUserRound, Cross, Forward, HeartIcon, MessageSquareMore, Search, Share, X } from 'lucide-react';
 import '../Screens/Community.css'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 import Header from './Header';
@@ -11,7 +11,7 @@ function Community() {
     const location = useLocation();
     const { data } = location.state || {};
     // console.log(data);
-
+    const navigate = useNavigate();
     // State for storing random users (You May Know) and posts
     const [youMayKnow, setYouMayKnow] = useState([]);
     const [posts, setPosts] = useState([]);
@@ -63,7 +63,10 @@ function Community() {
             const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/togglefollowers?username=${username}&presentUser=${data.userName}`);
             console.log(response.data);
             // refresh the page
-            window.location.reload();
+            getRandomUser();
+            getPosts();
+            getUserData();
+            navigate('/login');
         } catch (error) {
             console.log(error);
         }
@@ -137,6 +140,7 @@ function Community() {
 
     // Fetch random users and posts when the component mounts
     useEffect(() => {
+        toggleFollowers();
         getRandomUser();
         getPosts();
         getUserData();
@@ -194,7 +198,7 @@ function Community() {
                     <div className='bg-gray-800 rounded-3xl'>
                         {/* Cover image */}
                         <img
-                            src="https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                            src="https://images.pexels.com/photos/1229042/pexels-photo-1229042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                             alt=""
                             className='rounded-t-3xl w-full object-cover'
                             style={{ height: '150px' }}
@@ -262,14 +266,26 @@ function Community() {
                                             <h2 className='text-gray-400 text-sm'>@{item.userName}</h2>
                                         </a>
                                     </div>
-                                    {data.userName != item.userName ? (
-                                        <button
-                                            className='ml-auto text-blue-500 hover:text-blue-300 py-1 px-4 rounded-lg bg-gray-700 transition-colors duration-200'
-                                            onClick={() => toggleFollowers(item.userName)}
-                                        >
-                                            Follow
-                                        </button>
-                                    ) : null}
+
+
+                                    {data.userName === item.userName ? null : (
+                                        data.following?.includes(String(item._id)) ? (
+                                            <button
+                                                className='ml-auto text-red-500 hover:text-red-300 py-1 px-4 rounded-lg bg-gray-700 transition-colors duration-200'
+                                                onClick={() => toggleFollowers(item.userName)}
+                                            >
+                                                Unfollow
+                                            </button>
+                                        ) : (
+                                            <button
+                                                className='ml-auto text-blue-500 hover:text-blue-300 py-1 px-4 rounded-lg bg-gray-700 transition-colors duration-200'
+                                                onClick={() => toggleFollowers(item.userName)}
+                                            >
+                                                Follow
+                                            </button>
+                                        )
+                                    )}
+
                                 </div>
                             ))}
                         </div>

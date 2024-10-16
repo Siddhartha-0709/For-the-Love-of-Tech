@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { HeartIcon, MessageSquareMore, Share, TrashIcon, X } from 'lucide-react';
@@ -10,9 +10,10 @@ function UserProfile() {
     const queryParams = new URLSearchParams(location.search);
     const username = queryParams.get('username');
     const currentUser = queryParams.get('presentUser');
-    console.log('Current User',currentUser);
-    console.log('Username',username);
-    
+    const navigation = useNavigate();
+    // console.log('Current User',currentUser);
+    // console.log('Username',username);
+
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [userData, setUserData] = useState({});
@@ -24,7 +25,7 @@ function UserProfile() {
     const getUserData = async () => {
         try {
             const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/info?username=${username}`);
-            console.log('User Data:',response.data.user);
+            console.log('User Data:', response.data.user);
             setUserData(response.data);
         } catch (err) {
             console.log(err);
@@ -32,29 +33,30 @@ function UserProfile() {
             setLoading(false);
         }
     };
-    const getCurrentUserDetails =async () => {
+    const getCurrentUserDetails = async () => {
         try {
             const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/info?username=${currentUser}`);
             setCurrentUserData(response.data.user);
-            console.log('Current User:',response.data.user);
-            
+            console.log('Current User-', response.data.user);
+
         } catch (err) {
             console.log(err);
         }
         finally {
-            console.log(currentUserData);
-            
+            // console.log(currentUserData);
+
         }
     }
 
     const toggleFollowers = async (username) => {
         try {
             // console.log(data);
-            
+
             console.log(currentUser, 'will follow', username);
             const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/togglefollowers?username=${username}&presentUser=${currentUser}`);
-            console.log(response.data);
+            // console.log(response.data);
             // refresh the page
+            navigation('/login');
             window.location.reload();
         } catch (error) {
             console.log(error);
@@ -62,7 +64,7 @@ function UserProfile() {
     }
 
     const handleDeletePost = async (postId) => {
-        try {  
+        try {
             console.log('Deleting post:', `https://siddharthapro.in/app3/api/v1/post/delete?postId=${postId}`);
             console.log(postId);
             await axios.get(`https://siddharthapro.in/app3/api/v1/post/delete?postId=${postId}`);
@@ -88,13 +90,13 @@ function UserProfile() {
         for (const [key, value] of formData.entries()) {
             console.log(`${key}: ${value}`);
         }
-        if(currentUserData.name !== event.target.name.value){
+        if (currentUserData.name !== event.target.name.value) {
             alert('Name changed');
         }
-        if(currentUserData.bio !== event.target.bio.value){
+        if (currentUserData.bio !== event.target.bio.value) {
             alert('Bio changed');
         }
-        if(event.target.profilePic.files[0]){
+        if (event.target.profilePic.files[0]) {
             alert('ProfilePic changed');
         }
         try {
@@ -108,7 +110,7 @@ function UserProfile() {
             console.error('Error submitting the form', err);
         }
     };
-    
+
     useEffect(() => {
         getCurrentUserDetails();
         getUserData();
@@ -125,55 +127,54 @@ function UserProfile() {
     // Destructure user data for easier access
     const { user, posts } = userData;
 
-    
-    
+
     return (
         <>
-            {showModal?(<>
+            {showModal ? (<>
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-                <div className="flex flex-col items-center justify-center bg-gray-100 rounded-lg p-8">
-                    <div className="mb-4 grid grid-cols-2 pll-10">
-                        <div>
-                            <h2 className="text-2xl font-bold">Edit your Profile</h2>
-                        </div>
-                        <div className='flex justify-end'>
-                            <button onClick={toggleModal}>
-                                <X size={32} color='black' />
-                            </button>
-                        </div>
-                    </div>
-                    <div className="space-y-4">
-                        <form onSubmit={handleSubmit} method="post">
-                            <div className="mb-4">
-                                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Edit your Name</label>
-                                <input type="text" name="name" onChange={(e) => setCurrentUserData({ ...currentUserData, name: e.target.value })} id="name" placeholder={currentUserData.name} className="mt-1 block h-8 p-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                    <div className="flex flex-col items-center justify-center bg-gray-100 rounded-lg p-8">
+                        <div className="mb-4 grid grid-cols-2 pll-10">
+                            <div>
+                                <h2 className="text-2xl font-bold">Edit your Profile</h2>
                             </div>
-                            <div className="mb-4">
-                                <label htmlFor="bio" className="block text-sm font-medium text-gray-700">Edit your bio</label>
-                                <input type="text" name="bio" id="bio" placeholder={currentUserData.bio} 
-                                onChange={(e) => setCurrentUserData({ ...currentUserData, bio: e.target.value })} 
-                                className="mt-1 block h-8 p-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                            </div>
-                            
-                            <div className="mb-4">
-                                <label htmlFor="profilePic" className="block text-sm font-medium text-gray-700">Upload your profile picture</label>
-                                <input type="file" name="profilePic" id="profilePic" className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                            </div>
-                            <div className="flex justify-center">
-                                <button type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    Submit
+                            <div className='flex justify-end'>
+                                <button onClick={toggleModal}>
+                                    <X size={32} color='black' />
                                 </button>
                             </div>
-                        </form>
+                        </div>
+                        <div className="space-y-4">
+                            <form onSubmit={handleSubmit} method="post">
+                                <div className="mb-4">
+                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">Edit your Name</label>
+                                    <input type="text" name="name" onChange={(e) => setCurrentUserData({ ...currentUserData, name: e.target.value })} id="name" placeholder={currentUserData.name} className="mt-1 block h-8 p-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="bio" className="block text-sm font-medium text-gray-700">Edit your bio</label>
+                                    <input type="text" name="bio" id="bio" placeholder={currentUserData.bio}
+                                        onChange={(e) => setCurrentUserData({ ...currentUserData, bio: e.target.value })}
+                                        className="mt-1 block h-8 p-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="profilePic" className="block text-sm font-medium text-gray-700">Upload your profile picture</label>
+                                    <input type="file" name="profilePic" id="profilePic" className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                                </div>
+                                <div className="flex justify-center">
+                                    <button type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        Submit
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-            </>):null}
-            <Header/>
+            </>) : null}
+            <Header />
             <div className="flex flex-col p-8 bg-gray-900 mt-10">
                 <div className='bg-gray-800 rounded-3xl md:w-3/4 w-11/12 mx-auto'>
                     <img
-                        src="https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        src="https://images.pexels.com/photos/1229042/pexels-photo-1229042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                         alt="Cover"
                         className='rounded-t-3xl h-1/3 w-full object-cover'
                         style={{ height: '100px' }}
@@ -213,17 +214,21 @@ function UserProfile() {
                     </div>
 
                     <div className='justify-center items-center flex pb-4'>
-                        
-                        {currentUser === username && (<button className='text-blue-500 hover:text-blue-200 h-5 w-40 rounded-lg text-center font-semibold' onClick={toggleModal}>
+
+                        {currentUserData.name === user.name ? (<button className='text-blue-500 hover:text-blue-200 h-5 w-40 rounded-lg text-center font-semibold' onClick={toggleModal}>
                             Edit Profile
-                        </button>)}
-                        {currentUser != username && (<button className='text-blue-500 hover:text-blue-200 h-5 w-40 rounded-lg text-center font-semibold' onClick={() => toggleFollowers(username)}>
-                            Follow
-                        </button>)}
+                        </button>):(currentUserData.following.includes(String(user._id)) ? (<button className='text-red-500 hover:text-blue-200 h-5 w-40 rounded-lg text-center font-semibold' onClick={() => toggleFollowers(username)}>
+                                Unfollow
+                            </button>) : (<button className='text-blue-500 hover:text-blue-200 h-5 w-40 rounded-lg text-center font-semibold' onClick={() => toggleFollowers(username)}>
+                                Follow
+                            </button>))
+                        }
+
+                      
                     </div>
                 </div>
-                
-                <div className='bg-gray-800 mt-5 p-5 rounded-3xl md:w-3/4 w-11/12 mx-auto overflow-y-auto custom-scrollbar' style={{height:'55vh'}}>
+
+                <div className='bg-gray-800 mt-5 p-5 rounded-3xl md:w-3/4 w-11/12 mx-auto overflow-y-auto custom-scrollbar' style={{ height: '55vh' }}>
                     <h1 className='text-white text-2xl font-semibold'>Posts</h1>
                     {posts && posts.length > 0 ? (
                         posts.map(post => (
