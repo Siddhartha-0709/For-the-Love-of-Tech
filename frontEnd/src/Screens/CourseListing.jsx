@@ -47,7 +47,7 @@ const CourseListing = () => {
   return (
     <>
       <Header />
-      <div className="md:p-8 py-2 md:py-5 bg-black text-white h-full mt-10">
+      <div className="md:p-8 py-2 md:py-5 bg-black text-white mt-10">
         <div className='item-center flex mt-10'>
           <h1 className="text-3xl font-semibold mb-4 md:mb-4 md:text-5xl md:font-bold text-left bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 text-transparent" style={{ WebkitTextStroke: '0px black', fontFamily: 'Ubuntu' }}>Upgrade your Tech Potential</h1>
         </div>
