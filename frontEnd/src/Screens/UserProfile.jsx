@@ -205,27 +205,26 @@ function UserProfile() {
                     <img
                         src="https://images.pexels.com/photos/1229042/pexels-photo-1229042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                         alt="Cover"
-                        className='rounded-t-3xl h-1/3 w-full object-cover'
-                        style={{ height: '100px' }}
+                        className='rounded-t-3xl h-3/4 w-full object-cover'
+                        style={{ height: '180px' }}
                     />
 
                     <img
                         src={user.profilePic}
+                        className='rounded-full h-40 w-40 object-cover'
                         alt="User profile"
                         style={{
-                            borderRadius: '50px',
-                            height: '90px',
-                            width: '90px',
                             border: '2px solid white',
                             position: 'relative',
-                            top: '-45px',
-                            left: 'calc(50% - 45px)',
+                            top: '-85px',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
                         }}
                     />
 
-                    <h1 className='text-white text-xl text-center' style={{ position: 'relative', top: '-40px' }}>{user.name}</h1>
-                    <h1 className='text-gray-400 text-md text-center' style={{ position: 'relative', top: '-40px' }}>@{user.userName}</h1>
-                    <h1 className='text-gray-400 text-md text-center' style={{ position: 'relative', top: '-40px' }}>{user.bio}</h1>
+                    <h1 className='text-white text-xl text-center' style={{ position: 'relative', top: '-70px' }}>{user.name}</h1>
+                    <h1 className='text-gray-400 text-md text-center' style={{ position: 'relative', top: '-70px' }}>@{user.userName}</h1>
+                    <h1 className='text-gray-400 text-md text-center' style={{ position: 'relative', top: '-70px' }}>{user.bio}</h1>
 
                     <div className='grid grid-cols-2' style={{ position: 'relative', top: '-30px' }}>
                         <div className='flex justify-center'>

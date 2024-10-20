@@ -152,7 +152,6 @@ function Community() {
 
     return (
         <>
-            <Header />
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
                     <div className="flex flex-col items-center justify-center bg-gray-100 rounded-lg">
@@ -197,9 +196,12 @@ function Community() {
                 </div>
             )}
             {loader ? <Loader /> : null}
-            <div className='bg-gray-950 grid md:grid-cols-[1.2fr_3fr] mt-10' style={{ height: '90vh' }}>
+            <div className='bg-gray-950 grid md:grid-cols-[1.2fr_3fr] mt-14 h-screen'>
+            <Header />
+
                 <div className='bg-gray-950 p-8 hidden md:block'>
-                    <div className='bg-gray-800 rounded-3xl'>
+
+                    <div className='bg-gray-800 h-96 rounded-3xl'>
                         {/* Cover image */}
                         <img
                             src="https://images.pexels.com/photos/1229042/pexels-photo-1229042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -209,44 +211,46 @@ function Community() {
                         />
 
                         {/* Profile picture */}
-                        <div className='flex justify-center relative' style={{ top: '-50px' }}>
-                            <img
-                                src={user.profilePic}
-                                alt=""
-                                className='rounded-full'
-                                style={{
-                                    borderRadius: '50%',
-                                    height: '90px',
-                                    width: '90px',
-                                    border: '3px solid white'
-                                }}
-                            />
-                        </div>
-
-                        {/* User info */}
-                        <h1 className='text-white text-2xl text-center'>{user.name}</h1>
-                        <h2 className='text-gray-400 text-md text-center'>@{user.userName}</h2>
-                        <p className='text-gray-400 text-sm text-center mb-4'>{user.bio}</p>
-
-                        {/* Follow section */}
-                        <div className='flex justify-around mb-5'>
-                            <div className='text-center'>
-                                <h1 className='text-white text-lg'>Followers</h1>
-                                <p className='text-gray-400'>{user.followers?.length || 0}</p>
-                            </div>
-                            <div className='text-center'>
-                                <h1 className='text-white text-lg'>Following</h1>
-                                <p className='text-gray-400'>{user.following?.length || 0}</p>
-                            </div>
-                        </div>
-                        {/* Profile button */}
-                        <div className='flex justify-center'>
+                        <div className='flex justify-center relative' style={{ top: '-85px' }}>
                             <a
                                 href={`/userProfile?username=${user.userName}&presentUser=${data.userName}`}
-                                className='text-blue-500 hover:text-blue-300 py-2 px-6 rounded-lg mb-6 transition-colors duration-200'
+                                className='text-blue-500 hover:text-blue-300 rounded-lg transition-colors duration-200'
                             >
-                                My Profile
+
+                                <img
+                                    src={user.profilePic}
+                                    alt=""
+                                    className='rounded-full w-40 h-40 object-cover border-4 border-white'
+                                />
                             </a>
+                        </div>
+                        <div className=' justify-center' style={{ top: '-75px', position: 'relative' }}>
+                            <h1 className='text-white text-2xl text-center'>{user.name}</h1>
+                            <h2 className='text-gray-400 text-md text-center'>@{user.userName}</h2>
+                            <p className='text-gray-400 text-sm text-center mb-4'>{user.bio}</p>
+
+                            {/* User info */}
+
+                            {/* Follow section */}
+                            <div className='flex justify-around mb-5'>
+                                <div className='text-center'>
+                                    <h1 className='text-white text-lg'>Followers</h1>
+                                    <p className='text-gray-400'>{user.followers?.length || 0}</p>
+                                </div>
+                                <div className='text-center'>
+                                    <h1 className='text-white text-lg'>Following</h1>
+                                    <p className='text-gray-400'>{user.following?.length || 0}</p>
+                                </div>
+                            </div>
+                            {/* Profile button */}
+                            {/* <div className='flex justify-center'>
+                                <a
+                                    href={`/userProfile?username=${user.userName}&presentUser=${data.userName}`}
+                                    className='text-blue-500 hover:text-blue-300 py-2 px-6 rounded-lg mb-6 transition-colors duration-200'
+                                >
+                                    My Profile
+                                </a>
+                            </div> */}
                         </div>
                     </div>
 
@@ -293,7 +297,7 @@ function Community() {
                     </div>
                 </div>
 
-                <div className='bg-gray-950 overflow-y-auto pt-8 custom-scrollbar '>
+                <div className='bg-gray-950 overflow-y-auto pt-8 pr-3 custom-scrollbar '>
                     <div className="bg-gray-800 rounded-3xl flex items-center pt-3 pb-3 pr-3 md:pl-3">
                         <a href={`/userProfile?username=${user.userName}&presentUser=${data.userName}`}>
                             <img

@@ -49,7 +49,7 @@ function CoursePage() {
   return (
     <>
       <Header />
-      <main className="bg-gray-950 justify-center py-12 h-full items-center pt-24">
+      <main className="bg-gray-950 justify-center py-12  items-center pt-24">
         <center>
           <div className="w-full max-w-4xl">
             <div ref={playerRef} />
