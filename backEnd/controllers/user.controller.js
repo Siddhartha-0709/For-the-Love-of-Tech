@@ -47,7 +47,7 @@ const updateProfile = async (req, res) => {
             }
             const updatedUser = await userModel.findOneAndUpdate({ userName: req.body.username }, req.body, { new: true });
             console.log(updatedUser);
-            res.status(200).send(updatedUser);
+            res.status(200).send('Profile Updated',updatedUser);
         }
     } catch (error) {
         console.log(error);
