@@ -37,6 +37,7 @@ const signIn = async (req, res) => {
 
 const updateProfile = async (req, res) => {
     try {
+
         const user = await userModel.findOne({ userName: req.body.username });
         if (!user) {
             res.status(404).json({ message: "User not found" });
@@ -84,7 +85,7 @@ const getUserDetails = async (req, res) => {
     try {
         // console.log(req.query); // This will log the query parameters
         const user = await userModel.findOne({ userName: req.query.username }); // Extract username from req.query
-        console.log(user);
+        // console.log(user);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
