@@ -99,7 +99,7 @@ function UserProfile() {
         for (const [key, value] of formData.entries()) {
             console.log(`${key}: ${value}`);
         }
-
+        setLoading(true);
         console.log('Form data:', formData);
         try {
             // Send the form data to the backend using axios
@@ -107,6 +107,8 @@ function UserProfile() {
             console.log('Sending form data:', formData);
             const response = await axios.post('https://siddharthapro.in/app3/api/v1/user/update', formData);
             alert('Profile updated successfully!');
+            toggleModal();
+            setLoading(false);
             console.log(response.data); // Log response from the backend
         } catch (err) {
             console.error('Error submitting the form', err);

@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 import Header from './Header';
+import Loader from './Loader';
 function Community() {
     // Extracting data from location state
     const location = useLocation();
@@ -89,12 +90,17 @@ function Community() {
     // Handle form submission for creating a post
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Preparing form data to be submitted
         const formDataToSubmit = new FormData();
         Object.keys(formData).forEach(key => {
             formDataToSubmit.append(key, formData[key]);
         });
         formDataToSubmit.append('author', data._id);
+
         try {
+
+            // Ensure a media file is selected
             if (!formData.media) {
                 alert('Please select a file');
                 return;
@@ -102,7 +108,11 @@ function Community() {
             // Add a loader
             setLoader(true);
             // Send the form data to the server
-            const response = await axios.post('https://siddharthapro.in/app3/api/v1/post/create', formDataToSubmit);
+            const response = await axios.post('https://siddharthapro.in/app3/api/v1/post/create', formDataToSubmit, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
             console.log(response.data);
             alert('Post created successfully!');
             setLoader(false);
@@ -131,11 +141,6 @@ function Community() {
             console.log(err);
         }
     }
-
-    if (loader) {
-        return <div>Loading...</div>;
-    }
-
 
     // Fetch random users and posts when the component mounts
     useEffect(() => {
@@ -191,6 +196,7 @@ function Community() {
                     </div>
                 </div>
             )}
+            {loader ? <Loader /> : null}
             <div className='bg-gray-950 grid md:grid-cols-[1.2fr_3fr] mt-10' style={{ height: '90vh' }}>
                 <div className='bg-gray-950 p-8 hidden md:block'>
                     <div className='bg-gray-800 rounded-3xl'>
