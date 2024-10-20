@@ -37,7 +37,7 @@ const signIn = async (req, res) => {
 
 const updateProfile = async (req, res) => {
     try {
-        console.log('Request Received for Update Profile');
+        console.log('Request Received for Update Profile Processing');
         const user = await userModel.findOne({ userName: req.body.username });
         if (!user) {
             res.status(404).json({ message: "User not found" });
