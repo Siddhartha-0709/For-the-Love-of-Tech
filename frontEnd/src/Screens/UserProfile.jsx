@@ -99,15 +99,8 @@ function UserProfile() {
         for (const [key, value] of formData.entries()) {
             console.log(`${key}: ${value}`);
         }
-        if (currentUserData.name !== event.target.name.value) {
-            alert('Name changed');
-        }
-        if (currentUserData.bio !== event.target.bio.value) {
-            alert('Bio changed');
-        }
-        if (event.target.profilePic.files[0]) {
-            alert('ProfilePic changed');
-        }
+
+        console.log('Form data:', formData);
         try {
             // Send the form data to the backend using axios
 
@@ -139,46 +132,71 @@ function UserProfile() {
 
     return (
         <>
-            {showModal ? (<>
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-                    <div className="flex flex-col items-center justify-center bg-gray-100 rounded-lg p-8">
-                        <div className="mb-4 grid grid-cols-2 pll-10">
-                            <div>
-                                <h2 className="text-2xl font-bold">Edit your Profile</h2>
-                            </div>
-                            <div className='flex justify-end'>
-                                <button onClick={toggleModal}>
-                                    <X size={32} color='black' />
-                                </button>
-                            </div>
-                        </div>
-                        <div className="space-y-4">
-                            <form onSubmit={handleSubmit} method="post">
-                                <div className="mb-4">
-                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">Edit your Name</label>
-                                    <input type="text" name="name" onChange={(e) => setCurrentUserData({ ...currentUserData, name: e.target.value })} id="name" placeholder={currentUserData.name} className="mt-1 block h-8 p-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+            {showModal ? (
+                <>
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+                        <div className="flex flex-col items-center justify-center bg-gray-100 rounded-lg p-8">
+                            <div className="mb-4 grid grid-cols-2 pl-10"> {/* Corrected to 'pl-10' */}
+                                <div>
+                                    <h2 className="text-2xl font-bold">Edit your Profile</h2>
                                 </div>
-                                <div className="mb-4">
-                                    <label htmlFor="bio" className="block text-sm font-medium text-gray-700">Edit your bio</label>
-                                    <input type="text" name="bio" id="bio" placeholder={currentUserData.bio}
-                                        onChange={(e) => setCurrentUserData({ ...currentUserData, bio: e.target.value })}
-                                        className="mt-1 block h-8 p-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                                </div>
-
-                                <div className="mb-4">
-                                    <label htmlFor="profilePic" className="block text-sm font-medium text-gray-700">Upload your profile picture</label>
-                                    <input type="file" name="profilePic" id="profilePic" className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                                </div>
-                                <div className="flex justify-center">
-                                    <button type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                        Submit
+                                <div className='flex justify-end'>
+                                    <button onClick={toggleModal}>
+                                        <X size={32} color='black' /> {/* Ensure X is properly imported */}
                                     </button>
                                 </div>
-                            </form>
+                            </div>
+                            <div className="space-y-4">
+                                <form onSubmit={handleSubmit} encType="multipart/form-data"> {/* Removed method="post" */}
+                                    <div className="mb-4">
+                                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">Edit your Name</label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            id="name"
+                                            onChange={(e) => setCurrentUserData({ ...currentUserData, name: e.target.value })}
+                                            placeholder={currentUserData.name}
+                                            className="mt-1 block h-8 p-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                        />
+                                    </div>
+                                    <div className="mb-4">
+                                        <label htmlFor="bio" className="block text-sm font-medium text-gray-700">Edit your bio</label>
+                                        <input
+                                            type="text"
+                                            name="bio"
+                                            id="bio"
+                                            onChange={(e) => setCurrentUserData({ ...currentUserData, bio: e.target.value })}
+                                            placeholder={currentUserData.bio}
+                                            className="mt-1 block h-8 p-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                        />
+                                    </div>
+
+                                    <div className="mb-4">
+                                        <label htmlFor="profilePic" className="block text-sm font-medium text-gray-700">Upload your profile picture</label>
+                                        <input
+                                            type="file"
+                                            name="profilePic"
+                                            id="profilePic"
+                                            accept="image/*" /* Added file type validation */
+                                            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                        />
+                                    </div>
+
+                                    <div className="flex justify-center">
+                                        <button
+                                            type="submit"
+                                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        >
+                                            Submit
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </>) : null}
+                </>
+            ) : null}
+
             <Header />
             <div className="flex flex-col pt-8 md:p-8 bg-gray-900 mt-10">
                 <div className='bg-gray-800 rounded-2xl md:w-3/4 w-11/12 mx-auto'>
@@ -226,14 +244,14 @@ function UserProfile() {
 
                         {currentUserData.name === user.name ? (<button className='text-blue-500 hover:text-blue-200 h-5 w-40 rounded-lg text-center font-semibold' onClick={toggleModal}>
                             Edit Profile
-                        </button>):(currentUserData.following.includes(String(user._id)) ? (<button className='text-red-500 hover:text-blue-200 h-5 w-40 rounded-lg text-center font-semibold' onClick={() => toggleFollowers(username)}>
-                                Unfollow
-                            </button>) : (<button className='text-blue-500 hover:text-blue-200 h-5 w-40 rounded-lg text-center font-semibold' onClick={() => toggleFollowers(username)}>
-                                Follow
-                            </button>))
+                        </button>) : (currentUserData.following.includes(String(user._id)) ? (<button className='text-red-500 hover:text-blue-200 h-5 w-40 rounded-lg text-center font-semibold' onClick={() => toggleFollowers(username)}>
+                            Unfollow
+                        </button>) : (<button className='text-blue-500 hover:text-blue-200 h-5 w-40 rounded-lg text-center font-semibold' onClick={() => toggleFollowers(username)}>
+                            Follow
+                        </button>))
                         }
 
-                      
+
                     </div>
                 </div>
 
