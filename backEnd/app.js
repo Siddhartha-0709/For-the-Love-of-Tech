@@ -6,9 +6,8 @@ import userRouter from "./routes/user.routes.js";
 import postRouter from "./routes/post.routes.js";
 const app = express();
 
-app.use(cors({
-    origin:"*"
-}));
+app.use(cors());
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
