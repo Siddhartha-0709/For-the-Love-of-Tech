@@ -74,7 +74,7 @@ const deleteProfile = async (req, res) => {
 const getFourRandomUsers = async (req, res) => {
     try {
         const users = await userModel.aggregate([
-            { $sample: { size: 3 } }
+            { $sample: { size: 4 } }
         ]);
         res.status(200).json(users);
     } catch (err) {
