@@ -63,10 +63,11 @@ function Community() {
     const toggleFollowers = async (username) => {
         try {
             const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/togglefollowers?username=${username}&presentUser=${data.userName}`);
-            getRandomUser();
-            getPosts();
-            getUserData();
-            navigate('/login');
+            console.log(response.data);
+            // Fetch updated data without reloading the page
+            await getUserData();
+            await getPosts();
+            await getRandomUser();
         } catch (error) {
             console.log(error);
         }
@@ -103,6 +104,7 @@ function Community() {
             alert('Post created successfully!');
             setLoader(false);
             toggleModal();
+            window.location.reload();
         } catch (error) {
             console.error(error);
             alert(error.message);
@@ -120,16 +122,13 @@ function Community() {
                 postId: selectedPostId, // Make sure you have a selectedPostId from the clicked post
                 userId: data._id,
             };
-            // console.log(commentData);
-            // Send the comment data to the server
             const response = await axios.post('https://siddharthapro.in/app3/api/v1/post/comment', commentData);
             console.log('Comment submitted:', response.data);
-
-            // Update the UI or refresh the comments after successful submission
             alert('Comment submitted successfully!');
             setFormData({ comment: '' });
-            setIsCommentModalOpen(false); // Close the comment modal
-            getPosts(); // Optionally refresh posts to show the new comment
+            setIsCommentModalOpen(false);
+            getPosts();
+            window.location.reload();
         } catch (error) {
             console.error('Error submitting comment:', error);
             alert('Failed to submit comment');
@@ -162,7 +161,6 @@ function Community() {
     };
 
     const likePost = async (postId) => {
-        alert('Post Liked!');
         try {
             const response = await axios.get(`https://siddharthapro.in/app3/api/v1/post/likepost?postId=${postId}&userId=${data._id}`);
             console.log(response.data);
@@ -171,13 +169,27 @@ function Community() {
         catch (err) {
             console.log(err);
         }
-    } 
+    }
 
+    const renderWithLinks = (text) => {
+        const urlPattern = /(https?:\/\/[^\s]+)/g; // Regex to detect URLs
+        return text.split(urlPattern).map((part, index) => {
+            if (urlPattern.test(part)) {
+                return (
+                    <a key={index} href={part} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                        {part}
+                    </a>
+                );
+            }
+            return part;
+        });
+    };
 
     useEffect(() => {
         getRandomUser();
         getPosts();
         getUserData();
+
     }, []);
 
 
@@ -427,14 +439,16 @@ function Community() {
                                 </div>
                             </a>
                             <div className="mt-3">
-                                <p className="text-white text-md mb-2 break-words">{item.title}</p>
+                                <p className="text-white text-md mb-2 break-words">
+                                    {renderWithLinks(item.title)}
+                                </p>
                                 {item.mediaUrl && (
                                     <img src={item.mediaUrl} alt="" className="w-full h-48 sm:h-64 md:h-80 lg:h-96 object-cover" />
                                 )}
                             </div>
                             <div className="mt-4 grid grid-cols-3 text-center border-t border-gray-700 pt-2">
                                 <button className='flex justify-center items-center hover:text-gray-500'
-                                onClick={()=>likePost(item._id)}>
+                                    onClick={() => likePost(item._id)}>
                                     {
                                         item.likes?.includes(data._id) ? (
                                             <>
