@@ -10,59 +10,56 @@ function Community() {
     // Extracting data from location state
     const location = useLocation();
     const { data } = location.state || {};
-    // console.log(data);
     const navigate = useNavigate();
-    // State for storing random users (You May Know) and posts
+
     const [youMayKnow, setYouMayKnow] = useState([]);
     const [posts, setPosts] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
+    const [comments, setComments] = useState([]);
+    const [selectedPostId, setSelectedPostId] = useState(null);
     const [user, setUser] = useState({});
-    // State for form data (for creating a post)
+
     const [formData, setFormData] = useState({
         title: '',
         media: null,
+        comment: ''
     });
     const [loader, setLoader] = useState(false);
-    // Function to fetch random users
+
     const getUserData = async () => {
         try {
             const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/info?username=${data.userName}`);
-            console.log(response.data.user);
             setUser(response.data.user);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    const getRandomUser = async () => {
-        try {
-            const response = await axios.get('https://siddharthapro.in/app3/api/v1/user/getrandomusers');
-            // console.log(response.data);  
-            setYouMayKnow(response.data);
         } catch (error) {
             console.log(error);
         }
     };
 
-    // Function to fetch posts
+    const getRandomUser = async () => {
+        try {
+            const response = await axios.get('https://siddharthapro.in/app3/api/v1/user/getrandomusers');
+            console.log(response.data);
+            const randomUsers = response.data.filter((user) => user._id !== data._id);
+            // console.log(randomUsers);
+            setYouMayKnow(randomUsers);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const getPosts = async () => {
         try {
             const response = await axios.get('https://siddharthapro.in/app3/api/v1/post/getposts');
-            // console.log(response.data);
             setPosts(response.data);
         } catch (error) {
             console.log(error);
         }
     };
 
-    // Function to toggle followers
     const toggleFollowers = async (username) => {
         try {
-            // console.log(data);
-
-            console.log(data.userName, 'will follow', username);
             const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/togglefollowers?username=${username}&presentUser=${data.userName}`);
-            console.log(response.data);
-            // refresh the page
             getRandomUser();
             getPosts();
             getUserData();
@@ -70,28 +67,22 @@ function Community() {
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
-    // Function to toggle the modal visibility
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
     };
 
-    // Handle change for text input in the form
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // Handle change for file input in the form
     const handleFileChange = (e) => {
         setFormData({ ...formData, media: e.target.files[0] });
     };
 
-    // Handle form submission for creating a post
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Preparing form data to be submitted
         const formDataToSubmit = new FormData();
         Object.keys(formData).forEach(key => {
             formDataToSubmit.append(key, formData[key]);
@@ -99,16 +90,8 @@ function Community() {
         formDataToSubmit.append('author', data._id);
 
         try {
-
-            // Ensure a media file is selected
-            if (!formData.media) {
-                alert('Please select a file');
-                return;
-            }
-            // Add a loader
             setLoader(true);
-            // Send the form data to the server
-            const response = await axios.post('https://siddharthapro.in/app3/api/v1/post/create', formDataToSubmit, {
+            const response = await axios.post('http://localhost:4000/api/v1/post/create', formDataToSubmit, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -116,123 +99,223 @@ function Community() {
             console.log(response.data);
             alert('Post created successfully!');
             setLoader(false);
-            toggleModal(); // Close the modal after successful submission
+            toggleModal();
         } catch (error) {
             console.error(error);
             alert(error.message);
         }
     };
 
+    // Handle comments submission
+    const handleCommentsSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            // Prepare the comment data
+
+            const commentData = {
+                commentText: formData.comment,
+                postId: selectedPostId, // Make sure you have a selectedPostId from the clicked post
+                userId: data._id,
+            };
+            // console.log(commentData);
+            // Send the comment data to the server
+            const response = await axios.post('http://localhost:4000/api/v1/post/comment', commentData);
+            console.log('Comment submitted:', response.data);
+
+            // Update the UI or refresh the comments after successful submission
+            alert('Comment submitted successfully!');
+            setFormData({ comment: '' });
+            setIsCommentModalOpen(false); // Close the comment modal
+            getPosts(); // Optionally refresh posts to show the new comment
+        } catch (error) {
+            console.error('Error submitting comment:', error);
+            alert('Failed to submit comment');
+        }
+    };
+
+    const getComments = async (postId) => {
+        try {
+            const response = await axios.get(`http://localhost:4000/api/v1/post/getcomments?postId=${postId}`);
+            console.log(response.data);
+            setComments(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const sharePost = async (postId) => {
         try {
             navigator.clipboard.writeText(`https://siddharthapro.in/app3/api/v1/post/getpostbyid?id=${postId}`)
                 .then(() => {
-                    // If successful, show a success message
                     setCopySuccess('Text copied to clipboard!');
                 })
                 .catch(() => {
-                    // If an error occurs
                     setCopySuccess('Failed to copy text');
                 });
             alert('Share Link Copied to Clipboard!');
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
         }
-    }
+    };
 
-    // Fetch random users and posts when the component mounts
     useEffect(() => {
-        toggleFollowers();
         getRandomUser();
         getPosts();
         getUserData();
     }, []);
 
+
     return (
         <>
             {isModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-                    <div className="flex flex-col items-center justify-center bg-gray-100 rounded-lg">
-                        <div className='grid grid-cols-2 p-4'>
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="flex flex-col items-center justify-center bg-black rounded-lg p-6 border border-gray-700">
+                        {/* Modal Header */}
+                        <div className='grid grid-cols-2 w-full'>
                             <div>
-                                <h2 className="text-2xl font-bold">Create New Post</h2>
+                                <h2 className="text-2xl font-bold text-white">Create New Post</h2>
                             </div>
                             <div className='flex justify-end'>
                                 <button onClick={toggleModal}>
-                                    <X size={32} color='black' />
+                                    <X size={32} color='white' />
                                 </button>
                             </div>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="w-full max-w-md p-6 bg-white rounded-md shadow-md">
+                        {/* Loader or Form */}
+                        {loader ? (
+                            <Loader />
+                        ) : (
+                            <form onSubmit={handleSubmit} className="w-full max-w-md mt-4">
+                                {/* Title Input */}
+                                <textarea
+                                    name="title"
+                                    placeholder="Enter post description"
+                                    value={formData.title}
+                                    onChange={handleInputChange}
+                                    className="w-full h-32 p-3 bg-black text-white border border-gray-700 rounded-md mb-4 resize-none"
+                                />
+
+                                {/* File Input */}
+                                <input
+                                    type="file"
+                                    name="media"
+                                    onChange={handleFileChange}
+                                    accept="image/*"
+                                    className="w-full p-3 bg-black text-white border border-gray-700 rounded-md mb-4"
+                                />
+
+                                {/* Image Preview */}
+                                {formData.media && (
+                                    <div className="mb-4">
+                                        <img
+                                            src={URL.createObjectURL(formData.media)}
+                                            alt="Preview"
+                                            className="w-full h-48 object-cover rounded-md"
+                                        />
+                                    </div>
+                                )}
+
+                                {/* Submit Button */}
+                                <div className="flex justify-end">
+                                    <button
+                                        type="submit"
+                                        className="px-4 py-2 font-semibold text-white bg-gray-800 rounded-md hover:bg-gray-600 transition duration-200"
+                                    >
+                                        Post
+                                    </button>
+                                </div>
+                            </form>
+                        )}
+                    </div>
+                </div>
+
+            )}
+
+            {isCommentModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="w-full max-w-lg bg-black rounded-lg shadow-lg border border-gray-700">
+                        {/* Modal Header */}
+                        <div className="flex justify-between items-center p-4 border-b border-gray-700">
+                            <h2 className="text-xl font-bold text-white">Create New Comment</h2>
+                            <button onClick={() => setIsCommentModalOpen(!isCommentModalOpen)} className="focus:outline-none">
+                                <X size={24} color="white" />
+                            </button>
+                        </div>
+
+                        {/* Comments List */}
+                        <div className="p-4 max-h-96 overflow-y-auto">
+                            {comments.length > 0 ? (
+                                comments.map((comment) => (
+                                    <div key={comment._id} className="flex items-start space-x-4 py-4 border-b border-gray-700">
+                                        <img src={comment.author.profilePic} alt={comment.author.name} className="w-12 h-12 object-cover rounded-full" />
+                                        <div className="flex-1">
+                                            <div className="flex items-center space-x-2">
+                                                <p className="text-sm font-medium text-white">{comment.author.name}</p>
+                                            </div>
+                                            <p className="text-sm text-gray-400">@{comment.author.userName}</p>
+                                            <p className="mt-2 text-sm text-gray-300">{comment.comment}</p>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-center text-sm text-gray-400">No comments yet.</p>
+                            )}
+                        </div>
+
+                        {/* Comment Input Form */}
+                        <form onSubmit={handleCommentsSubmit} className="p-4 border-t border-gray-700">
                             <input
                                 type="text"
-                                name="title"
-                                placeholder="Enter title here"
-                                value={formData.title}
+                                name="comment"
+                                placeholder="Enter comment here"
+                                value={formData.comment}
                                 onChange={handleInputChange}
-                                className="w-full p-2 border border-gray-300 rounded-md mb-4"
+                                className="w-full p-3 bg-black text-white border border-gray-500 rounded-lg focus:outline-none focus:ring focus:ring-gray-500"
                             />
-
-                            <input
-                                type="file"
-                                name="media"
-                                onChange={handleFileChange}
-                                className="w-full p-2 border border-gray-300 rounded-md mb-4"
-                            />
-
-                            <div className="flex justify-end">
+                            <div className="mt-4 flex justify-end">
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 font-semibold text-white bg-black rounded-md hover:bg-gray-700 focus:outline-none"
+                                    className="px-4 py-2 font-semibold text-white bg-gray-800 rounded-md hover:bg-gray-600 transition duration-200"
                                 >
-                                    Post
+                                    Submit Comment
                                 </button>
                             </div>
                         </form>
                     </div>
                 </div>
+
+
             )}
-            {loader ? <Loader /> : null}
-            <div className='bg-gray-950 grid md:grid-cols-[1.2fr_3fr] mt-14 h-screen'>
-            <Header />
-
-                <div className='bg-gray-950 p-8 hidden md:block'>
-
-                    <div className='bg-gray-800 h-96 rounded-3xl'>
-                        {/* Cover image */}
+            <div className='bg-black grid grid-cols-1 md:grid-cols-[1.2fr_3fr] min-h-screen'>
+                <Header />
+                {/* Left section (Profile & People You May Know) */}
+                <div className='bg-black p-4 md:pb-8 hidden md:block border-r border-gray-700 pt-16' style={{ position: 'sticky', top: '0', height: '100vh' }}>
+                    {/* Profile Section */}
+                    <div className='bg-black md:h-96 mb-5 mt-5'>
                         <img
                             src="https://images.pexels.com/photos/1229042/pexels-photo-1229042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                             alt=""
-                            className='rounded-t-3xl w-full object-cover'
+                            className='w-full object-cover rounded-t-lg'
                             style={{ height: '150px' }}
                         />
-
-                        {/* Profile picture */}
                         <div className='flex justify-center relative' style={{ top: '-85px' }}>
                             <a
                                 href={`/userProfile?username=${user.userName}&presentUser=${data.userName}`}
-                                className='text-blue-500 hover:text-blue-300 rounded-lg transition-colors duration-200'
+                                className='text-blue-500 hover:text-blue-300 transition-colors duration-200'
                             >
-
                                 <img
                                     src={user.profilePic}
                                     alt=""
-                                    className='rounded-full w-40 h-40 object-cover border-4 border-white'
+                                    className='rounded-full w-32 h-32 sm:w-40 sm:h-40 object-cover border-2 border-white'
                                 />
                             </a>
                         </div>
-                        <div className=' justify-center' style={{ top: '-75px', position: 'relative' }}>
-                            <h1 className='text-white text-2xl text-center'>{user.name}</h1>
-                            <h2 className='text-gray-400 text-md text-center'>@{user.userName}</h2>
-                            <p className='text-gray-400 text-sm text-center mb-4'>{user.bio}</p>
-
-                            {/* User info */}
-
-                            {/* Follow section */}
-                            <div className='flex justify-around mb-5'>
+                        <div className='text-center' style={{ top: '-60px', position: 'relative' }}>
+                            <h1 className='text-white text-2xl'>{user.name}</h1>
+                            <h2 className='text-gray-400 text-md'>@{user.userName}</h2>
+                            <p className='text-gray-400 text-sm mb-4'>{user.bio}</p>
+                            <div className='flex justify-around'>
                                 <div className='text-center'>
                                     <h1 className='text-white text-lg'>Followers</h1>
                                     <p className='text-gray-400'>{user.followers?.length || 0}</p>
@@ -242,20 +325,11 @@ function Community() {
                                     <p className='text-gray-400'>{user.following?.length || 0}</p>
                                 </div>
                             </div>
-                            {/* Profile button */}
-                            {/* <div className='flex justify-center'>
-                                <a
-                                    href={`/userProfile?username=${user.userName}&presentUser=${data.userName}`}
-                                    className='text-blue-500 hover:text-blue-300 py-2 px-6 rounded-lg mb-6 transition-colors duration-200'
-                                >
-                                    My Profile
-                                </a>
-                            </div> */}
                         </div>
                     </div>
 
-                    {/* People You May Know section */}
-                    <div className='bg-gray-800 rounded-3xl mt-5 p-4'>
+                    {/* People You May Know Section */}
+                    <div className='bg-black border-t border-gray-700 p-4'>
                         <h1 className='text-white text-lg font-semibold mb-3'>People You May Know</h1>
                         <div className='space-y-4'>
                             {youMayKnow.map((item, index) => (
@@ -264,117 +338,108 @@ function Community() {
                                         <img
                                             src={item.profilePic}
                                             alt=""
-                                            className='rounded-full h-12 w-12 object-cover'
+                                            className='rounded-full h-10 w-10 sm:h-12 sm:w-12 object-cover'
                                         />
                                     </a>
                                     <div className='ml-4'>
                                         <a href={`/userProfile?username=${item.userName}&presentUser=${data.userName}`}>
-                                            <h1 className='text-white text-md font-semibold'>{item.name}</h1>
+                                            <h1 className='text-white text-md'>{item.name}</h1>
                                             <h2 className='text-gray-400 text-sm'>@{item.userName}</h2>
                                         </a>
                                     </div>
                                     {data.userName === item.userName ? null : (
                                         data.following?.includes(String(item._id)) ? (
                                             <button
-                                                className='ml-auto text-red-500 hover:text-red-300 py-1 px-4 rounded-lg bg-gray-700 transition-colors duration-200'
+                                                className='ml-auto text-red-500 hover:text-red-300 py-1 px-3  font-semibold transition-colors duration-200'
                                                 onClick={() => toggleFollowers(item.userName)}
                                             >
                                                 Unfollow
                                             </button>
                                         ) : (
                                             <button
-                                                className='ml-auto text-blue-500 hover:text-blue-300 py-1 px-4 rounded-lg bg-gray-700 transition-colors duration-200'
+                                                className='ml-auto text-blue-500 hover:text-blue-300 py-1 px-3 font-semibold transition-colors duration-200'
                                                 onClick={() => toggleFollowers(item.userName)}
                                             >
                                                 Follow
                                             </button>
                                         )
                                     )}
-
                                 </div>
                             ))}
                         </div>
                     </div>
                 </div>
 
-                <div className='bg-gray-950 overflow-y-auto pt-8 pr-3 custom-scrollbar '>
-                    <div className="bg-gray-800 rounded-3xl flex items-center pt-3 pb-3 pr-3 md:pl-3">
+                {/* Right section (Posts List) */}
+                <div className='bg-black overflow-y-auto pt-14 md:pt-16'>
+                    <div className="bg-black flex items-center p-3 border-b border-gray-700">
                         <a href={`/userProfile?username=${user.userName}&presentUser=${data.userName}`}>
                             <img
                                 src={data.profilePic}
                                 alt=""
-                                className="object-cover rounded-full w-12 h-12 ml-2 mr-2 border-2 border-white"
+                                className="object-cover rounded-full w-10 h-10 sm:w-12 sm:h-12 ml-2 mr-2 border-2 border-white"
                             />
                         </a>
                         <button
-                            placeholder="What's up there?"
-                            className="w-full ml-3 md:ml-0 p-3 rounded-2xl bg-gray-700 text-gray-300 outline-none resize-none h-12 readonly text-left cursor pointer"
+                            className="w-full ml-3 p-3 bg-transparent text-white border border-gray-700 text-left cursor-pointer rounded-md"
                             onClick={() => {
-                                toggleModal()
-                                console.log('clicked');
+                                toggleModal();
                             }}
                         >
                             What's up there?
                         </button>
                     </div>
-                    {
-                        posts.map((item, index) => (
-                            <div className="bg-gray-800 rounded-3xl p-3 mb-4 mt-4" key={index}>
-                                <a href={`/userProfile?username=${item.author.userName}&presentUser=${data.userName}`}>
-                                    <div className="flex items-center">
-                                        <img
-                                            src={item.author.profilePic}
-                                            alt=""
-                                            className="object-cover rounded-full w-12 h-12 ml-2 mr-2 border-2 border-white"
-                                        />
-                                        <div className="flex flex-col">
-                                            <p className="text-white font-semibold text-md mt-2">
-                                                {item.author.name}
-                                            </p>
-                                            <p className="text-gray-400 text-sm" style={{ position: 'relative', top: '-4px' }}>
-                                                @{item.author.userName}
-                                            </p>
-                                        </div>
-                                        <div className='ml-auto'>
-                                            <button className='justify-center items-center flex mr-5'
-                                                onClick={() => sharePost(item._id)}>
 
-                                                <Share color="#ffffff" />
-                                                <p className='text-gray-400 text-sm ml-1'>Share</p>
-                                            </button>
-                                        </div>
+                    {posts.map((item, index) => (
+                        <div className="bg-black p-4 mb-4 border-b border-gray-700" key={index}>
+                            <a href={`/userProfile?username=${item.author.userName}&presentUser=${data.userName}`}>
+                                <div className="flex items-center">
+                                    <img
+                                        src={item.author.profilePic}
+                                        alt=""
+                                        className="object-cover rounded-full w-10 h-10 sm:w-12 sm:h-12 ml-2 mr-2 border-2 border-white"
+                                    />
+                                    <div className="flex flex-col">
+                                        <p className="text-white font-semibold text-md">
+                                            {item.author.name}
+                                        </p>
+                                        <p className="text-white text-sm">
+                                            @{item.author.userName}
+                                        </p>
                                     </div>
-                                </a>
-                                {
-                                    !item.media ? (
-                                        <div className="">
-                                            <p className="text-white text-md mt-2 ml-2 break-words mb-2 ">{item.title}</p>
-                                            <img src={item.mediaUrl} alt="" className="rounded-xl h-80 w-full mx-auto object-cover aspect-auto" />
-                                        </div>
-                                    ) : (
-                                        <p className="text-white text-md mt-2 ml-2 break-words mb-2 ">{item.description}</p>
-                                    )
-                                }
-                                <div className="mt-4 grid grid-cols-2 hidden block">
-                                    <button className='justify-center items-center flex'>
-                                        <HeartIcon className="w-6 h-6" color='#ffffff' />
-                                        <p className='text-gray-400 text-sm ml-1'>Like</p>
-                                    </button>
-                                    {/* <button className='justify-center items-center flex border-l border-r'>
-                                        <MessageSquareMore color="#ffffff" />
-                                        <p className='text-gray-400 text-sm ml-1'>Comments</p>
-                                    </button> */}
-                                    <button className='justify-center items-center flex'>
-                                        <Share color="#ffffff" />
-                                        <p className='text-gray-400 text-sm ml-1'>Share</p>
-                                    </button>
                                 </div>
+                            </a>
+                            <div className="mt-3">
+                                <p className="text-white text-md mb-2 break-words">{item.title}</p>
+                                {item.mediaUrl && (
+                                    <img src={item.mediaUrl} alt="" className="w-full h-48 sm:h-64 md:h-80 lg:h-96 object-cover" />
+                                )}
                             </div>
-                        ))
-                    }
+                            <div className="mt-4 grid grid-cols-3 text-center border-t border-gray-700 pt-2">
+                                <button className='flex justify-center items-center hover:text-gray-500'>
+                                    <HeartIcon className="w-6 h-6 text-white" />
+                                    <p className='text-white text-sm ml-1'>Like</p>
+                                </button>
+                                <button className='flex justify-center items-center hover:text-gray-500'
+                                    onClick={() => {
+                                        getComments(item._id);
+                                        setSelectedPostId(item._id);
+                                        setIsCommentModalOpen(true);
+                                    }}>
+                                    <MessageSquareMore className="w-6 h-6 text-white" />
+                                    <p className='text-white text-sm ml-1'>Comments</p>
+                                </button>
+                                <button className='flex justify-center items-center hover:text-gray-500'
+                                    onClick={() => sharePost(item._id)}>
+                                    <Share className="w-6 h-6 text-white" />
+                                    <p className='text-white text-sm ml-1'>Share</p>
+                                </button>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-
             </div>
+
         </>
     )
 }
