@@ -91,7 +91,7 @@ function Community() {
 
         try {
             setLoader(true);
-            const response = await axios.post('http://localhost:4000/api/v1/post/create', formDataToSubmit, {
+            const response = await axios.post('https://siddharthapro.in/app3/api/v1/post/create', formDataToSubmit, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -119,7 +119,7 @@ function Community() {
             };
             // console.log(commentData);
             // Send the comment data to the server
-            const response = await axios.post('http://localhost:4000/api/v1/post/comment', commentData);
+            const response = await axios.post('https://siddharthapro.in/app3/api/v1/post/comment', commentData);
             console.log('Comment submitted:', response.data);
 
             // Update the UI or refresh the comments after successful submission
@@ -135,7 +135,7 @@ function Community() {
 
     const getComments = async (postId) => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/v1/post/getcomments?postId=${postId}`);
+            const response = await axios.get(`https://siddharthapro.in/app3/api/v1/post/getcomments?postId=${postId}`);
             console.log(response.data);
             setComments(response.data);
         } catch (error) {
