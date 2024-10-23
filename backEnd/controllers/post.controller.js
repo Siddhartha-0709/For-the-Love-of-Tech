@@ -40,12 +40,19 @@ const createPost = async (req, res) => {
 
 const getPosts = async (req, res) => {
     try {
-        const posts = await postModel.find().populate('author', '-password -__v');
-        res.status(200).json(posts);
+        const posts = await postModel.find()
+            .populate('author', '-password');  
+        const responsePosts = posts.map(post => ({
+            ...post.toObject(), 
+            likes: post.likes.map(like => like.toString())
+        }));
+
+        res.status(200).json(responsePosts);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 }
+
 
 const getPostsByUser = async (req, res) => {
     try {
@@ -68,8 +75,15 @@ const deletePost = async (req, res) => {
 
 const likePost = async (req, res) => {
     try {
-        const updatedPost = await postModel.findOneAndUpdate({ _id: req.params.id }, { $inc: { likes: 1 } });
-        res.status(200).send(updatedPost);
+        const { postId, userId } = req.query;
+        const post = await postModel.findById(postId);
+        if(post.likes.includes(userId)) {
+            post.likes.splice(post.likes.indexOf(userId), 1);
+        } else {
+            post.likes.push(userId);
+        }
+        const updatedPost = await post.save();
+        res.status(200).json(updatedPost);
     } catch (error) {
         res.status(500).send(error);
     }

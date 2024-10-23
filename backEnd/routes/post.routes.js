@@ -1,5 +1,5 @@
 import Router from "express";
-import { commentOnPost, createPost, deletePost, getCommentsbyPostId, getPostbyId, getPosts } from "../controllers/post.controller.js";
+import { commentOnPost, createPost, deletePost, getCommentsbyPostId, getPostbyId, getPosts, likePost } from "../controllers/post.controller.js";
 import {upload} from "../middlewares/multer.middleware.js";
 const router = Router();
 
@@ -16,4 +16,6 @@ router.route('/delete').get(deletePost);
 router.route('/getpostbyid').get(getPostbyId);
 router.route('/comment').post(commentOnPost);
 router.route('/getcomments').get(getCommentsbyPostId);
+router.route('/likepost').get(likePost);
+
 export default router

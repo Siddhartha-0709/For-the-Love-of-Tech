@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import Header from './Header';
 import Loader from './Loader';
+import Heart from 'react-animated-heart';
 function Community() {
     // Extracting data from location state
     const location = useLocation();
@@ -51,6 +52,8 @@ function Community() {
     const getPosts = async () => {
         try {
             const response = await axios.get('https://siddharthapro.in/app3/api/v1/post/getposts');
+            console.log('Posts');
+            console.log(response.data);
             setPosts(response.data);
         } catch (error) {
             console.log(error);
@@ -157,6 +160,19 @@ function Community() {
             console.log(err);
         }
     };
+
+    const likePost = async (postId) => {
+        alert('Post Liked!');
+        try {
+            const response = await axios.get(`https://siddharthapro.in/app3/api/v1/post/likepost?postId=${postId}&userId=${data._id}`);
+            console.log(response.data);
+            window.location.reload();
+        }
+        catch (err) {
+            console.log(err);
+        }
+    } 
+
 
     useEffect(() => {
         getRandomUser();
@@ -287,6 +303,7 @@ function Community() {
 
 
             )}
+
             <div className='bg-black grid grid-cols-1 md:grid-cols-[1.2fr_3fr] min-h-screen'>
                 <Header />
                 {/* Left section (Profile & People You May Know) */}
@@ -416,9 +433,21 @@ function Community() {
                                 )}
                             </div>
                             <div className="mt-4 grid grid-cols-3 text-center border-t border-gray-700 pt-2">
-                                <button className='flex justify-center items-center hover:text-gray-500'>
-                                    <HeartIcon className="w-6 h-6 text-white" />
-                                    <p className='text-white text-sm ml-1'>Like</p>
+                                <button className='flex justify-center items-center hover:text-gray-500'
+                                onClick={()=>likePost(item._id)}>
+                                    {
+                                        item.likes?.includes(data._id) ? (
+                                            <>
+                                                <HeartIcon className="w-6 h-6 text-red-500" />
+                                                <p className='text-white text-sm ml-1'>Liked</p>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <HeartIcon className="w-6 h-6 text-white" />
+                                                <p className='text-white text-sm ml-1'>Like</p>
+                                            </>
+                                        )
+                                    }
                                 </button>
                                 <button className='flex justify-center items-center hover:text-gray-500'
                                     onClick={() => {
