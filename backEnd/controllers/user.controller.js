@@ -129,5 +129,13 @@ const toggleFollow = async (req, res) => {
     }
 };
 
+const getUsers = async (req, res) => {
+    try {
+        const users = await userModel.find();
+        res.status(200).json(users);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
 
-export { signUp, signIn, updateProfile, deleteProfile, getFourRandomUsers, getUserDetails, toggleFollow };
+export { signUp, signIn, updateProfile, getUsers, deleteProfile, getFourRandomUsers, getUserDetails, toggleFollow };

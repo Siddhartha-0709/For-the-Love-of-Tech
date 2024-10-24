@@ -8,6 +8,7 @@ import Header from './Header';
 import Loader from './Loader';
 import Heart from 'react-animated-heart';
 import Loader2 from './Loader2';
+import Trending from './TrendingandSearch';
 function Community() {
     // Extracting data from location state
     const location = useLocation();
@@ -483,49 +484,8 @@ function Community() {
                     ))}
                 </div>
 
-                <div className='bg-black p-4 md:pb-8 hidden md:block border-l border-gray-700 pt-16' style={{ position: 'sticky', top: '0', height: '100vh' }}>
-                    {/* Search */}
-                    <div className='bg-black mb-5 mt-5'>
-                        <h1 className='text-white text-lg font-semibold mb-3'>Search for People</h1>
-                        <input type="text" name="" placeholder="Search for People" id="" className='w-full bg-black border border-gray-700 p-3 text-white rounded-3xl 
-                        hover:border-gray-300
-                        ' />
-                        <div>
+                <Trending data={data}/>
 
-                        </div>
-                    </div>
-
-                    {/* Trending Topics */}
-                    <div className='bg-black border-t border-gray-700 p-4'>
-                        <h1 className='text-white text-xl font-bold mb-3'>Trending Topics</h1>
-                        <div className='space-y-4 overflow-y-auto max-h-[70vh] custom-scrollbar'>
-                            <div className='mb-4 border-b border-gray-700 pb-5'>
-                                <h1 className='text-white text-lg font-semibold mb-3'>
-                                    Anthropic announces new AI Model that can control your PC
-                                </h1>
-                                <p className='text-white text-sm'>
-                                    Anthropic's new Claude 3.5 Sonnet model interacts with any desktop app via a 'Computer Use' API, enabling it to mimic human actions like keystrokes and mouse movements. Available in open beta, the AI automates tasks and uses standard tools, aiding developers in testing, QA, and research.
-                                </p>
-                            </div>
-                            <div className='mb-4 border-b border-gray-700 pb-5'>
-                                <h1 className='text-white text-lg font-semibold mb-3'>
-                                    Anthropic announces new AI Model that can control your PC
-                                </h1>
-                                <p className='text-white text-sm'>
-                                    Anthropic's new Claude 3.5 Sonnet model interacts with any desktop app via a 'Computer Use' API, enabling it to mimic human actions like keystrokes and mouse movements. Available in open beta, the AI automates tasks and uses standard tools, aiding developers in testing, QA, and research.
-                                </p>
-                            </div>
-                            <div className='mb-4 border-b border-gray-700 pb-5'>
-                                <h1 className='text-white text-lg font-semibold mb-3'>
-                                    Anthropic announces new AI Model that can control your PC
-                                </h1>
-                                <p className='text-white text-sm pb-3'>
-                                    Anthropic's new Claude 3.5 Sonnet model interacts with any desktop app via a 'Computer Use' API, enabling it to mimic human actions like keystrokes and mouse movements. Available in open beta, the AI automates tasks and uses standard tools, aiding developers in testing, QA, and research.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </>
     )
