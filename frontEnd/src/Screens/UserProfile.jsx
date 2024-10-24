@@ -140,7 +140,7 @@ function UserProfile() {
         });
     };
 
-     const handleCommentsSubmit = async (e) => {
+    const handleCommentsSubmit = async (e) => {
         e.preventDefault();
         try {
             // Prepare the comment data
@@ -154,7 +154,7 @@ function UserProfile() {
             alert('Comment submitted successfully!');
             setFormData({ comment: '' });
             setIsCommentModalOpen(false);
-            
+
             window.location.reload();
         } catch (error) {
             console.error('Error submitting comment:', error);
@@ -412,7 +412,11 @@ function UserProfile() {
 
                 {/* Posts Section */}
                 <div className='bg-black border border-gray-700 mt-6 pt-16 pl-4 pr-4 rounded-lg min-h-screen overflow-y-auto custom-scrollbar'>
-                    <h1 className='text-white text-2xl font-semibold mb-4'>Your Posts</h1>
+                    {currentUserData.userName === username ? (
+                        <h1 className='text-white text-2xl font-semibold mb-4'>Your Posts</h1>
+                    ):(
+                        <h1 className='text-white text-2xl font-semibold mb-4'>Posts</h1>)}
+
                     {posts && posts.length > 0 ? (
                         posts.map(post => (
                             <div key={post._id} className='bg-black text-white mt-4 p-8 w-full mx-auto rounded-lg border border-gray-700'>
@@ -484,7 +488,7 @@ function UserProfile() {
                     )}
                 </div>
                 {/* Search Section and Trending */}
-                    <Trending data={currentUserData} />
+                <Trending data={currentUserData} />
             </div>
 
         </>
