@@ -10,19 +10,19 @@ cloudinary.config({
 const uploadOnCloudinary = async(localFilePath)=>{
     try{
         localFilePath = path.normalize(localFilePath);
-        console.log('File Path:', localFilePath);
+        // console.log('File Path:', localFilePath);
         
         if(!localFilePath){
             return null;
         }
         //upload file on cloudinary
-        console.log("Uploading file on Cloudinary");
+        // console.log("Uploading file on Cloudinary");
         const response = await cloudinary.uploader.upload(localFilePath, {
             resource_type: "auto",
             folder: "spaces",
         })
         //file is uploaded successfully
-        console.log("File is Uploaded on Cloudinary", response.secure_url);
+        // console.log("File is Uploaded on Cloudinary", response.secure_url);
         if(!response.secure_url){
             throw new Error("File not uploaded on Cloudinary");
         }
@@ -34,4 +34,20 @@ const uploadOnCloudinary = async(localFilePath)=>{
     }
 }
 
-export default uploadOnCloudinary
+const deleteOnCloudinary = async(url)=>{
+    try{
+        if(!url){
+            return null;
+        }
+        const publicId = url.split('/').pop().split('.')[0]; // Get the public ID from the URL
+        // console.log("Deleting file on Cloudinary");
+        // console.log(publicId);
+        const response = await cloudinary.uploader.destroy('spaces/' + publicId).then((response)=>{console.log('Cloudinary Response-->',response);});
+        return response;
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+
+export  {uploadOnCloudinary, deleteOnCloudinary};

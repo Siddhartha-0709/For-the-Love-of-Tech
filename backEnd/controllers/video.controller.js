@@ -1,4 +1,4 @@
-import uploadOnCloudinary from "../middlewares/cloudinary.middleware.js";
+import {uploadOnCloudinary} from "../middlewares/cloudinary.middleware.js";
 import courseModel from "../models/course.model.js";
 import videoModel from "../models/video.model.js";
 import ytdl from "ytdl-core";

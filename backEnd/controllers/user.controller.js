@@ -1,6 +1,6 @@
 import userModel from "../models/user.model.js";
 import postModel from "../models/post.model.js";
-import uploadOnCloudinary from "../middlewares/cloudinary.middleware.js";
+import {uploadOnCloudinary} from "../middlewares/cloudinary.middleware.js";
 
 const signUp = async (req, res) => {
     // console.log(req.body);

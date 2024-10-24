@@ -1,5 +1,5 @@
 import postModel from "../models/post.model.js";
-import uploadOnCloudinary from "../middlewares/cloudinary.middleware.js";
+import {uploadOnCloudinary, deleteOnCloudinary} from "../middlewares/cloudinary.middleware.js";
 import userModel from "../models/user.model.js";
 import commentsModel from "../models/comments.model.js";
 
@@ -67,6 +67,10 @@ const deletePost = async (req, res) => {
     try {
         console.log(req.query.postId);
         const deletedPost = await postModel.findOneAndDelete({ _id: req.query.postId });
+        if(deletedPost.mediaUrl) {
+            deleteOnCloudinary(deletedPost.mediaUrl);
+        }
+        console.log(deletedPost);
         res.status(200).send(deletedPost, 'Post Deleted Successfully');
     } catch (error) {
         res.status(500).send(error);

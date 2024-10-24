@@ -1,4 +1,4 @@
-import uploadOnCloudinary from "../middlewares/cloudinary.middleware.js";
+import {uploadOnCloudinary} from "../middlewares/cloudinary.middleware.js";
 import courseModel from "../models/course.model.js";
 const updateCourse = async (req, res) => {
     const {courseName, author, description, price} = req.body;
