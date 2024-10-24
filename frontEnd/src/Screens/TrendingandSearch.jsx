@@ -11,7 +11,7 @@ function Trending({ data }) {
     // Fetch trending topics
     const getTrending = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/api/v1/trending/gettopics');
+            const response = await axios.get('https://siddharthapro.in/app3/api/v1/trending/gettopics');
             // console.log(response.data);
             setTrending(response.data);
         } catch (error) {
@@ -22,7 +22,7 @@ function Trending({ data }) {
     // Fetch user profiles (assuming this endpoint exists)
     const getProfiles = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/api/v1/user/getusers');
+            const response = await axios.get('https://siddharthapro.in/app3/api/v1/user/getusers');
             // console.log(response.data);
             setProfiles(response.data);
             // setFilteredProfiles(response.data); // Initially show all profiles
