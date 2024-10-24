@@ -317,7 +317,7 @@ function Community() {
 
             )}
 
-            <div className='bg-black grid grid-cols-1 md:grid-cols-[1.2fr_3fr] min-h-screen'>
+            <div className='bg-black grid grid-cols-1 md:grid-cols-[2.5fr_3.8fr_2.5fr] min-h-screen'>
                 <Header />
                 {/* Left section (Profile & People You May Know) */}
                 <div className='bg-black p-4 md:pb-8 hidden md:block border-r border-gray-700 pt-16' style={{ position: 'sticky', top: '0', height: '100vh' }}>
@@ -400,9 +400,9 @@ function Community() {
                     </div>
                 </div>
 
-                {/* Right section (Posts List) */}
-                <div className='bg-black overflow-y-auto pt-14 md:pt-16'>
-                    <div className="bg-black flex items-center p-3 border-b border-gray-700">
+                {/* Center section (Posts List) */}
+                <div className='bg-black overflow-y-auto pt-14 md:pt-16 md:w-full'>
+                    <div className="bg-black flex items-center p-3 border-b border-gray-700 mt-5">
                         <a href={`/userProfile?username=${user.userName}&presentUser=${data.userName}`}>
                             <img
                                 src={data.profilePic}
@@ -482,8 +482,51 @@ function Community() {
                         </div>
                     ))}
                 </div>
-            </div>
 
+                <div className='bg-black p-4 md:pb-8 hidden md:block border-l border-gray-700 pt-16' style={{ position: 'sticky', top: '0', height: '100vh' }}>
+                    {/* Search */}
+                    <div className='bg-black mb-5 mt-5'>
+                        <h1 className='text-white text-lg font-semibold mb-3'>Search for People</h1>
+                        <input type="text" name="" placeholder="Search for People" id="" className='w-full bg-black border border-gray-700 p-3 text-white rounded-3xl 
+                        hover:border-gray-300
+                        ' />
+                        <div>
+
+                        </div>
+                    </div>
+
+                    {/* Trending Topics */}
+                    <div className='bg-black border-t border-gray-700 p-4'>
+                        <h1 className='text-white text-xl font-bold mb-3'>Trending Topics</h1>
+                        <div className='space-y-4 overflow-y-auto max-h-[70vh] custom-scrollbar'>
+                            <div className='mb-4 border-b border-gray-700 pb-5'>
+                                <h1 className='text-white text-lg font-semibold mb-3'>
+                                    Anthropic announces new AI Model that can control your PC
+                                </h1>
+                                <p className='text-white text-sm'>
+                                    Anthropic's new Claude 3.5 Sonnet model interacts with any desktop app via a 'Computer Use' API, enabling it to mimic human actions like keystrokes and mouse movements. Available in open beta, the AI automates tasks and uses standard tools, aiding developers in testing, QA, and research.
+                                </p>
+                            </div>
+                            <div className='mb-4 border-b border-gray-700 pb-5'>
+                                <h1 className='text-white text-lg font-semibold mb-3'>
+                                    Anthropic announces new AI Model that can control your PC
+                                </h1>
+                                <p className='text-white text-sm'>
+                                    Anthropic's new Claude 3.5 Sonnet model interacts with any desktop app via a 'Computer Use' API, enabling it to mimic human actions like keystrokes and mouse movements. Available in open beta, the AI automates tasks and uses standard tools, aiding developers in testing, QA, and research.
+                                </p>
+                            </div>
+                            <div className='mb-4 border-b border-gray-700 pb-5'>
+                                <h1 className='text-white text-lg font-semibold mb-3'>
+                                    Anthropic announces new AI Model that can control your PC
+                                </h1>
+                                <p className='text-white text-sm pb-3'>
+                                    Anthropic's new Claude 3.5 Sonnet model interacts with any desktop app via a 'Computer Use' API, enabling it to mimic human actions like keystrokes and mouse movements. Available in open beta, the AI automates tasks and uses standard tools, aiding developers in testing, QA, and research.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     )
 }
