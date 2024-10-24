@@ -7,6 +7,7 @@ import { useState } from 'react';
 import Header from './Header';
 import Loader from './Loader';
 import Heart from 'react-animated-heart';
+import Loader2 from './Loader2';
 function Community() {
     // Extracting data from location state
     const location = useLocation();
@@ -212,7 +213,7 @@ function Community() {
 
                         {/* Loader or Form */}
                         {loader ? (
-                            <Loader />
+                            <Loader2 />
                         ) : (
                             <form onSubmit={handleSubmit} className="w-full max-w-md mt-4">
                                 {/* Title Input */}

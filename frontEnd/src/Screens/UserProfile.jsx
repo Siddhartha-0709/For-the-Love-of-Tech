@@ -136,144 +136,154 @@ function UserProfile() {
         <>
             {showModal ? (
                 <>
-                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-                        <div className="flex flex-col items-center justify-center bg-gray-100 rounded-lg p-8">
-                            <div className="mb-4 grid grid-cols-2 pl-10"> {/* Corrected to 'pl-10' */}
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="bg-black p-8 rounded-lg shadow-lg w-full max-w-md">
+                            {/* Modal Header */}
+                            <div className="flex justify-between items-center mb-6">
+                                <h2 className="text-2xl font-bold text-white">Edit your Profile</h2>
+                                <button onClick={toggleModal} className="focus:outline-none">
+                                    <X size={32} color='white' />
+                                </button>
+                            </div>
+
+                            {/* Modal Form */}
+                            <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-6">
+                                {/* Name Field */}
                                 <div>
-                                    <h2 className="text-2xl font-bold">Edit your Profile</h2>
+                                    <label htmlFor="name" className="block text-sm font-medium text-gray-400">Edit your Name</label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        id="name"
+                                        onChange={(e) => setCurrentUserData({ ...currentUserData, name: e.target.value })}
+                                        placeholder={currentUserData.name}
+                                        className="mt-1 block w-full p-3 rounded-md border border-gray-700 bg-black text-white focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    />
                                 </div>
-                                <div className='flex justify-end'>
-                                    <button onClick={toggleModal}>
-                                        <X size={32} color='black' /> {/* Ensure X is properly imported */}
+
+                                {/* Bio Field */}
+                                <div>
+                                    <label htmlFor="bio" className="block text-sm font-medium text-gray-400">Edit your Bio</label>
+                                    <input
+                                        type="text"
+                                        name="bio"
+                                        id="bio"
+                                        onChange={(e) => setCurrentUserData({ ...currentUserData, bio: e.target.value })}
+                                        placeholder={currentUserData.bio}
+                                        className="mt-1 block w-full p-3 rounded-md border border-gray-700 bg-black text-white focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    />
+                                </div>
+
+                                {/* Profile Picture Upload */}
+                                <div>
+                                    <label htmlFor="profilePic" className="block text-sm font-medium text-gray-400">Upload your Profile Picture</label>
+                                    <input
+                                        type="file"
+                                        name="profilePic"
+                                        id="profilePic"
+                                        accept="image/*"
+                                        className="mt-1 block w-full p-3 rounded-md border border-gray-700 bg-black text-gray-400 file:bg-black file:border file:text-white focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    />
+                                </div>
+
+                                {/* Submit Button */}
+                                <div className="flex justify-center">
+                                    <button
+                                        type="submit"
+                                        className="inline-flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    >
+                                        Submit
                                     </button>
                                 </div>
-                            </div>
-                            <div className="space-y-4">
-                                <form onSubmit={handleSubmit} encType="multipart/form-data"> {/* Removed method="post" */}
-                                    <div className="mb-4">
-                                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">Edit your Name</label>
-                                        <input
-                                            type="text"
-                                            name="name"
-                                            id="name"
-                                            onChange={(e) => setCurrentUserData({ ...currentUserData, name: e.target.value })}
-                                            placeholder={currentUserData.name}
-                                            className="mt-1 block h-8 p-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                        />
-                                    </div>
-                                    <div className="mb-4">
-                                        <label htmlFor="bio" className="block text-sm font-medium text-gray-700">Edit your bio</label>
-                                        <input
-                                            type="text"
-                                            name="bio"
-                                            id="bio"
-                                            onChange={(e) => setCurrentUserData({ ...currentUserData, bio: e.target.value })}
-                                            placeholder={currentUserData.bio}
-                                            className="mt-1 block h-8 p-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                        />
-                                    </div>
-
-                                    <div className="mb-4">
-                                        <label htmlFor="profilePic" className="block text-sm font-medium text-gray-700">Upload your profile picture</label>
-                                        <input
-                                            type="file"
-                                            name="profilePic"
-                                            id="profilePic"
-                                            accept="image/*" /* Added file type validation */
-                                            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                        />
-                                    </div>
-
-                                    <div className="flex justify-center">
-                                        <button
-                                            type="submit"
-                                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                        >
-                                            Submit
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
+                            </form>
                         </div>
                     </div>
+
                 </>
             ) : null}
 
             <Header />
-            <div className="flex flex-col pt-8 md:p-8 bg-gray-900 mt-10">
-                <div className='bg-gray-800 rounded-2xl md:w-3/4 w-11/12 mx-auto'>
+            <div className="flex flex-col pt-8 md:p-8 bg-black mt-10 ">
+                <div className='bg-black rounded-lg md:w-3/4 w-11/12 mx-auto border border-gray-700'>
+                    {/* Cover Image */}
                     <img
                         src="https://images.pexels.com/photos/1229042/pexels-photo-1229042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                         alt="Cover"
-                        className='rounded-t-3xl h-3/4 w-full object-cover'
-                        style={{ height: '180px' }}
+                        className='h-48 w-full object-cover'
                     />
 
+                    {/* Profile Image */}
                     <img
                         src={user.profilePic}
-                        className='rounded-full h-40 w-40 object-cover'
+                        className='rounded-full h-40 w-40 object-cover border-4 border-black absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2'
                         alt="User profile"
                         style={{
-                            border: '2px solid white',
                             position: 'relative',
-                            top: '-85px',
-                            left: '50%',
-                            transform: 'translateX(-50%)',
+                            top: '-0px',
                         }}
                     />
 
-                    <h1 className='text-white text-xl text-center' style={{ position: 'relative', top: '-70px' }}>{user.name}</h1>
-                    <h1 className='text-gray-400 text-md text-center' style={{ position: 'relative', top: '-70px' }}>@{user.userName}</h1>
-                    <h1 className='text-gray-400 text-md text-center' style={{ position: 'relative', top: '-70px' }}>{user.bio}</h1>
+                    {/* User Details */}
+                    <div className="text-center mt-4" style={{ marginTop: '-75px' }}>
+                        <h1 className='text-white text-xl'>{user.name}</h1>
+                        <p className='text-gray-400 text-sm'>@{user.userName}</p>
+                        <p className='text-gray-400 text-sm'>{user.bio}</p>
+                    </div>
 
-                    <div className='grid grid-cols-2' style={{ position: 'relative', top: '-30px' }}>
-                        <div className='flex justify-center'>
-                            <div>
-                                <h1 className='text-white text-lg text-center'>{user.following.length}</h1>
-                                <h1 className='text-gray-400 text-lg text-center'>Following</h1>
-                            </div>
+                    {/* Followers & Following */}
+                    <div className='grid grid-cols-2 mt-6'>
+                        <div className='text-center'>
+                            <h1 className='text-white text-lg'>{user.following.length}</h1>
+                            <p className='text-gray-400'>Following</p>
                         </div>
-                        <div className='flex justify-center'>
-                            <div>
-                                <h1 className='text-white text-lg text-center'>{user.followers.length}</h1>
-                                <h1 className='text-gray-400 text-lg text-center'>Followers</h1>
-                            </div>
+                        <div className='text-center'>
+                            <h1 className='text-white text-lg'>{user.followers.length}</h1>
+                            <p className='text-gray-400'>Followers</p>
                         </div>
                     </div>
 
-                    <div className='justify-center items-center flex pb-4'>
-
-                        {currentUserData.name === user.name ? (<button className='text-blue-500 hover:text-blue-200 h-5 w-40 rounded-lg text-center font-semibold' onClick={toggleModal}>
-                            Edit Profile
-                        </button>) : (currentUserData.following.includes(String(user._id)) ? (<button className='text-red-500 hover:text-blue-200 h-5 w-40 rounded-lg text-center font-semibold' onClick={() => toggleFollowers(username)}>
-                            Unfollow
-                        </button>) : (<button className='text-blue-500 hover:text-blue-200 h-5 w-40 rounded-lg text-center font-semibold' onClick={() => toggleFollowers(username)}>
-                            Follow
-                        </button>))
-                        }
-
-
+                    {/* Profile Action Button */}
+                    <div className='text-center mt-4 pb-4'>
+                        {currentUserData.name === user.name ? (
+                            <button
+                                className='text-white bg-black hover:text-blue-700 py-2 px-4 rounded-lg font-semibold'
+                                onClick={toggleModal}
+                            >
+                                Edit Profile
+                            </button>
+                        ) : currentUserData.following.includes(String(user._id)) ? (
+                            <button
+                                className='text-red-500 bg-black hover:bg-gray-700 py-2 px-4 rounded-lg font-semibold'
+                                onClick={() => toggleFollowers(username)}
+                            >
+                                Unfollow
+                            </button>
+                        ) : (
+                            <button
+                                className='text-white bg-black hover:bg-gray-700 py-2 px-4 rounded-lg font-semibold'
+                                onClick={() => toggleFollowers(username)}
+                            >
+                                Follow
+                            </button>
+                        )}
                     </div>
                 </div>
 
-                <div className='bg-gray-800 mt-5 p-4 rounded-2xl md:w-3/4 w-11/12 mx-auto overflow-y-auto custom-scrollbar' style={{ height: '55vh' }}>
-                    <h1 className='text-white text-2xl font-semibold'>Posts</h1>
+                {/* Posts Section */}
+                <div className='bg-black border border-gray-700 mt-6 p-6 rounded-lg md:w-3/4 w-11/12 mx-auto overflow-y-auto' style={{ height: '55vh' }}>
+                    <h1 className='text-white text-2xl font-semibold mb-4'>Posts</h1>
                     {posts && posts.length > 0 ? (
                         posts.map(post => (
-                            <div key={post._id} className='bg-gray-900 text-white mt-2 flex flex-col rounded-xl p-4'>
-                                <div className="flex items-center">
+                            <div key={post._id} className='bg-black text-white mt-4 p-4 rounded-lg'>
+                                <div className="flex items-center mb-4">
                                     <img
                                         src={userData.user.profilePic}
-                                        alt=""
-                                        className="object-cover rounded-full w-12 h-12 ml-2 mr-2 border-2 border-white"
+                                        alt={userData.user.name}
+                                        className="object-cover rounded-full w-12 h-12 border-2 border-white"
                                     />
-                                    <div className="flex flex-col">
-                                        <p className="text-white font-semibold text-md mt-2">
-                                            {userData.user.name}
-                                        </p>
-                                        <p className="text-gray-400 text-sm" style={{ position: 'relative', top: '-4px' }}>
-                                            @{userData.user.userName}
-                                        </p>
+                                    <div className="ml-4">
+                                        <p className="text-white font-semibold text-lg">{userData.user.name}</p>
+                                        <p className="text-gray-400 text-sm">@{userData.user.userName}</p>
                                     </div>
                                     {currentUserData.userName === username && (
                                         <button
@@ -284,26 +294,26 @@ function UserProfile() {
                                         </button>
                                     )}
                                 </div>
-                                <h2 className='mb-2 mt-2 text-md'>{post.title}</h2>
+
+                                <h2 className='text-white text-lg mb-4'>{post.title}</h2>
+
                                 {post.mediaUrl && (
                                     <img
                                         src={post.mediaUrl}
                                         alt={post.title}
-                                        className='rounded-xl h-80 w-full mx-auto object-cover aspect-auto'
+                                        className='rounded-lg h-80 w-full object-cover'
                                     />
                                 )}
-                                <div className="mt-4 grid grid-cols-2 hidden block">
-                                    <button className='justify-center items-center flex'>
-                                        <HeartIcon className="w-6 h-6" color='#ffffff' />
-                                        <p className='text-gray-400 text-sm ml-1'>Like</p>
+
+                                {/* Post Action Buttons */}
+                                <div className="flex justify-between mt-4">
+                                    <button className='flex items-center text-gray-400 hover:text-white'>
+                                        <HeartIcon className="w-6 h-6" />
+                                        <p className='ml-1 text-sm'>Like</p>
                                     </button>
-                                    {/* <button className='justify-center items-center flex border-l border-r'>
-                                        <MessageSquareMore color="#ffffff" />
-                                        <p className='text-gray-400 text-sm ml-1'>Comments</p>
-                                    </button> */}
-                                    <button className='justify-center items-center flex'>
-                                        <Share color="#ffffff" />
-                                        <p className='text-gray-400 text-sm ml-1'>Share</p>
+                                    <button className='flex items-center text-gray-400 hover:text-white'>
+                                        <Share className="w-6 h-6" />
+                                        <p className='ml-1 text-sm'>Share</p>
                                     </button>
                                 </div>
                             </div>
@@ -313,6 +323,7 @@ function UserProfile() {
                     )}
                 </div>
             </div>
+
         </>
     );
 }
