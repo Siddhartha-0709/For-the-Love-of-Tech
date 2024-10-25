@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Loader2 from './Loader2';
 
 function Trending({ data }) {
     console.log('Current User', data);
@@ -10,14 +11,16 @@ function Trending({ data }) {
     const [filteredProfiles, setFilteredProfiles] = useState([]);
     const [trending, setTrending] = useState([]);
     const [search, setSearch] = useState(true);
-
+    const [loader, setLoader] = useState(false);
     const navigate = useNavigate();
     // Fetch trending topics
     const getTrending = async () => {
         try {
+            setLoader(true);
             const response = await axios.get('https://siddharthapro.in/app3/api/v1/trending/gettopics');
             // console.log(response.data);
             setTrending(response.data);
+            setLoader(false);
         } catch (error) {
             console.log(error);
         }
@@ -26,9 +29,11 @@ function Trending({ data }) {
     // Fetch user profiles (assuming this endpoint exists)
     const getProfiles = async () => {
         try {
+            setLoader(true);
             const response = await axios.get('https://siddharthapro.in/app3/api/v1/user/getusers');
             // console.log(response.data);
             setProfiles(response.data);
+            setLoader(false);
             // setFilteredProfiles(response.data); // Initially show all profiles
         } catch (error) {
             console.log(error);
@@ -56,8 +61,8 @@ function Trending({ data }) {
     };
 
 
-    const navigateToUserProfile = (username, presentUser) => {      
-        console.log(username, presentUser);  
+    const navigateToUserProfile = (username, presentUser) => {
+        console.log(username, presentUser);
         if (window.location.pathname === '/userprofile') {
             setSearch(false);
         } else {
@@ -82,7 +87,7 @@ function Trending({ data }) {
                         value={searchQuery}
                         onChange={handleSearch}
                     />
-                    <div className='mt-6 bg-black w-96 ml-2' style={{zIndex: '8', position: 'absolute' }} >
+                    <div className='mt-6 bg-black w-96 ml-2' style={{ zIndex: '8', position: 'absolute' }} >
                         {filteredProfiles.map((profile) => (
                             <div key={profile.id} className='border border-gray-700'>
                                 <button onClick={() => navigateToUserProfile(profile.userName, data.userName)} className='text-white text-left text-md font-medium m-2'>
@@ -97,7 +102,7 @@ function Trending({ data }) {
                             </div>
                         ))}
                     </div>
-                </div>):null
+                </div>) : null
             }
 
             {/* Trending Topics */}
@@ -117,22 +122,25 @@ function Trending({ data }) {
                                 </a>
                             </div>
                         ))}
-                    </div>) : (<div className='space-y-4 overflow-y-auto max-h-[68vh] custom-scrollbar pb-5'>
-                        {trending.map((data) => (
-                            <div key={data.title} className='border-b border-gray-700 pb-5'>
-                                <a href={data.link} target="_blank" rel="noopener noreferrer">
-                                    <h1 className='text-white text-lg font-semibold mb-3'>
-                                        {data.title}
-                                    </h1>
-                                    <p className='text-white text-sm'>
-                                        {data.description}
-                                    </p>
-                                </a>
+                    </div>) : (
+                        loader ? <Loader2 /> : (
+                            <div className='space-y-4 overflow-y-auto max-h-[68vh] custom-scrollbar pb-5'>
+                                {trending.map((data) => (
+                                    <div key={data.title} className='border-b border-gray-700 pb-5'>
+                                        <a href={data.link} target="_blank" rel="noopener noreferrer">
+                                            <h1 className='text-white text-lg font-semibold mb-3'>
+                                                {data.title}
+                                            </h1>
+                                            <p className='text-white text-sm'>
+                                                {data.description}
+                                            </p>
+                                        </a>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>)
+                        )
+                    )
                 }
-                
             </div>
         </div>
     );

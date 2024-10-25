@@ -80,7 +80,7 @@ function UserProfile() {
             const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/togglefollowers?username=${username}&presentUser=${currentUser}`);
             // console.log(response.data);
             // refresh the page
-            navigation('/login');
+            navigation('/userprofile', { state: { username: username, presentUser: currentUser } });
             window.location.reload();
         } catch (error) {
             console.log(error);
@@ -120,6 +120,16 @@ function UserProfile() {
         formData.append('bio', event.target.bio.value);
         formData.append('profilePic', event.target.profilePic.files[0]); // profilePic will be a file
         formData.append('username', currentUser);
+        
+        // Validate form fields
+        const fields = ['name', 'bio', 'profilePic'];
+        for (const field of fields) {
+            if (!event.target[field].value || (field === 'profilePic' && !event.target[field].files.length)) {
+                alert(`${field} cannot be empty`);
+                return;
+            }
+        }
+
         for (const [key, value] of formData.entries()) {
             console.log(`${key}: ${value}`);
         }
@@ -133,6 +143,7 @@ function UserProfile() {
             alert('Profile updated successfully!');
             toggleModal();
             setLoading(false);
+            window.location.reload();
             console.log(response.data); // Log response from the backend
         } catch (err) {
             console.error('Error submitting the form', err);
@@ -232,8 +243,8 @@ function UserProfile() {
         <>
             {showModal ? (
                 <>
-                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-black p-8 rounded-lg shadow-lg w-full max-w-md">
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
+                        <div className="bg-black p-8 rounded-lg shadow-lg w-full max-w-md border border-gray-700">
                             {/* Modal Header */}
                             <div className="flex justify-between items-center mb-6">
                                 <h2 className="text-2xl font-bold text-white">Edit your Profile</h2>
@@ -299,7 +310,7 @@ function UserProfile() {
             ) : null}
 
             {isCommentModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
                     <div className="w-full max-w-lg bg-black rounded-lg shadow-lg border border-gray-700">
                         {/* Modal Header */}
                         <div className="flex justify-between items-center p-4 border-b border-gray-700">

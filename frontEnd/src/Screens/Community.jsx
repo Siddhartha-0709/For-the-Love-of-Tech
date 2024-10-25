@@ -45,7 +45,7 @@ function Community() {
         try {
             setLoader(true);
             const response = await axios.get('https://siddharthapro.in/app3/api/v1/user/getrandomusers');
-            console.log(response.data);
+            // console.log(response.data);
             const randomUsers = response.data.filter((user) => user._id !== data._id);
             // console.log(randomUsers);
             setYouMayKnow(randomUsers);
@@ -72,11 +72,14 @@ function Community() {
         try {
             setLoader(true);
             const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/togglefollowers?username=${username}&presentUser=${data.userName}`);
-            console.log(response.data);
+            // console.log(response.data);
             setLoader(false);
             // Fetch updated data without reloading the page
-            getRandomUser();
-            window.location.reload();
+            await getRandomUser();
+            // navigate('/community', { state: { data: data } });
+            // window.location.reload({ state: { data: data } });
+            // window.location.reload('/login');
+            navigate('/login');
         } catch (error) {
             console.log(error);
         }
@@ -406,7 +409,7 @@ function Community() {
                                                 <h2 className='text-gray-400 text-sm'>@{item.userName}</h2>
                                             </button>
                                         </div>
-                                        {data.userName === item.userName ? null : (
+                                        {/* {data.userName === item.userName ? null : (
                                             data.following?.includes(String(item._id)) ? (
                                                 <button
                                                     className='ml-auto text-blue-500 hover:text-blue-300 py-1 px-3 font-semibold transition-colors duration-200'
@@ -426,8 +429,8 @@ function Community() {
                                                     View Profile
                                                 </button>
                                             )
-                                        )}
-                                        {/* {data.userName === item.userName ? null : (
+                                        )} */}
+                                        {data.userName === item.userName ? null : (
                                             data.following?.includes(String(item._id)) ? (
                                                 <button
                                                     className='ml-auto text-red-500 hover:text-red-300 py-1 px-3  font-semibold transition-colors duration-200'
@@ -451,7 +454,7 @@ function Community() {
                                                     Follow
                                                 </button>
                                             )
-                                        )} */}
+                                        )}
                                     </div>
                                 </>
                             ))}

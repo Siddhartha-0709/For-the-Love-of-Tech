@@ -34,7 +34,7 @@ function SignUp() {
         try {
             const response = await axios.post('https://siddharthapro.in/app3/api/v1/user/signup', formData);
             console.log(response.data);
-            alert('User created successfully!');
+            alert('User created successfully please login!');
             navigate('/login');
         } catch (error) {
             console.error(error);
@@ -48,7 +48,8 @@ function SignUp() {
             <div className="pt-10 bg-black min-h-screen">
                 <div className="flex flex-col sm:grid sm:grid-cols-2 shadow-lg rounded-lg overflow-hidden">
                     {/* Left Section: Welcome Text */}
-                    <div className="w-full h-full bg-gradient-to-br from-black to-violet-950 flex items-center justify-center">
+                    {/* bg-gradient-to-br from-black to-violet-950 */}
+                    <div className="w-full h-full bg-black flex items-center justify-center">
                         <div className="md:p-4 p-10 text-left">
                             <h1 className="text-4xl font-extrabold text-white" style={{ fontFamily: 'Prognostic' }}>Welcome to</h1>
                             <h1 className="text-7xl font-extrabold text-white mb-4" style={{ fontFamily: 'Prognostic' }}>Spaces</h1>

@@ -25,14 +25,14 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         // Log formData to the console
-        console.log('Login Data:', formData);
+        // console.log('Login Data:', formData);
         try {
             const response = await axios.post('https://siddharthapro.in/app3/api/v1/user/login', formData);
             console.log(response.data);
-            alert('User Logged successfully!');
+            // alert('User Logged successfully!');
             navigate('/community', { state: { data: response.data } });
         } catch (error) {
-            alert(error.message);
+            alert('Invalid Credentials or User does not exist');
         }
     };
 
@@ -42,7 +42,8 @@ function Login() {
             <div className='pt-10 bg-black'>
                 <div className="flex flex-col sm:grid sm:grid-cols-2 shadow-lg rounded-lg overflow-hidden">
                     {/* Left Section: Welcome Message */}
-                    <div className="w-full h-full bg-gradient-to-br from-black to-violet-950 flex items-center justify-center">
+                    {/* //navigate('/community', { state: { data: response.data } }); */}
+                    <div className="w-full h-full bg-black  flex items-center justify-center">
                         <div className="md:p-4 p-10 text-left">
                             <h1 className="text-4xl font-extrabold text-white" style={{ fontFamily: 'Prognostic' }}>Welcome to</h1>
                             <h1 className="text-7xl font-extrabold text-white mb-4" style={{ fontFamily: 'Prognostic' }}>Spaces</h1>
@@ -51,9 +52,9 @@ function Login() {
                     </div>
 
                     {/* Right Section: Login Form */}
-                    <div className="md:h-screen md:pl-20 md:pt-20 pb-10 md:pr-20 ml-5 mr-5 mt-5 sm:order-1 bg-black">
+                    <div className="md:h-screen md:pl-20 md:pt-40 pb-10 md:pr-20 ml-5 mr-5 mt-5 sm:order-1 bg-black">
                         <div className="w-full">
-                            <h1 className="text-4xl text-white font-bold mb-4  " style={{ fontFamily: 'Ubuntu' }}>Welcome Back</h1>
+                            <h1 className="text-4xl text-white font-bold mb-4 " style={{ fontFamily: 'Ubuntu' }}>Welcome Back</h1>
                             <p className="mb-4 w-full text-md md:text-md mt-4 text-white font-light" style={{ fontFamily: 'Ubuntu' }}>Continue your journey building your skills and network with other developers.</p>
                         </div>
                         <form onSubmit={handleSubmit} className="space-y-4 w-full">
@@ -83,7 +84,7 @@ function Login() {
                             </div>
                             {/* Sign In Button */}
                             <button className="w-full h-12 mt-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200">
-                                Sign In
+                                Log In
                             </button>
                             {/* Sign Up Link */}
                             <p className="text-gray-300 text-left mt-6">
