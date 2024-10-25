@@ -28,12 +28,14 @@ function Community() {
         media: null,
         comment: ''
     });
-    const [loader, setLoader] = useState(false);
+    const [loader, setLoader] = useState(true);
 
     const getUserData = async () => {
         try {
+            setLoader(true);
             const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/info?username=${data.userName}`);
             setUser(response.data.user);
+            setLoader(false);
         } catch (error) {
             console.log(error);
         }
@@ -41,11 +43,13 @@ function Community() {
 
     const getRandomUser = async () => {
         try {
+            setLoader(true);
             const response = await axios.get('https://siddharthapro.in/app3/api/v1/user/getrandomusers');
             console.log(response.data);
             const randomUsers = response.data.filter((user) => user._id !== data._id);
             // console.log(randomUsers);
             setYouMayKnow(randomUsers);
+            setLoader(false);
         } catch (error) {
             console.log(error);
         }
@@ -53,10 +57,12 @@ function Community() {
 
     const getPosts = async () => {
         try {
+            setLoader(true);
             const response = await axios.get('https://siddharthapro.in/app3/api/v1/post/getposts');
             console.log('Posts');
             console.log(response.data);
             setPosts(response.data);
+            setLoader(false);
         } catch (error) {
             console.log(error);
         }
@@ -64,12 +70,13 @@ function Community() {
 
     const toggleFollowers = async (username) => {
         try {
+            setLoader(true);
             const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/togglefollowers?username=${username}&presentUser=${data.userName}`);
             console.log(response.data);
+            setLoader(false);
             // Fetch updated data without reloading the page
-            await getUserData();
-            await getPosts();
-            await getRandomUser();
+            getRandomUser();
+            window.location.reload();
         } catch (error) {
             console.log(error);
         }
@@ -94,7 +101,6 @@ function Community() {
             formDataToSubmit.append(key, formData[key]);
         });
         formDataToSubmit.append('author', data._id);
-
         try {
             setLoader(true);
             const response = await axios.post('https://siddharthapro.in/app3/api/v1/post/create', formDataToSubmit, {
@@ -103,7 +109,7 @@ function Community() {
                 },
             });
             console.log(response.data);
-            alert('Post created successfully!');
+            // alert('Post created successfully!');
             setLoader(false);
             toggleModal();
             window.location.reload();
@@ -118,7 +124,7 @@ function Community() {
         e.preventDefault();
         try {
             // Prepare the comment data
-
+            setLoader(true);
             const commentData = {
                 commentText: formData.comment,
                 postId: selectedPostId, // Make sure you have a selectedPostId from the clicked post
@@ -126,10 +132,11 @@ function Community() {
             };
             const response = await axios.post('https://siddharthapro.in/app3/api/v1/post/comment', commentData);
             console.log('Comment submitted:', response.data);
-            alert('Comment submitted successfully!');
+            // alert('Comment submitted successfully!');
             setFormData({ comment: '' });
             setIsCommentModalOpen(false);
             getPosts();
+            setLoader(false);
             window.location.reload();
         } catch (error) {
             console.error('Error submitting comment:', error);
@@ -139,9 +146,11 @@ function Community() {
 
     const getComments = async (postId) => {
         try {
+            setLoader(true);
             const response = await axios.get(`https://siddharthapro.in/app3/api/v1/post/getcomments?postId=${postId}`);
             console.log(response.data);
             setComments(response.data);
+            setLoader(false);
         } catch (error) {
             console.log(error);
         }
@@ -187,11 +196,17 @@ function Community() {
         });
     };
 
+
+    const navigateToUserProfile = (username, presentUser) => {        
+        navigate('/userprofile', { state: { username, presentUser } });
+        ///userProfile?username=${item.userName}&presentUser=${data.userName}
+    }
+
     useEffect(() => {
         getRandomUser();
         getPosts();
         getUserData();
-
+        toggleFollowers();
     }, []);
 
 
@@ -274,44 +289,50 @@ function Community() {
                         </div>
 
                         {/* Comments List */}
-                        <div className="p-4 max-h-96 overflow-y-auto">
-                            {comments.length > 0 ? (
-                                comments.map((comment) => (
-                                    <div key={comment._id} className="flex items-start space-x-4 py-4 border-b border-gray-700">
-                                        <img src={comment.author.profilePic} alt={comment.author.name} className="w-12 h-12 object-cover rounded-full" />
-                                        <div className="flex-1">
-                                            <div className="flex items-center space-x-2">
-                                                <p className="text-sm font-medium text-white">{comment.author.name}</p>
+                        {loader ? (
+                            <Loader2 />
+                        ) :
+                            <>
+                                <div className="p-4 max-h-96 overflow-y-auto">
+                                    {comments.length > 0 ? (
+                                        comments.map((comment) => (
+                                            <div key={comment._id} className="flex items-start space-x-4 py-4 border-b border-gray-700">
+                                                <img src={comment.author.profilePic} alt={comment.author.name} className="w-12 h-12 object-cover rounded-full" />
+                                                <div className="flex-1">
+                                                    <div className="flex items-center space-x-2">
+                                                        <p className="text-sm font-medium text-white">{comment.author.name}</p>
+                                                    </div>
+                                                    <p className="text-sm text-gray-400">@{comment.author.userName}</p>
+                                                    <p className="mt-2 text-sm text-gray-300">{comment.comment}</p>
+                                                </div>
                                             </div>
-                                            <p className="text-sm text-gray-400">@{comment.author.userName}</p>
-                                            <p className="mt-2 text-sm text-gray-300">{comment.comment}</p>
-                                        </div>
-                                    </div>
-                                ))
-                            ) : (
-                                <p className="text-center text-sm text-gray-400">No comments yet.</p>
-                            )}
-                        </div>
+                                        ))
+                                    ) : (
+                                        <p className="text-center text-sm text-gray-400">No comments yet.</p>
+                                    )}
+                                </div>
 
-                        {/* Comment Input Form */}
-                        <form onSubmit={handleCommentsSubmit} className="p-4 border-t border-gray-700">
-                            <input
-                                type="text"
-                                name="comment"
-                                placeholder="Enter comment here"
-                                value={formData.comment}
-                                onChange={handleInputChange}
-                                className="w-full p-3 bg-black text-white border border-gray-500 rounded-lg focus:outline-none focus:ring focus:ring-gray-500"
-                            />
-                            <div className="mt-4 flex justify-end">
-                                <button
-                                    type="submit"
-                                    className="px-4 py-2 font-semibold text-white bg-gray-800 rounded-md hover:bg-gray-600 transition duration-200"
-                                >
-                                    Submit Comment
-                                </button>
-                            </div>
-                        </form>
+                                {/* Comment Input Form */}
+                                <form onSubmit={handleCommentsSubmit} className="p-4 border-t border-gray-700">
+                                    <input
+                                        type="text"
+                                        name="comment"
+                                        placeholder="Enter comment here"
+                                        value={formData.comment}
+                                        onChange={handleInputChange}
+                                        className="w-full p-3 bg-black text-white border border-gray-500 rounded-lg focus:outline-none focus:ring focus:ring-gray-500"
+                                    />
+                                    <div className="mt-4 flex justify-end">
+                                        <button
+                                            type="submit"
+                                            className="px-4 py-2 font-semibold text-white bg-gray-800 rounded-md hover:bg-gray-600 transition duration-200"
+                                        >
+                                            Submit Comment
+                                        </button>
+                                    </div>
+                                </form>
+                            </>
+                        }
                     </div>
                 </div>
 
@@ -331,8 +352,8 @@ function Community() {
                             style={{ height: '150px' }}
                         />
                         <div className='flex justify-center relative' style={{ top: '-85px' }}>
-                            <a
-                                href={`/userProfile?username=${user.userName}&presentUser=${data.userName}`}
+                            <button
+                                onClick={() => navigateToUserProfile(user.userName, data.userName)}
                                 className='text-blue-500 hover:text-blue-300 transition-colors duration-200'
                             >
                                 <img
@@ -340,7 +361,7 @@ function Community() {
                                     alt=""
                                     className='rounded-full w-32 h-32 sm:w-40 sm:h-40 object-cover border-2 border-white'
                                 />
-                            </a>
+                            </button>
                         </div>
                         <div className='text-center' style={{ top: '-60px', position: 'relative' }}>
                             <h1 className='text-white text-2xl'>{user.name}</h1>
@@ -364,38 +385,75 @@ function Community() {
                         <h1 className='text-white text-lg font-semibold mb-3'>People You May Know</h1>
                         <div className='space-y-4'>
                             {youMayKnow.map((item, index) => (
-                                <div key={index} className='flex items-center'>
-                                    <a href={`/userProfile?username=${item.userName}&presentUser=${data.userName}`}>
-                                        <img
-                                            src={item.profilePic}
-                                            alt=""
-                                            className='rounded-full h-10 w-10 sm:h-12 sm:w-12 object-cover'
-                                        />
-                                    </a>
-                                    <div className='ml-4'>
-                                        <a href={`/userProfile?username=${item.userName}&presentUser=${data.userName}`}>
-                                            <h1 className='text-white text-md'>{item.name}</h1>
-                                            <h2 className='text-gray-400 text-sm'>@{item.userName}</h2>
-                                        </a>
+                                loader ? <Loader2 /> : <>
+                                    <div key={index} className='flex items-center'>
+                                        <button
+                                            onClick={() => navigateToUserProfile(item.userName, data.userName)}
+                                            className='rounded-full h-10 w-10 sm:h-12 sm:w-12 object-cover hover:scale-105 transition-transform duration-200 focus:cursor-pointer'
+                                        >
+                                            <img
+                                                src={item.profilePic}
+                                                alt=""
+                                                className='rounded-full h-10 w-10 sm:h-12 sm:w-12 object-cover'
+                                            />
+                                        </button>
+                                        <div className='ml-4'>
+                                            <button
+                                                onClick={() => navigateToUserProfile(item.userName, data.userName)}
+                                                className="text-left"
+                                            >
+                                                <h1 className='text-white text-md'>{item.name}</h1>
+                                                <h2 className='text-gray-400 text-sm'>@{item.userName}</h2>
+                                            </button>
+                                        </div>
+                                        {data.userName === item.userName ? null : (
+                                            data.following?.includes(String(item._id)) ? (
+                                                <button
+                                                    className='ml-auto text-blue-500 hover:text-blue-300 py-1 px-3 font-semibold transition-colors duration-200'
+                                                    onClick={() => {
+                                                        
+                                                    }}
+                                                >
+                                                    View Profile
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    className='ml-auto text-blue-500 hover:text-blue-300 py-1 px-3 font-semibold transition-colors duration-200'
+                                                    onClick={() => {
+                                                        
+                                                    }}
+                                                >
+                                                    View Profile
+                                                </button>
+                                            )
+                                        )}
+                                        {/* {data.userName === item.userName ? null : (
+                                            data.following?.includes(String(item._id)) ? (
+                                                <button
+                                                    className='ml-auto text-red-500 hover:text-red-300 py-1 px-3  font-semibold transition-colors duration-200'
+                                                    onClick={async () => {
+                                                        await toggleFollowers(item.userName);
+                                                        const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/info?username=${data.userName}`);
+                                                        setData(response.data.user);
+                                                    }}
+                                                >
+                                                    Unfollow
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    className='ml-auto text-blue-500 hover:text-blue-300 py-1 px-3 font-semibold transition-colors duration-200'
+                                                    onClick={async () => {
+                                                        await toggleFollowers(item.userName);
+                                                        const response = await axios.get(`https://siddharthapro.in/app3/api/v1/user/info?username=${data.userName}`);
+                                                        setData(response.data.user);
+                                                    }}
+                                                >
+                                                    Follow
+                                                </button>
+                                            )
+                                        )} */}
                                     </div>
-                                    {data.userName === item.userName ? null : (
-                                        data.following?.includes(String(item._id)) ? (
-                                            <button
-                                                className='ml-auto text-red-500 hover:text-red-300 py-1 px-3  font-semibold transition-colors duration-200'
-                                                onClick={() => toggleFollowers(item.userName)}
-                                            >
-                                                Unfollow
-                                            </button>
-                                        ) : (
-                                            <button
-                                                className='ml-auto text-blue-500 hover:text-blue-300 py-1 px-3 font-semibold transition-colors duration-200'
-                                                onClick={() => toggleFollowers(item.userName)}
-                                            >
-                                                Follow
-                                            </button>
-                                        )
-                                    )}
-                                </div>
+                                </>
                             ))}
                         </div>
                     </div>
@@ -404,13 +462,16 @@ function Community() {
                 {/* Center section (Posts List) */}
                 <div className='bg-black overflow-y-auto pt-14 md:pt-16 md:w-full'>
                     <div className="bg-black flex items-center p-3 border-b border-gray-700 mt-5">
-                        <a href={`/userProfile?username=${user.userName}&presentUser=${data.userName}`}>
+                        <button
+                            onClick={() => navigateToUserProfile(user.userName, data.userName)}
+                            className="hover:scale-105 transition-transform duration-200 focus:cursor-pointer"
+                        >
                             <img
                                 src={data.profilePic}
                                 alt=""
                                 className="object-cover rounded-full w-10 h-10 sm:w-12 sm:h-12 ml-2 mr-2 border-2 border-white"
                             />
-                        </a>
+                        </button>
                         <button
                             className="w-full ml-3 p-3 bg-transparent text-white border border-gray-700 text-left cursor-pointer rounded-md"
                             onClick={() => {
@@ -421,70 +482,77 @@ function Community() {
                         </button>
                     </div>
 
-                    {posts.map((item, index) => (
-                        <div className="bg-black p-4 mb-4 border-b border-gray-700" key={index}>
-                            <a href={`/userProfile?username=${item.author.userName}&presentUser=${data.userName}`}>
-                                <div className="flex items-center">
-                                    <img
-                                        src={item.author.profilePic}
-                                        alt=""
-                                        className="object-cover rounded-full w-10 h-10 sm:w-12 sm:h-12 ml-2 mr-2 border-2 border-white"
-                                    />
-                                    <div className="flex flex-col">
-                                        <p className="text-white font-semibold text-md">
-                                            {item.author.name}
+                    {
+                        loader ? <div className="flex flex-col justify-center items-center py-16 px-10">
+                            <Loader2 />
+                        </div> : <>
+                            {posts.map((item, index) => (
+                                <div className="bg-black p-4 mb-4 border-b border-gray-700" key={index}>
+                                    <button
+                                        onClick={() => navigateToUserProfile(item.author.userName, data.userName)}
+                                        className="flex items-center w-full text-left hover:cursor-pointer"
+                                    >
+                                        <img
+                                            src={item.author.profilePic}
+                                            alt=""
+                                            className="object-cover rounded-full w-10 h-10 sm:w-12 sm:h-12 ml-2 mr-2 border-2 border-white"
+                                        />
+                                        <div className="flex flex-col">
+                                            <p className="text-white font-semibold text-md">
+                                                {item.author.name}
+                                            </p>
+                                            <p className="text-white text-sm">
+                                                @{item.author.userName}
+                                            </p>
+                                        </div>
+                                    </button>
+                                    <div className="mt-3">
+                                        <p className="text-white text-md mb-2 break-words">
+                                            {renderWithLinks(item.title)}
                                         </p>
-                                        <p className="text-white text-sm">
-                                            @{item.author.userName}
-                                        </p>
+                                        {item.mediaUrl && (
+                                            <img src={item.mediaUrl} alt="" className="w-full h-48 sm:h-64 md:h-80 lg:h-96 object-cover" />
+                                        )}
+                                    </div>
+                                    <div className="mt-4 grid grid-cols-3 text-center border-t border-gray-700 pt-2">
+                                        <button className='flex justify-center items-center hover:text-gray-500'
+                                            onClick={() => likePost(item._id)}>
+                                            {
+                                                item.likes?.includes(data._id) ? (
+                                                    <>
+                                                        <HeartIcon className="w-6 h-6 text-red-500" />
+                                                        <p className='text-white text-sm ml-1'>Liked</p>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <HeartIcon className="w-6 h-6 text-white" />
+                                                        <p className='text-white text-sm ml-1'>Like</p>
+                                                    </>
+                                                )
+                                            }
+                                        </button>
+                                        <button className='flex justify-center items-center hover:text-gray-500'
+                                            onClick={() => {
+                                                getComments(item._id);
+                                                setSelectedPostId(item._id);
+                                                setIsCommentModalOpen(true);
+                                            }}>
+                                            <MessageSquareMore className="w-6 h-6 text-white" />
+                                            <p className='text-white text-sm ml-1'>Comments</p>
+                                        </button>
+                                        <button className='flex justify-center items-center hover:text-gray-500'
+                                            onClick={() => sharePost(item._id)}>
+                                            <Share className="w-6 h-6 text-white" />
+                                            <p className='text-white text-sm ml-1'>Share</p>
+                                        </button>
                                     </div>
                                 </div>
-                            </a>
-                            <div className="mt-3">
-                                <p className="text-white text-md mb-2 break-words">
-                                    {renderWithLinks(item.title)}
-                                </p>
-                                {item.mediaUrl && (
-                                    <img src={item.mediaUrl} alt="" className="w-full h-48 sm:h-64 md:h-80 lg:h-96 object-cover" />
-                                )}
-                            </div>
-                            <div className="mt-4 grid grid-cols-3 text-center border-t border-gray-700 pt-2">
-                                <button className='flex justify-center items-center hover:text-gray-500'
-                                    onClick={() => likePost(item._id)}>
-                                    {
-                                        item.likes?.includes(data._id) ? (
-                                            <>
-                                                <HeartIcon className="w-6 h-6 text-red-500" />
-                                                <p className='text-white text-sm ml-1'>Liked</p>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <HeartIcon className="w-6 h-6 text-white" />
-                                                <p className='text-white text-sm ml-1'>Like</p>
-                                            </>
-                                        )
-                                    }
-                                </button>
-                                <button className='flex justify-center items-center hover:text-gray-500'
-                                    onClick={() => {
-                                        getComments(item._id);
-                                        setSelectedPostId(item._id);
-                                        setIsCommentModalOpen(true);
-                                    }}>
-                                    <MessageSquareMore className="w-6 h-6 text-white" />
-                                    <p className='text-white text-sm ml-1'>Comments</p>
-                                </button>
-                                <button className='flex justify-center items-center hover:text-gray-500'
-                                    onClick={() => sharePost(item._id)}>
-                                    <Share className="w-6 h-6 text-white" />
-                                    <p className='text-white text-sm ml-1'>Share</p>
-                                </button>
-                            </div>
-                        </div>
-                    ))}
+                            ))}
+                        </>
+                    }
                 </div>
 
-                <Trending data={data}/>
+                <Trending data={data} />
 
             </div>
         </>

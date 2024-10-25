@@ -5,12 +5,25 @@ import { useState, useEffect } from 'react';
 import { HeartIcon, MessageSquareMore, Share, TrashIcon, X } from 'lucide-react';
 import Header from './Header';
 import Trending from './TrendingandSearch';
+import Loader from './Loader';
 
 function UserProfile() {
+
+
+
     const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const username = queryParams.get('username');
-    const currentUser = queryParams.get('presentUser');
+
+    const { state } = location;
+    const { username: username, presentUser: currentUser } = state || {};
+
+    // console.log('Username:', username);
+    // console.log('Current User:', currentUser);
+    
+    // const queryParams = new URLSearchParams(location.search);
+    // const username = queryParams.get('username');
+    // const currentUser = queryParams.get('presentUser');
+
+
     const navigation = useNavigate();
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
@@ -204,7 +217,7 @@ function UserProfile() {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loader />;
     }
 
     if (!userData) {
@@ -339,10 +352,10 @@ function UserProfile() {
                 </div>
             )}
 
-            <div className='bg-black grid grid-cols-1 md:grid-cols-[2.5fr_3.8fr_2.5fr] min-h-screen'>
+            <div className='bg-black grid grid-cols-1 md:grid-cols-[2.5fr_3.8fr_2.5fr] h-screen'>
                 <Header />
                 {/* Profile Section */}
-                <div className='hidden md:block bg-black rounded-lg pt-16 w-full border-r border-gray-700 md:h-screen' style={{position: 'sticky', top: '0' }}>
+                <div className='hidden md:block bg-black rounded-lg pt-16 w-full border-r border-gray-700 h-screen' style={{position: 'sticky', top: '0' }}>
                     <div className='w-full p-4'>
 
                         {/* Cover Image */}
@@ -393,14 +406,14 @@ function UserProfile() {
                                 </button>
                             ) : currentUserData.following.includes(String(user._id)) ? (
                                 <button
-                                    className='text-red-500 bg-black hover:bg-gray-700 py-2 px-4 rounded-lg font-semibold'
+                                    className='text-red-500 bg-black hover:text-red-700 py-2 px-4 rounded-lg font-semibold'
                                     onClick={() => toggleFollowers(username)}
                                 >
                                     Unfollow
                                 </button>
                             ) : (
                                 <button
-                                    className='text-white bg-black hover:bg-gray-700 py-2 px-4 rounded-lg font-semibold'
+                                    className='text-white bg-black hover:text-blue-700 py-2 px-4 rounded-lg font-semibold'
                                     onClick={() => toggleFollowers(username)}
                                 >
                                     Follow
@@ -482,7 +495,7 @@ function UserProfile() {
 
 
                 {/* Posts Section */}
-                <div className='bg-black md:border border-gray-700 md:mt-6 md:pt-16 pl-4 pr-4 rounded-lg min-h-screen overflow-y-auto custom-scrollbar'>
+                <div className='bg-black md:border border-gray-700 md:pt-24 pl-4 pr-4 rounded-lg min-h-screen overflow-y-auto custom-scrollbar'>
                     {currentUserData.userName === username ? (
                         <h1 className='text-white text-2xl font-semibold mb-4'>Your Posts</h1>
                     ):(

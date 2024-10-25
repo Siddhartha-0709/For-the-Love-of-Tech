@@ -2,9 +2,9 @@ import React from 'react'
 import RotateLoader from 'react-spinners/RotateLoader';
 function Loader() {
     return (
-        <div className="flex flex-col justify-center items-center bg-gray-900">
+        <div className="flex flex-col justify-center items-center bg-black h-screen">
             <RotateLoader
-                color="hsla(270, 100%, 48%, 1)"
+                color="#FFFFFF"
                 loading
                 margin={25}
                 size={20}
