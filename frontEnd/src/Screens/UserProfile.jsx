@@ -342,7 +342,7 @@ function UserProfile() {
             <div className='bg-black grid grid-cols-1 md:grid-cols-[2.5fr_3.8fr_2.5fr] min-h-screen'>
                 <Header />
                 {/* Profile Section */}
-                <div className='bg-black rounded-lg pt-16 w-full border-r border-gray-700' style={{ position: 'sticky', top: '0', height: '100vh' }}>
+                <div className='hidden md:block bg-black rounded-lg pt-16 w-full border-r border-gray-700 md:h-screen' style={{position: 'sticky', top: '0' }}>
                     <div className='w-full p-4'>
 
                         {/* Cover Image */}
@@ -409,9 +409,80 @@ function UserProfile() {
                         </div>
                     </div>
                 </div>
+                
+                <div className='block md:hidden bg-black rounded-lg pt-16 w-full border-r border-gray-700' style={{position: '', top: '0' }}>
+                    <div className='w-full p-4'>
+
+                        {/* Cover Image */}
+                        <img
+                            src="https://images.pexels.com/photos/1229042/pexels-photo-1229042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                            alt="Cover"
+                            className='h-28 w-full object-cover rounded-t-lg'
+                        />
+
+                        {/* Profile Image */}
+                        <img
+                            src={user.profilePic}
+                            className='rounded-full h-40 w-40 object-cover border-4 border-white absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2'
+                            alt="User profile"
+                            style={{
+                                position: 'relative',
+                                top: '-5px',
+                                left: '100px',
+                            }}
+                        />
+
+                        {/* User Details */}
+                        <div className="text-left" style={{marginTop: '120px', position: 'relative' }}>
+                            <div className="text-left mt-4" style={{ marginTop: '-195px', marginLeft: '25px' }}>
+                                <h1 className='text-white text-2xl'>{user.name}</h1>
+                                <p className='text-gray-400 text-md font-semibold'>@{user.userName}</p>
+                                <p className='text-gray-400 text-md font-semibold'>{user.bio}</p>
+                            </div>
+                            {/* Followers & Following */}
+                            <div className='grid grid-cols-2 mt-6'>
+                                <div className='text-center'>
+                                    <h1 className='text-white text-lg'>{user.following.length}</h1>
+                                    <p className='text-gray-400'>Following</p>
+                                </div>
+                                <div className='text-center'>
+                                    <h1 className='text-white text-lg'>{user.followers.length}</h1>
+                                    <p className='text-gray-400'>Followers</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Profile Action Button */}
+                        <div className='text-center mt-4 pb-4'>
+                            {currentUserData.name === user.name ? (
+                                <button
+                                    className='text-white bg-black hover:text-blue-700 py-2 px-4 rounded-lg font-semibold'
+                                    onClick={toggleModal}
+                                >
+                                    Edit Profile
+                                </button>
+                            ) : currentUserData.following.includes(String(user._id)) ? (
+                                <button
+                                    className='text-red-500 bg-black hover:bg-gray-700 py-2 px-4 rounded-lg font-semibold'
+                                    onClick={() => toggleFollowers(username)}
+                                >
+                                    Unfollow
+                                </button>
+                            ) : (
+                                <button
+                                    className='text-white bg-black hover:bg-gray-700 py-2 px-4 rounded-lg font-semibold'
+                                    onClick={() => toggleFollowers(username)}
+                                >
+                                    Follow
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
 
                 {/* Posts Section */}
-                <div className='bg-black border border-gray-700 mt-6 pt-16 pl-4 pr-4 rounded-lg min-h-screen overflow-y-auto custom-scrollbar'>
+                <div className='bg-black md:border border-gray-700 md:mt-6 md:pt-16 pl-4 pr-4 rounded-lg min-h-screen overflow-y-auto custom-scrollbar'>
                     {currentUserData.userName === username ? (
                         <h1 className='text-white text-2xl font-semibold mb-4'>Your Posts</h1>
                     ):(
