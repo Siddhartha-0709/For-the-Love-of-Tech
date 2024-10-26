@@ -27,10 +27,14 @@ function SignUp() {
     const handleSubmit = async (e) => {
         e.preventDefault();  // Prevent page refresh
         console.log(formData);  // Log form data to console
+
         if(formData.password !== formData.confirmPassword){
             alert('Passwords do not match');
             return;
         }
+        formData.userName = formData.userName.toLowerCase().trim();
+        formData.email = formData.email.toLowerCase().trim();
+        
         try {
             const response = await axios.post('https://siddharthapro.in/app3/api/v1/user/signup', formData);
             console.log(response.data);

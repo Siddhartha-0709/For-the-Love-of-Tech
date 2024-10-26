@@ -1,7 +1,9 @@
 import postModel from "../models/post.model.js";
-import {uploadOnCloudinary, deleteOnCloudinary} from "../middlewares/cloudinary.middleware.js";
+import { uploadOnCloudinary, deleteOnCloudinary } from "../middlewares/cloudinary.middleware.js";
 import userModel from "../models/user.model.js";
 import commentsModel from "../models/comments.model.js";
+import nodemailer from "nodemailer";
+
 
 const createPost = async (req, res) => {
     try {
@@ -27,8 +29,10 @@ const createPost = async (req, res) => {
         user.posts = [...user.posts, newPost._id]; // Add the post to the user's posts array
         await user.save();
 
+        newPostNotification(newPost);
+
         res.status(200).send(newPost);
-        console.log('Post Created Successfully');
+        console.log('Post Created Successfully ');
 
     } catch (error) {
         console.log('Here Error');
@@ -41,9 +45,9 @@ const createPost = async (req, res) => {
 const getPosts = async (req, res) => {
     try {
         const posts = await postModel.find()
-            .populate('author', '-password');  
+            .populate('author', '-password');
         const responsePosts = posts.map(post => ({
-            ...post.toObject(), 
+            ...post.toObject(),
             likes: post.likes.map(like => like.toString())
         }));
 
@@ -67,7 +71,7 @@ const deletePost = async (req, res) => {
     try {
         console.log(req.query.postId);
         const deletedPost = await postModel.findOneAndDelete({ _id: req.query.postId });
-        if(deletedPost.mediaUrl) {
+        if (deletedPost.mediaUrl) {
             deleteOnCloudinary(deletedPost.mediaUrl);
         }
         console.log(deletedPost);
@@ -81,7 +85,7 @@ const likePost = async (req, res) => {
     try {
         const { postId, userId } = req.query;
         const post = await postModel.findById(postId);
-        if(post.likes.includes(userId)) {
+        if (post.likes.includes(userId)) {
             post.likes.splice(post.likes.indexOf(userId), 1);
         } else {
             post.likes.push(userId);
@@ -134,4 +138,118 @@ const getPostbyId = async (req, res) => {
         res.status(500).send(error);
     }
 }
-export { createPost, getPosts, getPostsByUser, deletePost, likePost, commentOnPost, getPostbyId, getCommentsbyPostId }
+
+
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD
+    }
+});
+
+const sendMail = async (req, res) => {
+    console.log(req.body);
+    try {
+        await transporter.sendMail({
+            to: "siddharthamukherjee0709@gmail.com",
+            subject: "Test",
+            html: "<h1>Hello Test Mail from NodeMailer</h1>"
+        });
+        console.log("Email sent");
+        res.status(200).send(req.body);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+}
+
+const newPostNotification = async (data) => {
+    try {
+        const emailList = await userModel.find();
+        for (const user of emailList) {
+            if (user.email) {
+                const mailOptions = {
+                    from: process.env.EMAIL,
+                    to: user.email,
+                    subject: "New Post on Spaces for Developers",
+                    html: `<!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    </head>
+                    <body style="margin: 0; padding: 0; background-color: #f4f4f4; font-family: Arial, sans-serif;">
+                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td align="center" style="padding: 20px 0;">
+                                    <!-- Email Content -->
+                                    <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"
+                                        style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <tr>
+                                            <td style="background-color: #4a90e2; text-align: center;">
+                                                <img src="https://res.cloudinary.com/djf6ew5uc/image/upload/v1729115576/spaces/syqzb6t8je2bwl1g1fxx.png"
+                                                    alt="Spaces Logo" width="100%" style="display: block; margin: 0 auto;">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 40px;">
+                                                <p style="margin: 0 0 20px; color: #000000; font-size: 16px; line-height: 1.5;">
+                                                    Hi ${user.name},<br><br>A new article has been published on Spaces that we thought you'd
+                                                    be interested in!
+                                                </p>
+                                                <p style="margin: 0 0 20px; color: #000000; font-size: 16px; line-height: 1.5;">
+                                                    <strong>Title:</strong> ${data.title.substring(0, 50)}${data.title.length > 50 ? '...' :
+                                                ''}<br>
+                                                    Read it here: <a href="https://spacesbysiddhartha.vercel.app/posts/${data._id}"
+                                                        style="color: #4a90e2; text-decoration: none;">https://spacesbysiddhartha.vercel.app/posts/${data._id}</a>
+                                                </p>
+                                                <p style="margin: 0 0 0px; color: #000000; font-size: 16px; line-height: 1.5;">
+                                                    <img src="${data.mediaUrl}" alt="" style="max-width: 100%; height: auto; border-radius: 8px;">
+                                                </p>
+                                            </td>
+                                        <tr>
+                                            <td
+                                                style="background-color: #f8f8f8; padding: 30px 40px; text-align: center; border-top: 1px solid #eeeeee;">
+                                                <p style="margin: 0 0 10px; color: #333; font-size: 13px; font-weight: bold;">
+                                                    Join the Spaces Community to Stay Updated about the latest happenings in Tech!
+                                                </p>
+                                                <a href="https://spacesbysiddhartha.vercel.app/signup"
+                                                    style="display: inline-block; margin: 10px 0; padding: 10px 20px; background-color: #4a90e2; color: #fff; text-decoration: none; border-radius: 5px;">
+                                                    Join Now
+                                                </a>
+                                                <p style="margin: 20px 0 0; color: #999999; font-size: 14px;">
+                                                    © 2024 Spaces. All rights reserved.
+                                                </p>
+                                                <p style="margin: 20px 0 0; color: #999999; font-size: 14px;">
+                                                    If you wish to unsubscribe from mailing list, please write an email at <a href="mailto:siddharthamukherjee0709@gmail.com"
+                                                        style="color: #4a90e2; text-decoration: none;">siddharthamukherjee0709@gmail.com</a>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </body>
+                    </html>`
+                };
+                // console.log("Email sent to ", user.email);
+                //await transporter.sendMail(mailOptions);
+                if (user.email === "siddharthamukherjee0709@gmail.com") {
+                    await transporter.sendMail(mailOptions);
+                    console.log("Email sent to siddharthamukherjee0709@gmail.com");
+                }
+                if (user.email === "dasrishav446@gmail.com") {
+                    await transporter.sendMail(mailOptions);
+                    console.log("Email sent to siddharthamukherjee0709@gmail.com");
+                }
+            }
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export { createPost, getPosts, getPostsByUser, deletePost, likePost, commentOnPost, getPostbyId, getCommentsbyPostId, sendMail };
