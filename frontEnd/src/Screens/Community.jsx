@@ -106,7 +106,7 @@ function Community() {
         formDataToSubmit.append('author', data._id);
         try {
             setLoader(true);
-            const response = await axios.post('http://localhost:4000/api/v1/post/create', formDataToSubmit, {
+            const response = await axios.post('https://siddharthapro.in/app3/api/v1/post/create', formDataToSubmit, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -161,7 +161,7 @@ function Community() {
 
     const sharePost = async (postId) => {
         try {
-            navigator.clipboard.writeText(`https://siddharthapro.in/app3/api/v1/post/getpostbyid?id=${postId}`)
+            navigator.clipboard.writeText(`https://spacesbysiddhartha.vercel.app/posts/${postId}`)
                 .then(() => {
                     setCopySuccess('Text copied to clipboard!');
                 })

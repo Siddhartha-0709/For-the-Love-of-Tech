@@ -13,6 +13,7 @@ import Community from './Screens/Community';
 import SignUp from './Screens/SignUp';
 import Login from './Screens/Login';
 import UserProfile from './Screens/UserProfile';
+import Post from './Screens/Post';
 function App() {
   return (
     <Router>
@@ -29,6 +30,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/userprofile" element={<UserProfile />} />
+          <Route path="/posts/:id" element={<Post />} />
         </Routes>
       </div>
     </Router>

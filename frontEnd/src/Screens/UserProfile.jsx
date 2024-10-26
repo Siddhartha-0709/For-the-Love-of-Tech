@@ -18,7 +18,7 @@ function UserProfile() {
 
     // console.log('Username:', username);
     // console.log('Current User:', currentUser);
-    
+
     // const queryParams = new URLSearchParams(location.search);
     // const username = queryParams.get('username');
     // const currentUser = queryParams.get('presentUser');
@@ -120,7 +120,7 @@ function UserProfile() {
         formData.append('bio', event.target.bio.value);
         formData.append('profilePic', event.target.profilePic.files[0]); // profilePic will be a file
         formData.append('username', currentUser);
-        
+
         // Validate form fields
         const fields = ['name', 'bio', 'profilePic'];
         for (const field of fields) {
@@ -198,7 +198,7 @@ function UserProfile() {
 
     const sharePost = async (postId) => {
         try {
-            navigator.clipboard.writeText(`https://siddharthapro.in/app3/api/v1/post/getpostbyid?id=${postId}`)
+            navigator.clipboard.writeText(`https://spacesbysiddhartha.vercel.app/posts/${postId}`)
                 .then(() => {
                     setCopySuccess('Text copied to clipboard!');
                 })
@@ -366,7 +366,7 @@ function UserProfile() {
             <div className='bg-black grid grid-cols-1 md:grid-cols-[2.5fr_3.8fr_2.5fr] h-screen'>
                 <Header />
                 {/* Profile Section */}
-                <div className='hidden md:block bg-black rounded-lg pt-16 w-full border-r border-gray-700 h-screen' style={{position: 'sticky', top: '0' }}>
+                <div className='hidden md:block bg-black rounded-lg pt-16 w-full border-r border-gray-700 h-screen' style={{ position: 'sticky', top: '0' }}>
                     <div className='w-full p-4'>
 
                         {/* Cover Image */}
@@ -433,8 +433,8 @@ function UserProfile() {
                         </div>
                     </div>
                 </div>
-                
-                <div className='block md:hidden bg-black rounded-lg pt-16 w-full border-r border-gray-700' style={{position: '', top: '0' }}>
+
+                <div className='block md:hidden bg-black rounded-lg pt-16 w-full border-r border-gray-700' style={{ position: '', top: '0' }}>
                     <div className='w-full p-4'>
 
                         {/* Cover Image */}
@@ -457,7 +457,7 @@ function UserProfile() {
                         />
 
                         {/* User Details */}
-                        <div className="text-left" style={{marginTop: '120px', position: 'relative' }}>
+                        <div className="text-left" style={{ marginTop: '120px', position: 'relative' }}>
                             <div className="text-left mt-4" style={{ marginTop: '-195px', marginLeft: '25px' }}>
                                 <h1 className='text-white text-2xl'>{user.name}</h1>
                                 <p className='text-gray-400 text-md font-semibold'>@{user.userName}</p>
@@ -509,7 +509,7 @@ function UserProfile() {
                 <div className='bg-black md:border border-gray-700 md:pt-24 pl-4 pr-4 rounded-lg min-h-screen overflow-y-auto custom-scrollbar'>
                     {currentUserData.userName === username ? (
                         <h1 className='text-white text-2xl font-semibold mb-4'>Your Posts</h1>
-                    ):(
+                    ) : (
                         <h1 className='text-white text-2xl font-semibold mb-4'>Posts</h1>)}
 
                     {posts && posts.length > 0 ? (
