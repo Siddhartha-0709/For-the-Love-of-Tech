@@ -54,6 +54,22 @@ function Post() {
     const handleJoinSpaces = () => {
         window.location.href = '/login';
     }
+
+    const renderWithLinks = (text) => {
+        const urlPattern = /(https?:\/\/[^\s]+)/g; // Regex to detect URLs
+        return text.split(urlPattern).map((part, index) => {
+            if (urlPattern.test(part)) {
+                return (
+                    <a key={index} href={part} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                        {part}
+                    </a>
+                );
+            }
+            return part;
+        });
+    };
+
+    
     useEffect(() => {
         getPost();
     }, []); // Only run on initial mount
@@ -79,7 +95,7 @@ function Post() {
 
                 {/* Title and Media */}
                 <div className="mt-3">
-                    <h2 className="text-white text-md mb-2">{data.title}</h2>
+                    <h2 className="text-white text-md mb-2">{renderWithLinks(data.title)}</h2>
                     {data.mediaUrl && (
                         <img
                             src={data.mediaUrl}
