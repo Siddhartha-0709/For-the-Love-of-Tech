@@ -56,6 +56,9 @@ function Post() {
     }
 
     const renderWithLinks = (text) => {
+        if (typeof text !== 'string') {
+            return text;
+        }
         const urlPattern = /(https?:\/\/[^\s]+)/g; // Regex to detect URLs
         return text.split(urlPattern).map((part, index) => {
             if (urlPattern.test(part)) {
