@@ -42,7 +42,8 @@ const updateProfile = async (req, res) => {
         if (!user) {
             res.status(404).json({ message: "User not found" });
         } else {
-            if(req.files){
+            // req.files && req.files.media && req.files.media[0]
+            if(req.files && req.files.profilePic && req.files.profilePic[0]){
                 const profilePicUrl = await uploadOnCloudinary(req.files.profilePic[0].path);//TODO:
                 req.body.profilePic = profilePicUrl;
             }
