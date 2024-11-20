@@ -174,6 +174,10 @@ function Community() {
         }
     };
 
+    const navigateToPost = (postId) => {
+        navigate(`/posts/${postId}`);
+    }
+
     const likePost = async (postId) => {
         try {
             const response = await axios.get(`https://siddharthapro.in/app3/api/v1/post/likepost?postId=${postId}&userId=${data._id}`);
@@ -511,7 +515,19 @@ function Community() {
                                     </button>
                                     <div className="mt-3">
                                         <p className="text-white text-md mb-2 break-words">
-                                            {renderWithLinks(item.title)}
+                                            {/* {
+                                                renderWithLinks(item.title)   
+                                            } */}
+                                            {
+                                                item.title.length>800?(
+                                                    <>
+                                                        {renderWithLinks(item.title.substring(0,500)+'...')}
+                                                        <button className='text-sm text-blue-500 hover:text-blue-300' onClick={() => navigateToPost(item._id)}>Read More</button>
+                                                    </>
+                                                ):(
+                                                    renderWithLinks(item.title)
+                                                )
+                                            }
                                         </p>
                                         {item.mediaUrl && (
                                             <img src={item.mediaUrl} alt="" className="w-full h-48 sm:h-64 md:h-80 lg:h-96 object-cover" />
