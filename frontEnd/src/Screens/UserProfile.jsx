@@ -545,7 +545,7 @@ function UserProfile() {
                                 </p>
 
                                 {post.mediaUrl && (
-                                    <img src={post.mediaUrl} alt="" className="w-full h-48 sm:h-64 md:h-80 lg:h-96 object-cover" />
+                                    <img src={post.mediaUrl} alt="" className="w-full object-cover" />
                                 )}
 
                                 {/* Post Action Buttons */}
