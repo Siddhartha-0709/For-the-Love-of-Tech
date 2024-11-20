@@ -118,17 +118,22 @@ function UserProfile() {
         formData.append('name', event.target.name.value);
         // formData.append('password', event.target.password.value);
         formData.append('bio', event.target.bio.value);
-        formData.append('profilePic', event.target.profilePic.files[0]); // profilePic will be a file
+        if (event.target.profilePic.files.length > 0) {
+            formData.append('profilePic', event.target.profilePic.files[0]); // profilePic will be a file
+        }
         formData.append('username', currentUser);
 
         // Validate form fields
-        const fields = ['name', 'bio', 'profilePic'];
-        for (const field of fields) {
-            if (!event.target[field].value || (field === 'profilePic' && !event.target[field].files.length)) {
-                alert(`${field} cannot be empty`);
-                return;
-            }
+        const fields = ['name', 'bio'];
+        if (event.target.profilePic.files.length > 0) {
+            fields.push('profilePic');
         }
+        // for (const field of fields) {
+        //     if (!event.target[field].value) {
+        //         alert(`${field} cannot be empty`);
+        //         return;
+        //     }
+        // }
 
         for (const [key, value] of formData.entries()) {
             console.log(`${key}: ${value}`);
