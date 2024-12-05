@@ -8,7 +8,9 @@ import trendingRouter from "./routes/trending.routes.js";
 const app = express();
 
 
-app.use(cors({ origin: (origin, callback) => callback(null, true), credentials: true }));
+app.use(cors({
+    origin: "*",
+}));
 app.use(express.json({
     limit: "100mb"
 }));

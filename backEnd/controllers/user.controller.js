@@ -3,7 +3,7 @@ import postModel from "../models/post.model.js";
 import {uploadOnCloudinary} from "../middlewares/cloudinary.middleware.js";
 
 const signUp = async (req, res) => {
-    // console.log(req.body);
+    console.log(req.body);
     const user = new userModel(req.body);
     const checkIfUserExists = await userModel.findOne({ email: req.body.email });
     if (checkIfUserExists) {
@@ -20,6 +20,7 @@ const signUp = async (req, res) => {
 
 const signIn = async (req, res) => {
     try {
+        console.log(req.body);
         const user = await userModel.findOne({ email: req.body.email });
         if (!user) {
             res.status(404).json({ message: "User not found" });
