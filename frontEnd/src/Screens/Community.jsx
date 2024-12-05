@@ -392,7 +392,7 @@ function Community() {
                         <h1 className='text-white items-center text-lg mb-3 text-center' style={{marginTop:'25%'}}>
                             {(() => {
                                 const hours = new Date().getHours();
-                                const firstName = user.name.split(' ')[0];
+                                const firstName = user.name;
                                 if (hours >= 5 && hours < 12) return `Good Morning, ${firstName}!`;
                                 if (hours >= 12 && hours < 17) return `Good Afternoon, ${firstName}!`;
                                 if (hours >= 17 && hours < 20) return `Good Evening, ${firstName}!`;
